@@ -6,6 +6,10 @@ import Register from './pages/authServices/Register';
 
 import CustomerLayout from './layouts/CustomerLayout';
 import CustomerDash from './pages/customer/CustomerDash';
+
+import SearchResults from './pages/customer/SearchResults';
+
+
 import CustomerBasket from './pages/customer/CustomerBasket';
 import CustomerProfile from './pages/customer/CustomerProfile';
 
@@ -21,7 +25,9 @@ import CourierDash from './pages/courier/CourierDash';
 import CourierProfile from './pages/courier/CourierProfile';
 
 import AdminLayout from './layouts/AdminLayout';
-import AdminrDash from './pages/admin/AdminDash';
+
+import AdminDash from './pages/admin/AdminDash';
+
 import ManageCustomers from './pages/admin/ManageCustomers';
 import ManageRestaurants from './pages/admin/ManageRestaurants';
 import ManageCouriers from './pages/admin/ManageCouriers';
@@ -40,6 +46,8 @@ function App() {
         {/* customer routes */}
         <Route path='/customer' element={<CustomerLayout />}>
           <Route path='dashboard' element={<CustomerDash />}>
+          </Route>
+          <Route path='searchResults' element={<SearchResults />}>
             <Route path=':restaurantId' element={<RestuarantPage />}>
               <Route path=':dishId' element={<DishPage />}>
                 <Route path='basket' element={<CustomerBasket />}></Route>
@@ -66,7 +74,7 @@ function App() {
 
         {/* admin routes */}
         <Route path='/admin' element={<AdminLayout />}>
-          <Route path='dashboard' element={<AdminrDash />}></Route>
+          <Route path='dashboard' element={<AdminDash />}></Route>
           <Route path='manageCustomers' element={<ManageCustomers />}></Route>
           <Route path='manageRestaurants' element={<ManageRestaurants />}></Route>
           <Route path='manageCouriers' element={<ManageCouriers />}></Route>
@@ -77,4 +85,4 @@ function App() {
   );
 }
 
-export default App;
+export default App;

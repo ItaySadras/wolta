@@ -9,4 +9,6 @@ mongoose.connect(process.env.MONGOURL).then(() => {
 });
 
 const app = require("./app");
+const { generateRandomHour, generateDefaultOpeningTime } = require("./backEndUtils/dataBaseBuilder");
 app.listen(8000, () => console.log(`Dev Server is Running 8000`));
+generateDefaultOpeningTime()

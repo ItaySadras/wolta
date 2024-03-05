@@ -1,9 +1,16 @@
 import React from 'react'
+import { Outlet } from 'react-router-dom'
+import CourierNavbar from '../components/navbars/CourierNavbar'
+import Footer from '../components/footer/Footer'
 
-const CourierLayout = () => {
+const CustomerLayout = () => {
   return (
-    <div>CourierLayout</div>
+    <div>
+      <CourierNavbar />
+      <Outlet />
+      <Footer />
+    </div>
   )
 }
 
-export default CourierLayout
+export default CustomerLayout

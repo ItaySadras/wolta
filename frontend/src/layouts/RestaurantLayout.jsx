@@ -1,9 +1,16 @@
 import React from 'react'
+import { Outlet } from 'react-router-dom'
+import RestaurantNavbar from '../components/navbars/RestaurantNavbar'
+import Footer from '../components/footer/Footer'
 
-const RestaurantLayout = () => {
+const CustomerLayout = () => {
   return (
-    <div>RestaurantLayout</div>
+    <div>
+      <RestaurantNavbar />
+      <Outlet />
+      <Footer />
+    </div>
   )
 }
 
-export default RestaurantLayout
+export default CustomerLayout

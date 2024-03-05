@@ -2,7 +2,11 @@ const mongoose = require("mongoose");
 
 const reviewSchema = new mongoose.Schema({
   customerName: { type: mongoose.Schema.Types.ObjectId, ref: "Customer" },
-  grade: { type: Number },
+  grade: {
+    type: Number,
+    min: 0, 
+    max: 1000,
+  },
   comment: { type: String },
   whenSubmitted: { type: Date },
 });
@@ -10,4 +14,3 @@ const reviewSchema = new mongoose.Schema({
 const Review = mongoose.model("Review", reviewSchema);
 
 module.exports = Review;
-

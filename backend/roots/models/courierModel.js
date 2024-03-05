@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const curriorSchema= new mongoose.Schema({
+const courierSchema= new mongoose.Schema({
     userName: {
         type: String,
         required: true
@@ -8,12 +8,10 @@ const curriorSchema= new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true
     },
     phoneNumber: {
         type: String,
         required: true,
-        unique: true
     },
     password:{
         type : String,
@@ -46,5 +44,5 @@ const curriorSchema= new mongoose.Schema({
     }
 })
 
-const Currior = mongoose.model('Currior',curriorSchema);
-module.exports = Currior;
+const Courier = mongoose.model('Courier',courierSchema);
+module.exports = Courier;

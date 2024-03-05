@@ -5,8 +5,9 @@ const app = express();
 app.use(express.json());
 app.use(cors( ));
 
+const courierRoutes= require("./roots/routes/courierRoute");
 
-
+app.use('/api/courier', courierRoutes);
 
 // If no routes are matched, send a 404 error
 app.all("*", (req, res) => {

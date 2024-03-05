@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 
 import Login from './pages/authServices/Login';
 import Register from './pages/authServices/Register';
-
+import AboutUs from './components/footer/AboutUs';
 import CustomerLayout from './layouts/CustomerLayout';
 import CustomerDash from './pages/customer/CustomerDash';
 
@@ -79,7 +79,7 @@ function App() {
           <Route path='manageRestaurants' element={<ManageRestaurants />}></Route>
           <Route path='manageCouriers' element={<ManageCouriers />}></Route>
         </Route>
-
+      <Route path='/about' element={<AboutUs/>}></Route>
       </Routes>
     </>
   );

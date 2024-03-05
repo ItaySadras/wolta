@@ -6,7 +6,10 @@ import Register from './pages/authServices/Register';
 
 import CustomerLayout from './layouts/CustomerLayout';
 import CustomerDash from './pages/customer/CustomerDash';
+
 import SearchResults from './pages/customer/SearchResults';
+
+
 import CustomerBasket from './pages/customer/CustomerBasket';
 import CustomerProfile from './pages/customer/CustomerProfile';
 
@@ -22,7 +25,9 @@ import CourierDash from './pages/courier/CourierDash';
 import CourierProfile from './pages/courier/CourierProfile';
 
 import AdminLayout from './layouts/AdminLayout';
+
 import AdminDash from './pages/admin/AdminDash';
+
 import ManageCustomers from './pages/admin/ManageCustomers';
 import ManageRestaurants from './pages/admin/ManageRestaurants';
 import ManageCouriers from './pages/admin/ManageCouriers';

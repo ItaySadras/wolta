@@ -6,13 +6,13 @@ app.use(express.json());
 app.use(cors( ));
 
 const courierRoutes= require("./roots/routes/courierRoute");
+const restaurantRoute = require("./roots/routes/restaurantRoute");
 
 app.use('/api/courier', courierRoutes);
+app.use('/api/restaurant', restaurantRoute);
 
-// If no routes are matched, send a 404 error
-app.all("*", (req, res) => {
-  new AppError(`Can't find ${req.originalUrl} on this server!`, 404);
-});
+
+
 
 // Export the app to be used by the server
 module.exports = app;

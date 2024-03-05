@@ -59,7 +59,7 @@ exports.setRating = async (req, res) => {
       console.log("not good")
       res
         .status(500)
-        .json({ message: "Invalid rating amount"});
+        .json({ message: "Invalid rating amount" });
     } else {
       courier.totalRating += rating;
       courier.numberOfRatings += 1;

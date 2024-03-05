@@ -1,9 +1,16 @@
 import React from 'react'
+import { Outlet } from 'react-router-dom'
+import AdminNavbar from '../components/navbars/AdminNavbar'
+import Footer from '../components/footer/Footer'
 
-const AdminLayout = () => {
+const CustomerLayout = () => {
   return (
-    <div>AdminLayout</div>
+    <div>
+      <AdminNavbar />
+      <Outlet />
+      <Footer />
+    </div>
   )
 }
 
-export default AdminLayout
+export default CustomerLayout

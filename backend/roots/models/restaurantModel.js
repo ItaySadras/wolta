@@ -8,8 +8,8 @@ const restaurantSchema = new mongoose.Schema({
   open: { type: Boolean },
   defaultOpeningTime: [
     {
-      openingHour: { type: Date, required: true },
-      closingHour: { type: Date, required: true },
+      openingHour: { type: String, required: true },
+      closingHour: { type: String, required: true },
     },
   ],
   menu: { type: mongoose.Schema.Types.ObjectId,ref:"Menu" },

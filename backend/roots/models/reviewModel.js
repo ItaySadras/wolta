@@ -5,7 +5,7 @@ const reviewSchema = new mongoose.Schema({
   grade: {
     type: Number,
     min: 0, 
-    max: 1000,
+    max: 5,
   },
   comment: { type: String },
   whenSubmitted: { type: Date },

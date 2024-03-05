@@ -1,13 +1,39 @@
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
+
 import Login from './pages/authServices/Login';
 import Register from './pages/authServices/Register';
+
+import CustomerLayout from './layouts/CustomerLayout';
+import CustomerDash from './pages/customer/CustomerDash';
+import CustomerBasket from './pages/customer/CustomerBasket';
+import CustomerProfile from './pages/customer/CustomerProfile';
+
+import RestaurantLayout from './layouts/RestaurantLayout';
+import RestaurantMenu from './pages/restaurant/RestaurantMenu';
+import DishPage from './pages/restaurant/Dishpage';
+import RestuarantPage from './pages/restaurant/RestaurantPage';
+import RestaurantProfile from './pages/restaurant/RestaurantProfile';
+import RestaurantReviews from './pages/restaurant/RestaurantReviews';
+
+import CourierLayout from './layouts/CourierLayout';
+import CourierDash from './pages/courier/CourierDash';
+import CourierProfile from './pages/courier/CourierProfile';
+
+import AdminLayout from './layouts/AdminLayout';
+import AdminrDash from './pages/admin/AdminDash';
+import ManageCustomers from './pages/admin/ManageCustomers';
+import ManageRestaurants from './pages/admin/ManageRestaurants';
+import ManageCouriers from './pages/admin/ManageCouriers';
+
+
 
 function App() {
 
   return (
     <>
       <Routes>
+        {/* auth routes */}
         <Route path='/' element={<Login />}></Route>
         <Route path='/register' element={<Register />}></Route>
 

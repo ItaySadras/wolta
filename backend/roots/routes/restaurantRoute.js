@@ -1,14 +1,18 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const restaurantController = require('../controllers/restaurantController');
+const restaurantController = require("../controllers/restaurantController");
 
-router.post('/createRestaurant', restaurantController.createRestaurant);
+router
+  .post(restaurantController.createRestaurant)
+  .get("/:restaurantId", restaurantController.getRestaurantById);
+
+// router.post('/createRestaurant', restaurantController.createRestaurant);
 // edit opening hours
 // edit location
 // set kosher status
 // set open/closed right now
 // add dish to menu
-// add review 
+// add review
 // get menu
 // get all reviews
 // delete dish

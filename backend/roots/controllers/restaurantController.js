@@ -21,3 +21,32 @@ exports.createRestaurant = async (req, res) => {
         })
     }
 }
+exports.getRestaurantById = async (req, res) => {
+    try {
+        const restaurant = await Restaurant.findById(req.params.restaurantId)
+            .populate({
+                path: "menu",
+                populate: {
+                    path: "menuCategories",
+                    populate: {
+                        path: "dishes"
+                    }
+                }
+            })
+            .populate({
+                path: "Reviews",
+                populate: {
+                    path: "customerId"
+                }
+            });
+
+        if (restaurant) {
+            res.status(200).send({ message: "Restaurant exists", restaurant: restaurant });
+        } else {
+            res.status(404).send({ message: "Restaurant does not exist" });
+        }
+    } catch (error) {
+        res.status(500).send({ status: "internal server error", message: error.message });
+    }
+}
+

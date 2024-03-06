@@ -93,3 +93,5 @@ exports.getAllRestaurants = async (req, res) => {
       .send({ status: "internal server error", message: error.message });
   }
 };
+
+

@@ -86,8 +86,8 @@ const generateMenuCategory = async (restaurantType, menuId) => {
       }
       counter++;
     }
-    newMenuCategory.dishes=dishes
-    await newMenuCategory.save()
+    newMenuCategory.dishes = dishes;
+    await newMenuCategory.save();
 
     return newMenuCategory._id;
   } catch (error) {
@@ -95,33 +95,59 @@ const generateMenuCategory = async (restaurantType, menuId) => {
   }
 };
 const addsDesertsAndAppetizers = async () => {
-const menus=await Menu.find({menuCategories:{ $size: 1 } })
-console.log("🚀 ~ addsDesertsAndAppetizers ~ menus:", menus)
-//   const newDeserts = [];
-//   const newAppetizers = [];
-//   const desertsResponse = await axios.get(
-//     "https://api.spoonacular.com/food/menuItems/search?query=Desserts&apiKey=6c6188663a68460eba7b349a333284d2&number=20"
-//   );
-//   const appetizersResponse = await axios.get(
-//     "https://api.spoonacular.com/food/menuItems/search?query=appetizers&apiKey=6c6188663a68460eba7b349a333284d2&number=20"
-//   );
-  const deserts = desertsResponse.menuItems;
-  const appetizers = appetizersResponse.menuItems;
-  const primary = primaryResponse.menuItems;
+  const menus = await Menu.find({ menuCategories: { $size: 1 } });
+
+  const desertsResponse = await axios.get(
+    "https://api.spoonacular.com/food/menuItems/search?query=Desserts&apiKey=6c6188663a68460eba7b349a333284d2&number=1000"
+  );
+  const appetizersResponse = await axios.get(
+    "https://api.spoonacular.com/food/menuItems/search?query=appetizers&apiKey=6c6188663a68460eba7b349a333284d2&number=1000"
+  );
+  const deserts = desertsResponse.data.menuItems;
+  const appetizers = appetizersResponse.data.menuItems;
   for (const menu of menus) {
-      const desertsCategory=await MenuCategory.create({})
-      while (condition) {
-          
+    const newDeserts = [];
+    const NewAppetizers = [];
+    const desertsCategory = await MenuCategory.create({
+      menu: menu._id,
+      menuCategoryName: "deserts",
+    });
+    const appetizersCategory = await MenuCategory.create({
+      menu: menu._id,
+      menuCategoryName: "appetizers",
+    });
+    let counterDessert = 0;
+    while (newDeserts.length < 20) {
+      const newDish = await generateDish(
+        deserts[counterDessert],
+        desertsCategory._id
+      );
+      if (newDish) {
+        newDeserts.push(newDish._id);
+      }
+      counterDessert++;
     }
-    const appetizersCategory=await MenuCategory.create({})
-    while (condition) {
-        
+    desertsCategory.dishes = newDeserts;
+
+    let counterAppetizers = 0;
+
+    while (NewAppetizers.length < 20) {
+      const newDish = await generateDish(
+        appetizers[counterAppetizers],
+        appetizersCategory._id
+      );
+      if (newDish) {
+        NewAppetizers.push(newDish._id);
+      }
+      counterAppetizers++;
     }
-    menu.menuCategories.push(desertsCategory._id,appetizersCategory._id)
+    appetizersCategory.dishes = NewAppetizers;
+    await desertsCategory.save();
+    await appetizersCategory.save();
+    menu.menuCategories.push(desertsCategory._id, appetizersCategory._id);
+    await menu.save();
   }
-  
 };
-const generateMenuDesserts = async () => {};
 const generateDish = async (dishData, menuCategoryId) => {
   console.log("🚀 ~ generateDish ~ dishData:", dishData);
   const dish = {};
@@ -139,7 +165,7 @@ const generateDish = async (dishData, menuCategoryId) => {
 const uploadToCloudinary = async (imageUrl, title) => {
   try {
     const response = await cloudinary.uploader.upload(imageUrl, {
-      public_id: title,
+      public_id: `${title}2`,
     });
     return response.url;
   } catch (error) {
@@ -158,7 +184,7 @@ const uploadToCloudinary = async (imageUrl, title) => {
 const generateCustomer = async () => {
   const customer = {};
   customer.name = faker.internet.userName();
-  customer.email = faker.internet.email({firstName:customer.name});
+  customer.email = faker.internet.email({ firstName: customer.name });
   customer.password = faker.internet.password();
   customer.phoneNumber = faker.phone.number();
 
@@ -191,4 +217,9 @@ const generateRandomHour = () => {
   return { openingHour, closingHour };
 };
 
-module.exports = { createDB, generateRandomHour, generateDefaultOpeningTime ,addsDesertsAndAppetizers};
+module.exports = {
+  createDB,
+  generateRandomHour,
+  generateDefaultOpeningTime,
+  addsDesertsAndAppetizers,
+};

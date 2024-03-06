@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const restaurantController = require("../controllers/restaurantController");
 
-router.get("/getAllRestaurant",restaurantController.getAllRestaurants)
+router.get("/getAllRestaurants",restaurantController.getAllRestaurants)
   .post(restaurantController.createRestaurant)
   .get("/:restaurantId", restaurantController.getRestaurantById);
 

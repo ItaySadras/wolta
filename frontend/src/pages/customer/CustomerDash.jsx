@@ -1,47 +1,30 @@
-import React from 'react'
-import CustomerSearch from '../../components/customerDash/CustomerSearch'
+import React from 'react';
+import CustomerSearch from '../../components/customerDash/CustomerSearch';
+// Assuming RestaurantContext is not used in this snippet
 
 const CustomerDash = () => {
-  const restaurants = [
+ const restaurants = [
     {
-      restaurantName: "Le Bistro",
-      lcoation: "hahilazon 3, ramat gan",
-      cuisine: "italian",
-
+      restaurantName: "The Great Pizza",
+      address: "123 Pizza Street, Pizza City, PZ",
+      restaurantFilter: "Italian",
+      open: true,
     },
     {
-      restaurantName: "Burger Barn",
-      lcoation: "mapu 19, raanana",
-      cuisine: "hamburgers",
-
+      restaurantName: "Sushi Paradise",
+      address: "456 Sushi Avenue, Sushi Town, SU",
+      restaurantFilter: "Japanese",
+      open: false
     },
     {
-      restaurantName: "Olive Garden",
-      lcoation: "batei rishonim 2, merhavia",
-      cuisine: "italian",
+      restaurantName: "Burger Bistro",
+      address: "789 Burger Boulevard, Burgerville, BU",
+      restaurantFilter: "Fast Food",
+      open: true
+    }
+ ];
 
-    },
-    {
-      restaurantName: "Le Bistro",
-      lcoation: "hahilazon 3, ramat gan",
-      cuisine: "italian",
-
-    },
-    {
-      restaurantName: "Le Bistro",
-      lcoation: "hahilazon 3, ramat gan",
-      cuisine: "italian",
-
-    },
-    {
-      restaurantName: "Le Bistro",
-      lcoation: "hahilazon 3, ramat gan",
-      cuisine: "italian",
-
-    },
-
-  ]
-  return (
+ return (
     <div>
       <div>
         <h2>Your location: {/* user location */}</h2>
@@ -51,15 +34,18 @@ const CustomerDash = () => {
       </div>
       <div>
         <ol>
-          {restaurants.map((restaurant, index) => {
+          {restaurants.map((restaurant, index) => (
             <li key={index}>
               {restaurant.restaurantName}
+              {restaurant.address}
+              {restaurant.restaurantFilter}
+              {restaurant.open ? 'Open' : 'Closed'}
             </li>
-          })}
+          ))}
         </ol>
       </div>
     </div>
-  )
+ );
 }
 
-export default CustomerDash
+export default CustomerDash;

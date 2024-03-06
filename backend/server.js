@@ -12,6 +12,4 @@ mongoose.connect(process.env.MONGOURL, {
 });
 
 const app = require("./app");
-const { generateRandomHour, generateDefaultOpeningTime, createDB, addsDesertsAndAppetizers } = require("./backEndUtils/dataBaseBuilder");
 app.listen(8000, () => console.log(`Dev Server is Running 8000`));
-addsDesertsAndAppetizers()

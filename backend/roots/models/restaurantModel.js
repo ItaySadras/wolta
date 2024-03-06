@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const restaurantSchema = new mongoose.Schema({
+restaurantName: { type: String },
   userName: { type: String },
   password: { type: String },
   email: { type: String },
@@ -13,7 +14,8 @@ const restaurantSchema = new mongoose.Schema({
     },
   ],
   menu: { type: mongoose.Schema.Types.ObjectId,ref:"Menu" },
-  Reviews:[{type: mongoose.Schema.Types.ObjectId,ref:"Review"}]
+  Reviews:[{type: mongoose.Schema.Types.ObjectId,ref:"Review"}],
+  restaurantFilter:[{type:String}]
 });
 
 const Restaurant = mongoose.model("Restaurant", restaurantSchema);

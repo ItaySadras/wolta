@@ -12,7 +12,7 @@ const RestaurantProvider = ({ children }) => {
         getAllRestaurants()
     }, [])
 
-
+    
     const getAllRestaurants = async (page, limit) => {
         try {
             const response = await axios.get(

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import CustomerSearch from '../../components/customerDash/CustomerSearch';
 import { RestaurantContext } from '../../context/RestaurantContext';
+import { NavLink } from 'react-router-dom';
 
 const CustomerDash = () => {
   const { restaurants, getAllRestaurants } = useContext(RestaurantContext);
@@ -34,26 +35,28 @@ const CustomerDash = () => {
       <div>
         <ol>
           {restaurants.map((restaurant, index) => (
-            <li key={index}>
-              <p>{restaurant.restaurantName}</p>
-              <p>
-                address:
-                <ul>
-                  {Object.values(generalAddress).map((value, index) => (
-                    <li key={index}>{value}</li>
-                  ))}
-                </ul>
-              </p>
-              <p>
-                filters:
-                <ul>
-                  {restaurant.restaurantFilter.map((element, index) => (
-                    <li key={index}>{element}</li>
-                  ))}
-                </ul>
-              </p>
-              <p>{restaurant.open ? 'Open' : 'Closed'}</p>
-            </li>
+            <NavLink to={`../searchResults/${restaurant._id}`}>
+              <li key={index}>
+                <p>{restaurant.restaurantName}</p>
+                <p>
+                  address:
+                  <ul>
+                    {Object.values(generalAddress).map((value, index) => (
+                      <li key={index}>{value}</li>
+                    ))}
+                  </ul>
+                </p>
+                <p>
+                  filters:
+                  <ul>
+                    {restaurant.restaurantFilter.map((element, index) => (
+                      <li key={index}>{element}</li>
+                    ))}
+                  </ul>
+                </p>
+                <p>{restaurant.open ? 'Open' : 'Closed'}</p>
+              </li>
+            </NavLink>
           ))}
         </ol>
       </div>

@@ -14,9 +14,4 @@ router.post('/createRestaurant', restaurantController.createRestaurant);
 // delete dish
 // edit dish
 
-
-
-
-
-
 module.exports = router;

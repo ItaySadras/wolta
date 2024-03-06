@@ -8,7 +8,7 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer-container">
         <div className="footer-section">
-          <h3>Explore BaliFood</h3>
+          <h3>BaliFood</h3>
           <ul>
             <li>
               <NavLink to={"/about"}>About Us</NavLink>

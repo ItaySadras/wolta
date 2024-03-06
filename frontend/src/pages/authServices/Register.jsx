@@ -2,6 +2,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Footer from '../../components/footer/Footer';
 
 
 const Register = () => {
@@ -77,7 +78,7 @@ const Register = () => {
                     <label>Phone number</label>
                     <input
                         placeholder='Phone number'
-                        {...register('phoneNum', { required: true })}
+                        {...register('phoneNumber', { required: true })}
                     />
                     {errors.phoneNum && toast.error("Phone number is required")}
 
@@ -97,6 +98,7 @@ const Register = () => {
                     Already have an account?
                 </a>
             </div>
+            <Footer/>
         </div>
     )
 }

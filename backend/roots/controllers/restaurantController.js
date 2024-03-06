@@ -21,6 +21,9 @@ exports.createRestaurant = async (req, res) => {
         })
     }
 }
+
+
+
 exports.getRestaurantById = async (req, res) => {
     try {
         const restaurant = await Restaurant.findById(req.params.restaurantId)
@@ -49,4 +52,5 @@ exports.getRestaurantById = async (req, res) => {
         res.status(500).send({ status: "internal server error", message: error.message });
     }
 }
+
 

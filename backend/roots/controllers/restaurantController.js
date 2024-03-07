@@ -94,4 +94,3 @@ exports.getAllRestaurants = async (req, res) => {
   }
 };
 
-

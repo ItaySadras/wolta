@@ -84,7 +84,6 @@
     background-color: #0056b3;
   }
   
-  /* Adjustments for specific sections like restaurant address and filters */
   .restaurant-address, .restaurant-filters {
     display: flex;
     flex-direction: column;

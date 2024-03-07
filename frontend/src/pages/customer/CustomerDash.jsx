@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import CustomerSearch from '../../components/customerDash/CustomerSearch';
 import { RestaurantContext } from '../../context/RestaurantContext';
 import { NavLink } from 'react-router-dom';
-import "./CustomerDash.css"; // Assuming this file contains the CSS you provided earlier
+import "./CustomerDash.css"; 
 
 const CustomerDash = () => {
   const { restaurants, getAllRestaurants } = useContext(RestaurantContext);

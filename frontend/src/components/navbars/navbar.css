@@ -1,23 +1,23 @@
-.customer-navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .logo-container {
-    display: flex;
-    align-items: center;
-  }
-  
-  .navbar-logo {
-    height: 100px; /* Adjust based on your logo's aspect ratio */
-    border-radius: 20px;
-    width: 150px;
-  }
-  
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  background-color: #997aca;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-logo {
+  height: 100px; /* Adjust based on your logo's aspect ratio */
+  border-radius: 20px;
+  width: 150px;
+}
+
 .nav-section {
   display: flex;
   align-items: center;
@@ -32,17 +32,15 @@
 
 .logout-button {
   padding: 8px 16px;
-  background-color: #8361ac; 
-  color: #ffffff; 
+  background-color: #8361ac;
+  color: #ffffff;
   border: none;
-  border-radius: 5px; 
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 14px; 
-  transition: background-color 0.2s; 
+  font-size: 14px;
+  transition: background-color 0.2s;
 }
 
 .logout-button:hover {
-  background-color: #4c336c
-  ; 
+  background-color: #4c336c;
 }
-  

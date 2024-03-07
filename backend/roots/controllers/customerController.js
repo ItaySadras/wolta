@@ -52,3 +52,15 @@ exports.logoutCustomer = async (req, res) => {
   }
 }
 
+exports.UpdateCustomerDetailes = async (req, res) => {
+  try{
+    const updateDetailes = await Customer.findByIdAndUpdate(req.params.CustomerId, req.body)
+    res.send(updateDetailes);
+    res.status(200).json({ message: "customer detailes updatad." });
+    console.log(updated);
+  }
+ catch (error) {
+  console.log(error.message)
+}
+}
+

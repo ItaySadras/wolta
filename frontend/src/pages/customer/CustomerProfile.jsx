@@ -1,64 +1,70 @@
-import React from 'react'
+import React, { useState } from 'react';
+import './CustomerProfile.css'; 
 
 const CustomerProfile = () => {
-
-  const sampleCustomer = {
+  const [customer, setCustomer] = useState({
     _id: "65e81bea8630ba788c71bbd6",
-    name: "Eldora.Gutmann-Schmidt0",
+    name: "Eldora Gutmann Schmidt",
     email: "Lewis_Hahn@gmail.com",
-    password: "VIiRVAgeNcgx7D_",
-    phoneNumber: [
-      "1-433-769-6711 x558"
-    ],
-    addresses: [
-      {
-        streetname: "hahilazon",
-        streetNumber: "3",
-        city: "ramat gan",
-      },
-      {
-        streetname: "agmon",
-        streetNumber: "2",
-        city: "ramat efal",
-      }
-    ],
-    __v: 0
-  }
+    phoneNumber: "1-433-769-6711 x558",
+  });
+  const [editMode, setEditMode] = useState(false);
+
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCustomer(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+ 
+  const handleSave = () => {
+    setEditMode(false);
+    
+    console.log("Customer details saved:", customer);
+  };
 
   return (
-    <div>
+    <div className="customer-profile">
       <div>
-        <h2> Hello {sampleCustomer.name}!</h2>
+        <h2>Hello, {editMode ? (
+          <input
+            type="text"
+            name="name"
+            value={customer.name}
+            onChange={handleChange}
+          />
+        ) : customer.name}!</h2>
       </div>
       <div>
-        <h3>Email: {sampleCustomer.email}</h3>
-        <button>Edit email</button>
+        <h3>Email: {editMode ? (
+          <input
+            type="email"
+            name="email"
+            value={customer.email}
+            onChange={handleChange}
+          />
+        ) : customer.email}</h3>
       </div>
       <div>
-        <h3>Phone number: {sampleCustomer.phoneNumber}</h3>
-        <button>Edit phone number</button>
+        <h3>Phone number: {editMode ? (
+          <input
+            type="tel"
+            name="phoneNumber"
+            value={customer.phoneNumber}
+            onChange={handleChange}
+          />
+        ) : customer.phoneNumber}</h3>
       </div>
       <div>
-        <h3>Addresses:</h3>
-        <ol>
-          {sampleCustomer.addresses.map((address, index) => (
-            <li key={index}>
-              <ul>
-                {Object.entries(address).map(([key, value], index) => (
-                  <li key={index}>
-                    {key}: {value}
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ol>
-        <div>
-          <button>add address</button>
-        </div>
+        <button onClick={() => setEditMode(!editMode)}>
+          {editMode ? 'Save Changes' : 'Edit Details'}
+        </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CustomerProfile
+export default CustomerProfile;

@@ -1,15 +1,12 @@
-import React from 'react'
+import React from "react";
 
 const CustomerProfile = () => {
-
   const sampleCustomer = {
     _id: "65e81bea8630ba788c71bbd6",
     name: "Eldora.Gutmann-Schmidt0",
     email: "Lewis_Hahn@gmail.com",
     password: "VIiRVAgeNcgx7D_",
-    phoneNumber: [
-      "1-433-769-6711 x558"
-    ],
+    phoneNumber: ["1-433-769-6711 x558"],
     addresses: [
       {
         streetname: "hahilazon",
@@ -20,10 +17,10 @@ const CustomerProfile = () => {
         streetname: "agmon",
         streetNumber: "2",
         city: "ramat efal",
-      }
+      },
     ],
-    __v: 0
-  }
+    __v: 0,
+  };
 
   return (
     <div>
@@ -58,7 +55,7 @@ const CustomerProfile = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CustomerProfile
+export default CustomerProfile;

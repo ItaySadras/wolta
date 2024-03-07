@@ -1,4 +1,8 @@
 const Restaurant = require("../models/restaurantModel");
+const Menu = require("../models/menuModel");
+const dishModel = require("../models/dishModel");
+const menuCategoryModel = require("../models/menuCategoryModel");
+const reviewModel = require("../models/reviewModel");
 
 exports.createRestaurant = async (req, res) => {
   try {
@@ -93,4 +97,3 @@ exports.getAllRestaurants = async (req, res) => {
       .send({ status: "internal server error", message: error.message });
   }
 };
-

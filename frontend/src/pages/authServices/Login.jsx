@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Footer from "../../components/footer/Footer";
 
 const Login = () => {
   const {
@@ -48,7 +49,8 @@ const Login = () => {
       <div>
         <a>Don't have an account?</a>
       </div>
-      
+
+      <Footer />
     </div>
   );
 };

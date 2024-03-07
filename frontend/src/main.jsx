@@ -13,7 +13,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <RestaurantProvider>
         <React.StrictMode>
           <App />
-        </React.StrictMode>,
+        </React.StrictMode>
       </RestaurantProvider>
     </CustomerProvider>
   </BrowserRouter >

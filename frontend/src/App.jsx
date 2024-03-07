@@ -58,7 +58,7 @@ function App() {
         </Route>
 
         {/* courier routes */}
-        <Route path="/courier" element={<CourierLayout />}>
+        <Route path="/courier/:courierId" element={<CourierLayout />}>
           <Route path="dashboard" element={<CourierDash />}></Route>
           <Route path="profile" element={<CourierProfile />}></Route>
         </Route>

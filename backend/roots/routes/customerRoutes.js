@@ -6,6 +6,7 @@ router.route('/getAllCustomers').get(customerController.getAllCustomers)
 router.route('/create').get(customerController.createCustomer)
 router.route('/login').get(customerController.loginCustomer)
 // router.route('/logout').get(customerController.)
+router.route('/updateDetailes/id:').post(customerController.UpdateCustomerDetailes)
 
 
 module.exports = router;

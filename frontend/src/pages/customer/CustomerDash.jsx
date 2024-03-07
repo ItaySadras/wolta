@@ -10,7 +10,7 @@ const CustomerDash = () => {
   const [limit, setLimit] = useState(4);
 
   const handleLoadMore = () => {
-    setPage(page + 1);
+    setPage(page + 1);  
   };
 
   useEffect(() => {

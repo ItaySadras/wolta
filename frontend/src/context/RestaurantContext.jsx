@@ -16,7 +16,7 @@ const RestaurantProvider = ({ children }) => {
     const getAllRestaurants = async (page, limit) => {
         try {
             const response = await axios.get(
-                `http://localhost:8000/api/restaurant/getAllRestaurants?page=${page}&limit=${limit}`
+                `http://localhost:8000/api/restaurant/getAllRestaurant?page=${page}&limit=${limit}`
             );
             setRestaurants(prevRestaurants => [...prevRestaurants, ...response.data.restaurants]);
         } catch (error) {

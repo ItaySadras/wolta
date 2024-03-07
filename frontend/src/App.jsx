@@ -40,20 +40,16 @@ function App() {
         <Route path="/register" element={<Register />}></Route>
 
         {/* customer routes */}
-        <Route path="/customer" element={<CustomerLayout />}>
+        <Route path="/customer/:customerId" element={<CustomerLayout />}>
           <Route path="dashboard" element={<CustomerDash />}></Route>
-          <Route path="searchResults" element={<SearchResults />}>
-            <Route path=":restaurantId" element={<RestuarantPage />}>
-              <Route path=":dishId" element={<DishPage />}>
-                <Route path="basket" element={<CustomerBasket />}></Route>
-              </Route>
-            </Route>
-          </Route>
+          <Route path="searchResults" element={<SearchResults />}></Route>
+          <Route path="basket" element={<CustomerBasket />}></Route>
           <Route path="profile" element={<CustomerProfile />}></Route>
         </Route>
 
         {/* restaurant routes */}
         <Route path="/restaurant" element={<RestaurantLayout />}>
+          <Route path=":restaurantId" element={<RestuarantPage />}></Route>
           <Route path="menu" element={<RestaurantMenu />}>
             <Route path=":dishId" element={<DishPage />}></Route>
           </Route>
@@ -79,7 +75,7 @@ function App() {
         </Route>
         <Route path="/about" element={<AboutUs />}></Route>
       </Routes>
-      
+
     </>
   );
 }

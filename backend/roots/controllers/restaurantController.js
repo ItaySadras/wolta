@@ -1,4 +1,8 @@
 const Restaurant = require("../models/restaurantModel");
+const Menu = require("../models/menuModel");
+const  dishModel= require("../models/dishModel");
+const menuCategoryModel = require("../models/menuCategoryModel");
+const reviewModel = require("../models/reviewModel");
 
 exports.createRestaurant = async (req, res) => {
   try {
@@ -94,4 +98,61 @@ exports.getAllRestaurants = async (req, res) => {
   }
 };
 
+exports.updateRestaurant = async (req, res) => {
+  const restaurant = await Restaurant.findByIdAndUpdate(
+    req.params.restaurantId,
+    req.body.easilyUpdate,
+    { new: true }
+  );
+};
 
+exports.updateRestaurantHours = async (req, res) => {
+  try {
+    const restaurant = await Restaurant.findById(req.params.restaurantId);
+    for (const [day, time] of req.body) {
+      restaurant.defaultOpeningTime[day] = time;
+    }
+    await restaurant.save()
+    res.status(200).send({message:"hors updated sucssfully"})
+  } catch (error) {
+    res.status(500).send({message:"fail inetrnal server error"})
+  }
+
+};
+
+exports.deleteRestaurantFilter = async (req, res) => {
+  try {
+    const restaurant = await Restaurant.findById(req.params.restaurantId);
+    restaurant.restaurantFilter = restaurant.restaurantFilter.filter(
+      (item) => item != req.body.item
+    );
+    restaurant.save();
+    res.status(200).send({ message: "item deleted sucssfully" });
+  } catch (error) {
+    res.status(500).send({message:"fail inetrnal server error"})
+
+  }
+};
+exports.addRestaurantFilter = async (req, res) => {
+  try {
+    const restaurant = await Restaurant.findByIdAndUpdate(
+      req.params.restaurantId,
+      { restaurantFilter: [...restaurantFilter, req.body.item] }
+    );
+    res.status(200).send({
+      message: "item add sucssfully",
+      restaurantFilter: restaurant.restaurantFilter,
+    });
+  } catch (error) {
+    res.status(500).send({message:"fail inetrnal server error"})
+
+  }
+};
+exports.updateRestaurant = async (req, res) => {
+  try {
+      const restaurant = await Restaurant.findById(req.params.restaurantId);
+  } catch (error) {
+    res.status(500).send({message:"fail inetrnal server error"})
+
+  }
+};

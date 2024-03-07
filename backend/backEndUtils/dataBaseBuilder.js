@@ -6,7 +6,7 @@ const { format, addHours } = require("date-fns");
 const Menu = require("../roots/models/menuModel");
 const Review = require("../roots/models/reviewModel");
 const Customer = require("../roots/models/customerModel");
-const Address = require("../roots/models/addresModel");
+const Address = require("../roots/models/addressModel");
 const Dish = require("../roots/models/dishModel");
 const MenuCategory = require("../roots/models/menuCategoryModel");
 const { restaurantsData } = require("./DBData");
@@ -165,7 +165,7 @@ const generateDish = async (dishData, menuCategoryId) => {
 const uploadToCloudinary = async (imageUrl, title) => {
   try {
     const response = await cloudinary.uploader.upload(imageUrl, {
-      public_id: `${title}2`,
+      public_id: `${title}`,
     });
     return response.url;
   } catch (error) {

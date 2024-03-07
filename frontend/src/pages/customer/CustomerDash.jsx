@@ -37,7 +37,7 @@ const CustomerDash = () => {
         <ol className="restaurant-items">
           {restaurants.map((restaurant, index) => (
             <li key={index} className="restaurant-item">
-              <NavLink to={`../../restaurant/${restaurant._id}`} className="restaurant-link">
+              <NavLink to={`../../restaurant/${restaurant._id}/restaurantPage`} className="restaurant-link">
                 <div>
                   <p className="restaurant-name">{restaurant.restaurantName}</p>
                   <p>

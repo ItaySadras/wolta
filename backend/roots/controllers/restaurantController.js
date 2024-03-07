@@ -58,21 +58,21 @@ exports.getRestaurantById = async (req, res) => {
 exports.getAllRestaurants = async (req, res) => {
   try {
     const restaurants = await Restaurant.find({})
-      .populate({
-        path: "menu",
-        populate: {
-          path: "menuCategories",
-          populate: {
-            path: "dishes",
-          },
-        },
-      })
-      .populate({
-        path: "Reviews",
-        populate: {
-          path: "customerId",
-        },
-      });
+      // .populate({
+      //   path: "menu",
+      //   populate: {
+      //     path: "menuCategories",
+      //     populate: {
+      //       path: "dishes",
+      //     },
+      //   },
+      // })
+      // .populate({
+      //   path: "Reviews",
+      //   populate: {
+      //     path: "customerId",
+      //   },
+      // });
 
     if (restaurants.length > 0) {
       const page = parseInt(req.query.page) || 1;
@@ -93,3 +93,4 @@ exports.getAllRestaurants = async (req, res) => {
       .send({ status: "internal server error", message: error.message });
   }
 };
+

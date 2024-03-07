@@ -7,6 +7,7 @@ restaurantName: { type: String },
   phoneNumber: { type: String },
   location: { type: String },
   open: { type: Boolean },
+  photo: { type: String },
   defaultOpeningTime: [
     {
       openingHour: { type: String, required: true },

@@ -1,5 +1,5 @@
 const { decode } = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+// const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const jwt = require("jsonwebtoken");
 const Customer = require('../models/customerModel');

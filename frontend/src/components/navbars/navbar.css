@@ -1,0 +1,48 @@
+.customer-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .logo-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-logo {
+    height: 100px; /* Adjust based on your logo's aspect ratio */
+    border-radius: 20px;
+    width: 150px;
+  }
+  
+.nav-section {
+  display: flex;
+  align-items: center;
+  list-style-type: none; /* Removes bullet points from list items */
+}
+
+.nav-section li {
+  margin-right: 20px;
+  color: #333;
+  font-size: 20px;
+}
+
+.logout-button {
+  padding: 8px 16px;
+  background-color: #8361ac; 
+  color: #ffffff; 
+  border: none;
+  border-radius: 5px; 
+  cursor: pointer;
+  font-size: 14px; 
+  transition: background-color 0.2s; 
+}
+
+.logout-button:hover {
+  background-color: #4c336c
+  ; 
+}
+  

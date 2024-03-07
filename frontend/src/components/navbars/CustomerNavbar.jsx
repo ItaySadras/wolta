@@ -1,25 +1,26 @@
-import React from 'react'
+import React from "react";
+import "./navbar.css";
+import logoImage from "../../assets/logo.jpg";
 
 const CustomerNavbar = () => {
   return (
-    <div>
-      <div>
-        {/* logo */}
-        <div>
-          BaliFood
-        </div>
+    <nav className="customer-navbar">
+      <div className="logo-container">
+        <img src={logoImage} alt="BaliFood Logo" className="navbar-logo" />
       </div>
-      <div>
-        profile
+      <div className="nav-section">
+        <li>
+          profile
+        </li>
+        <li>
+          hi
+        </li>
+        <li>
+          <button className="logout-button">Logout</button>
+        </li>
       </div>
-      <div>
-        <h1>Hi! {/* name of user */}</h1>
-      </div>
-      <div>
-        logout button
-      </div>
-    </div>
-  )
-}
+    </nav>
+  );
+};
 
-export default CustomerNavbar
+export default CustomerNavbar;

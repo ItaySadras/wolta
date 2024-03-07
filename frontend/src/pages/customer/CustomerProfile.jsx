@@ -1,16 +1,30 @@
+
 import React, { useState } from 'react';
 import './CustomerProfile.css'; 
 
 const CustomerProfile = () => {
   const [customer, setCustomer] = useState({
+    const sampleCustomer = {
     _id: "65e81bea8630ba788c71bbd6",
     name: "Eldora Gutmann Schmidt",
     email: "Lewis_Hahn@gmail.com",
-    phoneNumber: "1-433-769-6711 x558",
+    password: "VIiRVAgeNcgx7D_",
+    phoneNumber: ["1-433-769-6711 x558"],
+    addresses: [
+      {
+        streetname: "hahilazon",
+        streetNumber: "3",
+        city: "ramat gan",
+      },
+      {
+        streetname: "agmon",
+        streetNumber: "2",
+        city: "ramat efal",
+      },
+    ],
+    __v: 0,
   });
   const [editMode, setEditMode] = useState(false);
-
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCustomer(prevState => ({
@@ -18,11 +32,8 @@ const CustomerProfile = () => {
       [name]: value,
     }));
   };
-
- 
   const handleSave = () => {
     setEditMode(false);
-    
     console.log("Customer details saved:", customer);
   };
 

@@ -19,6 +19,15 @@ const CustomerProvider = ({ children }) => {
         }
     };
 
+
+    // const updateCustomerDetails = async (id, data) => {
+    //     try {
+    //         const response = await axios.post(`http://localhost:8000/api/customer/updateCustomer`)
+    //         setCustomerInfo(response.data)
+    //     } catch (error) {
+            
+    //     }
+    // }
     
 
     const contextValues = {

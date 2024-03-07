@@ -4,8 +4,8 @@ const restaurantController = require("../controllers/restaurantController");
 
 
 // router.patch(restaurantController.updateRestaurant)
-router.get("/getAllRestaurant",restaurantController.getAllRestaurants)
-.get("/:restaurantId", restaurantController.getRestaurantById);
+router.get("/getAllRestaurant",restaurantController.getAllRestaurants);
+router.get("/:restaurantId", restaurantController.getRestaurantById);
 
 router.post(restaurantController.createRestaurant)
 

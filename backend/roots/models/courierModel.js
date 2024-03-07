@@ -41,6 +41,10 @@ const courierSchema= new mongoose.Schema({
     totalRating: {
         type: Number,
         default: 0
+    },
+    currentOrder:{
+        type:String,
+        default: null,
     }
 })
 

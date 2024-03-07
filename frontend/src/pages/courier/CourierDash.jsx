@@ -2,7 +2,12 @@ import React from 'react'
 
 const CourierDash = () => {
   return (
-    <div>CourierDash</div>
+    <div>
+      <div>
+        <button>Available</button>
+        
+      </div>
+    </div>
   )
 }
 

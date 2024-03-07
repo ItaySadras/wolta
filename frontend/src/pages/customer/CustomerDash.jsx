@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
-import CustomerSearch from '../../components/customerDash/CustomerSearch';
-import { RestaurantContext } from '../../context/RestaurantContext';
-import { NavLink } from 'react-router-dom';
-import "./CustomerDash.css"; 
+import React, { useContext, useEffect, useState } from "react";
+import CustomerSearch from "../../components/customerDash/CustomerSearch";
+import { RestaurantContext } from "../../context/RestaurantContext";
+import { NavLink } from "react-router-dom";
+import "./CustomerDash.css";
 
 const CustomerDash = () => {
   const { restaurants, getAllRestaurants } = useContext(RestaurantContext);
@@ -10,7 +10,7 @@ const CustomerDash = () => {
   const [limit, setLimit] = useState(4);
 
   const handleLoadMore = () => {
-    setPage(page + 1);  
+    setPage(page + 1);
   };
 
   useEffect(() => {
@@ -28,7 +28,9 @@ const CustomerDash = () => {
   return (
     <div className="customer-dash">
       <div className="location-info">
-        <h2 className="location-heading">Your location: {/* user location */}</h2>
+        <h2 className="location-heading">
+          Your location: {/* user location */}
+        </h2>
       </div>
       <div className="customer-search">
         <CustomerSearch />
@@ -37,14 +39,19 @@ const CustomerDash = () => {
         <ol className="restaurant-items">
           {restaurants.map((restaurant, index) => (
             <li key={index} className="restaurant-item">
-              <NavLink to={`../../restaurant/${restaurant._id}/restaurantPage`} className="restaurant-link">
+              <NavLink
+                to={`../../restaurant/${restaurant._id}/restaurantPage`}
+                className="restaurant-link"
+              >
                 <div>
                   <p className="restaurant-name">{restaurant.restaurantName}</p>
                   <p>
                     address:
                     <ul className="address-details">
                       {Object.values(generalAddress).map((value, index) => (
-                        <li key={index} className="address-detail">{value}</li>
+                        <li key={index} className="address-detail">
+                          {value}
+                        </li>
                       ))}
                     </ul>
                   </p>
@@ -52,11 +59,15 @@ const CustomerDash = () => {
                     filters:
                     <ul className="filter-list">
                       {restaurant.restaurantFilter.map((element, index) => (
-                        <li key={index} className="filter-item">{element}</li>
+                        <li key={index} className="filter-item">
+                          {element}
+                        </li>
                       ))}
                     </ul>
                   </p>
-                  <p className="restaurant-status">{restaurant.open ? 'Open' : 'Closed'}</p>
+                  <p className="restaurant-status">
+                    {restaurant.open ? "Open" : "Closed"}
+                  </p>
                 </div>
               </NavLink>
             </li>
@@ -64,7 +75,9 @@ const CustomerDash = () => {
         </ol>
       </div>
       <div className="load-more-container">
-        <button onClick={handleLoadMore} className="load-more-btn">Load More</button>
+        <button onClick={handleLoadMore} className="load-more-btn">
+          Load More
+        </button>
       </div>
     </div>
   );

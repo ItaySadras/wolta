@@ -22,3 +22,6 @@ exports.createReview = async (req, res) => {
     });
   }
 };
+exports.deleteReview = async (req, res) => {
+  
+}

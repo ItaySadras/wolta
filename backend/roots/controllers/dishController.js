@@ -19,13 +19,13 @@ exports.createDish = async (req, res) => {
   }
 };
 
-exports.getDish = async (req, res) => {
+exports.getAllDishes = async (req, res) => {
   try {
-    const dish = await Dish.findById(req.params.dishId);
-    if (!dish) {
+    const dishes = await Dish.find({});
+    if (!dishes) {
       return res.status(404).json({ message: "Dish not found" });
     }
-    res.status(200).json({ message: "Dish found", dish: dish });
+    res.status(200).json({ message: "Dish found", dishes: dishes });
   } catch (error) {
     res.status(500).json({
       status: "failed",
@@ -33,3 +33,17 @@ exports.getDish = async (req, res) => {
     });
   }
 };
+exports.delateDish=async (req,res)=>{
+    try {
+        const deleteDish= await Dish.findByIdAndDelete(req.params.dishId)
+        !deleteDish&&res.status(404).send({message:"couldnt find/delete dish"})
+        const menuCategory=await MenuCategory.findOne({dishes:{$in: [req.params.dishId]}})
+        menuCategory.dishes=menuCategory.dishes.filter(dish=>dish.toString()!==req.params.dishId)
+        menuCategory.save()
+        res.status(200).send({message:"dish deleted sucssfully"})
+        // delete from cloudnry
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({message:"intarnel server error"})
+    }
+}

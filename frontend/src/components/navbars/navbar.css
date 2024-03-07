@@ -1,0 +1,47 @@
+.customer-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .logo-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-logo {
+    height: 50px; /* Adjust based on your logo's aspect ratio */
+  }
+  
+  .brand-name h1 {
+    margin: 0 0 0 10px;
+    color: #333;
+    font-size: 24px;
+  }
+  
+  /* .profile-section {
+    /* Additional styling as needed} */
+  
+  .greeting-section h1 {
+    margin: 0;
+    font-size: 20px;
+    color: #333; /* Adjust text color as needed */
+  }
+  
+  .logout-section .logout-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .logout-section .logout-button:hover {
+    background-color: #0056b3;
+  }
+  

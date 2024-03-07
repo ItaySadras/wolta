@@ -21,7 +21,29 @@ exports.createCourier = async (req, res) => {
       .json({ message: "Error creating Courier", error: error.message });
   }
 };
-
+exports.setCurrOrder= async (req, res) => {
+  try {
+    const { id } = req.params;
+    let courier = await Courier.findById(id);
+    if (!courier) {
+      return res.status(404).json({ message: "Courier not found" });
+    }
+    if (courier.currentOrder){
+      //  ***** NEED TO CHANGE ONCE WE MAKE THE ORDER FORM **** 
+      courier.currentOrder= req.body.order;
+      //  ***** NEED TO CHANGE ONCE WE MAKE THE ORDER FORM **** 
+    }
+    else{
+      courier.currentOrder=null;
+    }
+  } catch (error) {
+    console.error("Error updating Courier's current order:", error);
+    res.status(500).json({
+      message: "Error updating Courier's current order",
+      error: error.message,
+    });
+  }
+}
 exports.setAvailable = async (req, res) => {
   try {
     const { id } = req.params;
@@ -33,11 +55,11 @@ exports.setAvailable = async (req, res) => {
     await courier.save();
     res
       .status(200)
-      .json({ message: "Courier availability updated successfully", courier });
+      .json({ message: "Courier's availability updated successfully", courier });
   } catch (error) {
-    console.error("Error updating Courier availability:", error);
+    console.error("Error updating Courier's availability:", error);
     res.status(500).json({
-      message: "Error updating Courier availability",
+      message: "Error updating Courier's availability",
       error: error.message,
     });
   }

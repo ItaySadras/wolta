@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const reviewSchema = new mongoose.Schema({
   customerId: { type: mongoose.Schema.Types.ObjectId, ref: "Customer" },
+  Restaurant: { type: mongoose.Schema.Types.ObjectId, ref: "Restaurant" },
   grade: {
     type: Number,
     min: 0, 
@@ -9,6 +10,7 @@ const reviewSchema = new mongoose.Schema({
   },
   comment: { type: String },
   whenSubmitted: { type: Date },
+
 });
 
 const Review = mongoose.model("Review", reviewSchema);

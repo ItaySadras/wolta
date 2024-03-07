@@ -8,10 +8,10 @@ const SearchResults = () => {
         <CustomerSearch />
       </div>
       <div>
-        {/* results based on search */}
+        results
       </div>
     </div>
   )
 }
 
-export default SearchResults
+export default SearchResults

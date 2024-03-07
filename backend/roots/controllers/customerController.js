@@ -1,25 +1,54 @@
+const { decode } = require("jsonwebtoken");
+// const bcrypt = require("bcrypt");
+const saltRounds = 10;
+const jwt = require("jsonwebtoken");
 const Customer = require('../models/customerModel');
+
+
+exports.getAllCustomers = async (req, res) => {
+  try {
+    const customers = await Customer.find({});
+    res.status(200).send(customers);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+}
 
 exports.createCustomer = async (req, res) => {
   try {
-    const customer = new Customer(req.body);
-    await customer.save();
-    res.status(201).send(customer);
+    const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+    console.log(hashedPassword);
+    const {username, password, phoneNumber } = req.body;
+    const newCustomer = await Customer.create({
+      username,
+      password: hashedPassword,
+      phoneNumber
+    })
+    res.send(newCustomer)
   } catch (error) {
     res.status(400).send(error);
   }
 };
 
-exports.addAddress = async (req, res) => {
-  const { customerId, address } = req.body;
+exports.loginCustomer = async (req, res) => {
   try {
-    const customer = await Customer.findById(customerId);
-    customer.addresses.push(address);
-    await customer.save();
-    res.status(200).send(customer);
+    
   } catch (error) {
     res.status(400).send(error);
   }
-};
+}
 
+exports.logoutCustomer = async (req, res) => {
+  try {
+    res.cookie("token", "", {
+      httpOnly: true,
+      expires: new Date(0),
+      sameSite: "strict",
+    })
+    console.log("logged out");
+    res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    console.log(error.message)
+  }
+}
 

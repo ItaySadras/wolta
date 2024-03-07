@@ -6,6 +6,7 @@ import Register from "./pages/authServices/Register";
 import AboutUs from "./components/footer/AboutUs";
 import CustomerLayout from "./layouts/CustomerLayout";
 import CustomerDash from "./pages/customer/CustomerDash";
+
 import Footer from "./components/footer/Footer";
 import SearchResults from "./pages/customer/SearchResults";
 
@@ -23,6 +24,7 @@ import CourierLayout from "./layouts/CourierLayout";
 import CourierDash from "./pages/courier/CourierDash";
 import CourierProfile from "./pages/courier/CourierProfile";
 
+
 import AdminLayout from "./layouts/AdminLayout";
 
 import AdminDash from "./pages/admin/AdminDash";
@@ -31,25 +33,33 @@ import ManageCustomers from "./pages/admin/ManageCustomers";
 import ManageRestaurants from "./pages/admin/ManageRestaurants";
 import ManageCouriers from "./pages/admin/ManageCouriers";
 
+import GeoComponent from "./geoLocation/GeoComponent";
+
+
 function App() {
   return (
     <>
-      <Routes>
+        {/* <GeoComponent></GeoComponent> */}
+       <Routes>
         {/* auth routes */}
         <Route path="/" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
 
         {/* customer routes */}
+
         <Route path="/customer/:customerId" element={<CustomerLayout />}>
           <Route path="dashboard" element={<CustomerDash />}></Route>
           <Route path="searchResults" element={<SearchResults />}></Route>
           <Route path="basket" element={<CustomerBasket />}></Route>
+
           <Route path="profile" element={<CustomerProfile />}></Route>
         </Route>
 
         {/* restaurant routes */}
+
         <Route path="/restaurant/:restaurantId" element={<RestaurantLayout />}>
           <Route path="restaurantPage" element={<RestuarantPage />}></Route>
+
           <Route path="menu" element={<RestaurantMenu />}>
             <Route path=":dishId" element={<DishPage />}></Route>
           </Route>

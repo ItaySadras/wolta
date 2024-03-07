@@ -48,8 +48,8 @@ function App() {
         </Route>
 
         {/* restaurant routes */}
-        <Route path="/restaurant" element={<RestaurantLayout />}>
-          <Route path=":restaurantId" element={<RestuarantPage />}></Route>
+        <Route path="/restaurant/:restaurantId" element={<RestaurantLayout />}>
+          <Route path="restaurantPage" element={<RestuarantPage />}></Route>
           <Route path="menu" element={<RestaurantMenu />}>
             <Route path=":dishId" element={<DishPage />}></Route>
           </Route>

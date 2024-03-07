@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    margin-bottom: 10px;
     background-color: #ffffff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
@@ -13,35 +13,36 @@
   }
   
   .navbar-logo {
-    height: 50px; /* Adjust based on your logo's aspect ratio */
+    height: 100px; /* Adjust based on your logo's aspect ratio */
+    border-radius: 20px;
+    width: 150px;
   }
   
-  .brand-name h1 {
-    margin: 0 0 0 10px;
-    color: #333;
-    font-size: 24px;
-  }
-  
-  /* .profile-section {
-    /* Additional styling as needed} */
-  
-  .greeting-section h1 {
-    margin: 0;
-    font-size: 20px;
-    color: #333; /* Adjust text color as needed */
-  }
-  
-  .logout-section .logout-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .logout-section .logout-button:hover {
-    background-color: #0056b3;
-  }
+.nav-section {
+  display: flex;
+  align-items: center;
+  list-style-type: none; /* Removes bullet points from list items */
+}
+
+.nav-section li {
+  margin-right: 20px;
+  color: #333;
+  font-size: 20px;
+}
+
+.logout-button {
+  padding: 8px 16px;
+  background-color: #8361ac; 
+  color: #ffffff; 
+  border: none;
+  border-radius: 5px; 
+  cursor: pointer;
+  font-size: 14px; 
+  transition: background-color 0.2s; 
+}
+
+.logout-button:hover {
+  background-color: #4c336c
+  ; 
+}
   

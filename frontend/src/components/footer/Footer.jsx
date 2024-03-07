@@ -1,31 +1,27 @@
 import React from "react";
 import "./footer.css";
-import "./AboutUs.jsx";
 import { NavLink } from "react-router-dom";
+import logoImage from "../../assets/logo.jpg";
 
 const Footer = () => {
   return (
     <footer className="footer">
-      <div className="footer-container">
-        <div className="footer-section">
-          <h3>BaliFood</h3>
-          <ul>
-            <li>
-              <NavLink to={"/about"}>About Us</NavLink>
-            </li>
-            <li>
-              <a href="">Contact Us</a>
-            </li>
-          </ul>
+      <div className="footer-content">
+        <div className="footer-section logo-section">
+          <img src={logoImage} alt="BaliFood Logo" className="footer-logo" />
         </div>
-        <div className="footer-section">
-          <h3>Contact us:</h3>
-          <p>Email: BaliFood@gmail.com</p>
-          <p>Phone: +972545653650</p>
+        <div className="footer-section about-section">
+          <NavLink to={"/about"} className="footer-link">About Us</NavLink>
+        </div>
+        <div className="footer-section contact-section">
+          <ul>
+            <li>Contact us: BaliFood@gmail.com</li>
+            <li>+972-545767999</li>
+          </ul>
         </div>
       </div>
       <div className="footer-bottom">
-        <p>&copy; BaliFood - Your Food App. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} BaliFood - Your Food App. All rights reserved.</p>
       </div>
     </footer>
   );

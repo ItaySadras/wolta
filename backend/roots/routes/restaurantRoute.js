@@ -2,9 +2,14 @@ const express = require("express");
 const router = express.Router();
 const restaurantController = require("../controllers/restaurantController");
 
-router.get("/getAllRestaurants",restaurantController.getAllRestaurants)
-  .post(restaurantController.createRestaurant)
-  .get("/:restaurantId", restaurantController.getRestaurantById);
+
+// router.patch(restaurantController.updateRestaurant)
+router.get("/getAllRestaurant",restaurantController.getAllRestaurants)
+.get("/:restaurantId", restaurantController.getRestaurantById);
+
+router.post(restaurantController.createRestaurant)
+
+
 
 // router.post('/createRestaurant', restaurantController.createRestaurant);
 // edit opening hours

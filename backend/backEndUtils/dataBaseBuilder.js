@@ -10,6 +10,7 @@ const Address = require("../roots/models/addressModel");
 const Dish = require("../roots/models/dishModel");
 const MenuCategory = require("../roots/models/menuCategoryModel");
 const { restaurantsData } = require("./DBData");
+const { uploadToCloudinary } = require("./helpers");
 
 const createDB = async () => {
   for (let index = 0; index < restaurantsData.length; index++) {
@@ -162,17 +163,7 @@ const generateDish = async (dishData, menuCategoryId) => {
     console.log("cant upload this to cloudnry");
   }
 };
-const uploadToCloudinary = async (imageUrl, title) => {
-  try {
-    const response = await cloudinary.uploader.upload(imageUrl, {
-      public_id: `${title}`,
-    });
-    return response.url;
-  } catch (error) {
-    console.error("Error uploading image:");
-    throw error;
-  }
-};
+
 // const generateAddress = async () => {
 //     const address={}
 //     address.street=

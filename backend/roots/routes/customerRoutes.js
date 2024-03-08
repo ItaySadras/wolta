@@ -8,14 +8,14 @@ const userController = require('../controllers/userController');
 
 
 // get up to 20 relevant dishes and restaurant by search
-router.route('/:searched').get(filterController.TheGreatFilter)
+router.get("/:searched",filterController.createSearchCookie,filterController.TheGreatFilter)
 
-router.use(userController.authenticateCustomer)
+// router.use(userController.authenticateCustomer)
 // acsses the rlevent resturent throw the params
 router.post('/createReview/:restaurantId',reviewController.createReview)
-router.route('/createOrder',orderController.createOrder)
 // router.route('/logout').get(customerController.)
 router.route('/updateDetailes/id:').post(customerController.UpdateCustomerDetailes)
 
+router.route('/creteOrder/:').post(orderController.createOrder)
 
 module.exports = router;

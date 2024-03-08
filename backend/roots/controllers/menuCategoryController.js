@@ -64,3 +64,34 @@ exports.changeName = async (req, res) => {
     });
   }
 };
+
+exports.changeOrder = async (req, res) => {
+  try {
+    const menuCategory = await MenuCategory.findByIdAndUpdate(
+      req.params.MenuCategoryId
+    );
+    !menuCategory &&
+      res.status(404).send({ message: "cant find menu catgory" });
+    const oldOrder = req.body.slice().sort();
+    const newOrder = menuCategory.dishes
+      .slice()
+      .map((id) => id.toString())
+      .sort();
+    if (oldOrder.length == !newOrder.length) {
+      res.status(404).send({ message: "bad request " });
+    }
+    for (let i = 0; i < oldOrder.length; i++) {
+      if (oldOrder[i] !== newOrder[i]) {
+        res.status(404).send({ message: "bad request " });
+      }
+    }
+    menuCategory.dishes = newOrder;
+    await menuCategory.save();
+    res
+      .status(200)
+      .send({ message: "order of menus updated", menuCategory: menuCategory });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "server error" });
+  }
+};

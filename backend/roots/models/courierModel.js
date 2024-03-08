@@ -46,32 +46,9 @@ const courierSchema= new mongoose.Schema({
     currentOrder:{
         type:String,
         default: null,
-    }
+    },
 })
 
-  vehicleType: {
-    type: String,
-    enum: ["Car", "Motorbike", "Bike", "Truck"],
-    required: false,
-  },
-  available: {
-    type: Boolean,
-    default: true,
-  },
-  rating: {
-    type: Number,
-    default: 0,
-  },
-  numberOfRatings: {
-    type: Number,
-    default: 0,
-  },
-  totalRating: {
-    type: Number,
-    default: 0,
-  },
-  currentReservation:{ type: mongoose.Schema.Types.ObjectId, ref: "Reservation" }
-});
 
 const Courier = mongoose.model("Courier", courierSchema);
 module.exports = Courier;

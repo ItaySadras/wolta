@@ -15,8 +15,10 @@ restaurantName: { type: String },
   ],
   menu: { type: mongoose.Schema.Types.ObjectId,ref:"Menu" },
   Reviews:[{type: mongoose.Schema.Types.ObjectId,ref:"Review"}],
-  address:[{type: mongoose.Schema.Types.ObjectId,ref:"Address"}],
-  restaurantFilter:[{type:String}]
+  restaurantFilter:[{type:String}],
+  address: { type: mongoose.Schema.Types.ObjectId, ref: "Address" },
+  openOrders:[{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }]
+
 });
 
 const Restaurant = mongoose.model("Restaurant", restaurantSchema);

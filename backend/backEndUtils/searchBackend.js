@@ -10,9 +10,8 @@ const searchAlgorithm = (input, dictionary) => {
   const { restaurant, dishes } = dictionary;
   const fuseRestaurant = new Fuse(restaurant, fuseOptions);
   const fuseDishes = new Fuse(dishes, fuseOptions);
-  const restaurantAnswer = fuseRestaurant.search(input).slice(0, 20).map(res=>res.item);;
-  const dishAnswer = fuseDishes.search(input).slice(0, 20).map(dish=>dish.item);
-  console.log("🚀 ~ searchAlgorithm ~ { dishes: dishAnswer, restaurants: restaurantAnswer };:", { dishes: dishAnswer, restaurants: restaurantAnswer })
+  const restaurantAnswer = fuseRestaurant.search(input).slice(0, 5).map(res=>res.item);;
+  const dishAnswer = fuseDishes.search(input).slice(0, 30).map(dish=>dish.item);
   return { dishes: dishAnswer, restaurants: restaurantAnswer };
 };
 

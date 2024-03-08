@@ -53,4 +53,6 @@ router.post("/createMenuCategory/:menuId", menuCategoryController.createMenuCate
 // req example http://localhost:8000/api/restaurant/changeMenuCategoryName/65e81b848630ba788c71bb5a
 router.patch("/changeMenuCategoryName/:menuCategoryId",menuCategoryController.changeName)
 
+// chenge the order of a menu category get from the body an array of the new orderIds
+router.patch("/changeMenuCategoryOrder/:menuCategoryId",menuCategoryController.changeOrder)
 module.exports = router;

@@ -4,12 +4,16 @@ const customerController = require('../controllers/customerController');
 const filterController = require('../controllers/filterController');
 const reviewController = require('../controllers/reviewController');
 const orderController = require('../controllers/orderController');
+const userController = require('../controllers/userController');
 
-router.route('/getAllCustomers').get(customerController.getAllCustomers)
-router.route('/create').get(customerController.createCustomer)
-router.route('/login').get(customerController.loginCustomer)
-router.route('/createReview').get(reviewController.createReview)
-router.route('/getDictionary').get(filterController.getDictionary)
+
+// get up to 20 relevant dishes and restaurant by search
+router.route('/:searched').get(filterController.TheGreatFilter)
+
+router.use(userController.authenticateCustomer)
+// acsses the rlevent resturent throw the params
+router.post('/createReview/:restaurantId',reviewController.createReview)
+router.route('/createOrder',orderController.createOrder)
 // router.route('/logout').get(customerController.)
 
 

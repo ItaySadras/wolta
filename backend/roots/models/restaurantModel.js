@@ -5,7 +5,6 @@ restaurantName: { type: String },
   password: { type: String },
   email: { type: String },
   phoneNumber: { type: String },
-  location: { type: String },
   open: { type: Boolean },
   photo: { type: String },
   defaultOpeningTime: [
@@ -16,6 +15,7 @@ restaurantName: { type: String },
   ],
   menu: { type: mongoose.Schema.Types.ObjectId,ref:"Menu" },
   Reviews:[{type: mongoose.Schema.Types.ObjectId,ref:"Review"}],
+  address:[{type: mongoose.Schema.Types.ObjectId,ref:"Address"}],
   restaurantFilter:[{type:String}]
 });
 

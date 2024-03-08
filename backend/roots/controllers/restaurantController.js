@@ -97,3 +97,113 @@ exports.getAllRestaurants = async (req, res) => {
       .send({ status: "internal server error", message: error.message });
   }
 };
+
+exports.updateGenericRestaurantData = async (req, res) => {
+  try {
+    const restaurant = await Restaurant.findByIdAndUpdate(
+      req.params.restaurantId,
+      req.body,
+      { new: true }
+    );
+    !restaurant&&res.status(404).send({message:"couldnt find restaurant"})
+
+    res.status(200).send({
+      message: "relevant restaurant data updated sucssfuly",
+      restaurant: restaurant,
+    });
+  } catch (error) {
+    res.status(500).send({message:"intarnel server error"})
+  }
+};
+
+// exports.updateRestaurantHours = async (req, res) => {
+//   try {
+//     const restaurant = await Restaurant.findById(req.params.restaurantId);
+//     for (const [day, time] of req.body) {
+//       restaurant.defaultOpeningTime[day] = time;
+//     }
+//     await restaurant.save();
+//     res.status(200).send({ message: "hors updated sucssfully" });
+//   } catch (error) {
+//     res.status(500).send({ message: "fail inetrnal server error" });
+//   }
+// };
+
+// exports.deleteRestaurantFilter = async (req, res) => {
+//   try {
+//     const restaurant = await Restaurant.findById(req.params.restaurantId);
+//     restaurant.restaurantFilter = restaurant.restaurantFilter.filter(
+//       (item) => item != req.body.item
+//     );
+//     restaurant.save();
+//     res.status(200).send({ message: "item deleted sucssfully" });
+//   } catch (error) {
+//     res.status(500).send({ message: "fail inetrnal server error" });
+//   }
+// };
+// exports.addRestaurantFilter = async (req, res) => {
+//   try {
+//     const restaurant = await Restaurant.findByIdAndUpdate(
+//       req.params.restaurantId,
+//       { restaurantFilter: [...restaurantFilter, req.body.item] }
+//     );
+//     res.status(200).send({
+//       message: "item add sucssfully",
+//       restaurantFilter: restaurant.restaurantFilter,
+//     });
+//   } catch (error) {
+//     res.status(500).send({ message: "fail inetrnal server error" });
+//   }
+// };
+// exports.updateRestaurant = async (req, res) => {
+//   try {
+//     const restaurant = await Restaurant.findById(req.params.restaurantId);
+//   } catch (error) {
+//     res.status(500).send({ message: "fail inetrnal server error" });
+//   }
+// };
+
+
+exports.restaurantUpdater = async (req, res) => {
+try {
+  const restaurant=await Restaurant.findById(req.params.restaurantId)
+  !restaurant&&res.status(404).send({message:"cant find restaurant"})
+  console.log("🚀 ~ exports.restaurantUpdater= ~ Object.entries(req.body)[0]:", Object.entries(req.body)[0])
+  const [key,value]=Object.entries(req.body)[0]
+  switch (key) {
+    case "open"&&"restaurantName"&&"defaultOpeningTime":
+      restaurant[key]=value
+      
+      break;
+    case "restaurantFilter":
+      restaurant[key]=addToArrays(key,req.query.action,value,restaurant[key])
+      break;
+  
+    default:
+      res.status(500).send({message:`restaurant does not have a key named ${key}`})
+
+      break;
+  }
+   await restaurant.save()
+  res.status(200).send({message:"sucsses",updatedRestaurant:restaurant})
+
+} catch (error) {
+  res.status(500).send({message:"this action doesnt exist"})
+
+}
+}
+
+const addToArrays = (key, action, data, currentValue) => {
+  switch (action) {
+    case "add":
+      if (currentValue.some(item=>item===data)){
+        return currentValue
+       }
+        return [...currentValue, data];
+    case "remove":
+      return currentValue.filter((item) => item != data);
+
+    default:
+      return error
+  }
+};

@@ -10,6 +10,23 @@
   background-color: #f9f9f9;
 }
 
+.dataandlocation {
+  background-color: #a886d8;
+  width: 200px;
+  height: 100px;
+  background-color: #a886d8;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  justify-content: center;
+  align-items: center;
+  margin-left: 690px;
+  margin-bottom: 10px;
+  width: 300px;
+}
 .customer-dash-container h1 {
   color: #a886d8;
 }
@@ -47,11 +64,16 @@
 }
 
 .restaurant-item {
-  gap: 10px;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
   transition: box-shadow 0.3s ease;
   width: 400px;
+}
+
+.restaurant-item:hover {
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
 
 .restaurant-items {
@@ -66,19 +88,35 @@
   font-size: 20px;
   color: #333;
   margin: 0;
-  flex-grow: 1;
 }
 
 .restaurant-info {
   list-style: none;
   padding: 0;
-  margin-top: 10px;
+  margin: 0;
 }
 
 .restaurant-info li {
   font-size: 16px;
   color: #666;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+}
+
+.restaurant-status {
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #ffffff;
+  width: fit-content;
+  margin-top: 10px;
+}
+
+.restaurant-status.Open {
+  background-color: #4caf50;
+}
+
+.restaurant-status.Closed {
+  background-color: #f44336;
 }
 
 .load-more-btn-container {
@@ -91,10 +129,15 @@
   color: white;
   border: none;
   padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: 20px;
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s;
+  justify-content: center;
+  align-items: center;
+  margin-left: 710px;
+  margin-bottom: 10px;
+  width: 300px;
 }
 
 .load-more-btn:hover {
@@ -125,19 +168,4 @@
   font-size: 14px;
   color: #666;
   list-style: none;
-}
-
-.restaurant-status {
-  font-weight: bold;
-  margin: 0;
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: #4caf50;
-  background-color: #f2f2f2;
-  width: 40px;
-  margin-top: 10px;
-}
-
-.restaurant-status.Closed {
-  color: #f44336;
 }

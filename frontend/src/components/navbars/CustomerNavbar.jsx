@@ -13,11 +13,9 @@ const CustomerNavbar = () => {
       </div>
       <div className="nav-section">
         <li>
-          <NavLink to={"/customer/:customerId/profile"}>Profile</NavLink>
-        </li>
-        <li>
-          hi,customer-name
-          {/* ${customerName} */}
+          <NavLink to={"/customer/:customerId/profile"}>
+            <button className="navbutton">Profile</button>
+          </NavLink>
         </li>
         <li>
           <button className="logout-button">Logout</button>

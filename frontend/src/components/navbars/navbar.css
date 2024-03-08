@@ -7,6 +7,23 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.navbutton {
+  padding: 8px 16px;
+  background-color: #8361ac;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.navbutton:hover {
+  background-color: #4c336c;
+}
 .logo-container {
   display: flex;
   align-items: center;
@@ -39,6 +56,9 @@
   cursor: pointer;
   font-size: 14px;
   transition: background-color 0.2s;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-decoration: none;
 }
 
 .logout-button:hover {

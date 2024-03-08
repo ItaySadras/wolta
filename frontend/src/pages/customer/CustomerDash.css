@@ -1,4 +1,14 @@
+.customer-dash{
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+}
+
 .customer-dash-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 800px;
   margin: 50px auto;
   padding: 20px;
@@ -11,11 +21,15 @@
 }
 
 .dataandlocation {
+  display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
   background-color: #a886d8;
   width: 200px;
   height: 100px;
   background-color: #a886d8;
-  color: white;
+  color: rgb(40, 2, 50);
   border: none;
   padding: 10px 20px;
   border-radius: 20px;
@@ -23,12 +37,14 @@
   transition: background-color 0.3s;
   justify-content: center;
   align-items: center;
-  margin-left: 690px;
-  margin-bottom: 10px;
   width: 300px;
 }
 .customer-dash-container h1 {
   color: #a886d8;
+}
+
+.location-heading{
+  margin-bottom: 10px;
 }
 
 .location-info-section {
@@ -80,7 +96,6 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px; /* Gap between items */
-  margin-left: 250px;
   list-style: none;
 }
 
@@ -135,8 +150,7 @@
   transition: background-color 0.3s;
   justify-content: center;
   align-items: center;
-  margin-left: 710px;
-  margin-bottom: 10px;
+  margin: 10px;
   width: 300px;
 }
 

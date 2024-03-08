@@ -12,11 +12,11 @@ const RestaurantProvider = ({ children }) => {
         getAllRestaurants()
     }, [])
 
-    
+
     const getAllRestaurants = async (page, limit) => {
         try {
             const response = await axios.get(
-                `http://localhost:8000/api/restaurant/getAllRestaurants?page=${page}&limit=${limit}`
+                `http://localhost:8000/api/restaurant/getAllRestaurant?page=${page}&limit=${limit}`
             );
             setRestaurants(prevRestaurants => [...prevRestaurants, ...response.data.restaurants]);
         } catch (error) {
@@ -24,15 +24,28 @@ const RestaurantProvider = ({ children }) => {
         }
     };
 
+    const getRestaurantById = async (id) => {
+        try {
+            const response = await axios.get(
+                `http://localhost:8000/api/restaurant/${id}`
+            );
+            setRestaurantInfo(response.data.restaurant);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
 
 
     const contextValues = {
+        // states
         restaurants,
         setRestaurants,
         restaurantInfo,
         setRestaurantInfo,
+        // functions
         getAllRestaurants,
+        getRestaurantById,
 
     };
 

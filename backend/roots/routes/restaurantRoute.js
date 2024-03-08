@@ -6,11 +6,13 @@ const menuCategoryController = require("../controllers/menuCategoryController");
 const userController = require("../controllers/userController");
 
 
+
 router.use("logIn",userController.logInUser)
 router.use(userController.authenticateRestaurant)
 /**
  * ! direct restuarnt method
  */
+
 
 // create a new restaurant it is imposable to create reviews\menuCategory or any other ref through here
 // req example http://localhost:8000/api/restaurant/createRestaurant

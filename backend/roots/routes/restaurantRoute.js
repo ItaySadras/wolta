@@ -66,4 +66,6 @@ router.patch(
   menuCategoryController.changeName
 );
 
+// chenge the order of a menu category get from the body an array of the new orderIds
+router.patch("/changeMenuCategoryOrder/:menuCategoryId",menuCategoryController.changeOrder)
 module.exports = router;

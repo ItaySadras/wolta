@@ -1,11 +1,21 @@
+const { uploadToCloudinary } = require("../../backEndUtils/helpers");
 const Dish = require("../models/dishModel");
 const MenuCategory = require("../models/menuCategoryModel");
 
 exports.createDish = async (req, res) => {
   try {
+    const { image, price, dishName } = req.body.dish;
+    if (image) {
+      const imgUrl = await uploadToCloudinary(image, dishName);
+      if (!imgUrl) {
+        res.status(500).send({ message: "cant upload image" });
+      }
+    }
     const menuCategory = await MenuCategory.findById(req.params.menuCategoryId);
     const dish = await Dish.create({
-      ...req.body.dish,
+      image: imgUrl,
+      price:price,
+      dishName:dishName,
       menuCategory: req.params.menuCategoryId,
     });
     menuCategory.dishes.push(dish._id);
@@ -53,12 +63,11 @@ exports.delateDish = async (req, res) => {
   }
 };
 
-
 exports.dishUpdater = async (req, res) => {
   try {
     const dish = await Dish.findById(req.params.dishId);
     !dish && res.status(404).send({ message: "dish not find" });
-    const [key,value]=Object.entries(req.body)[0]
+    const [key, value] = Object.entries(req.body)[0];
     switch (key) {
       case "ingredients" || "intolerances":
         dish[key] = addToArrays(key, req.query.action, value, dish[key]);
@@ -86,14 +95,14 @@ exports.dishUpdater = async (req, res) => {
 const addToArrays = (key, action, data, currentValue) => {
   switch (action) {
     case "add":
-      if (currentValue.some(item=>item===data)){
-        return currentValue
-       }
-        return [...currentValue, data];
+      if (currentValue.some((item) => item === data)) {
+        return currentValue;
+      }
+      return [...currentValue, data];
     case "remove":
       return currentValue.filter((item) => item != data);
 
     default:
-      return error
+      return error;
   }
 };

@@ -1,9 +1,8 @@
 const { decode } = require("jsonwebtoken");
-// const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const jwt = require("jsonwebtoken");
-const Customer = require('../models/customerModel');
-
+const Customer = require("../models/customerModel");
 
 exports.getAllCustomers = async (req, res) => {
   try {
@@ -12,19 +11,19 @@ exports.getAllCustomers = async (req, res) => {
   } catch (error) {
     res.status(400).send(error);
   }
-}
+};
 
 exports.createCustomer = async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
     console.log(hashedPassword);
-    const {username, password, phoneNumber } = req.body;
+    const { username, password, phoneNumber } = req.body;
     const newCustomer = await Customer.create({
       username,
       password: hashedPassword,
-      phoneNumber
-    })
-    res.send(newCustomer)
+      phoneNumber,
+    });
+    res.send(newCustomer);
   } catch (error) {
     res.status(400).send(error);
   }
@@ -32,11 +31,10 @@ exports.createCustomer = async (req, res) => {
 
 exports.loginCustomer = async (req, res) => {
   try {
-    
   } catch (error) {
     res.status(400).send(error);
   }
-}
+};
 
 exports.logoutCustomer = async (req, res) => {
   try {
@@ -44,23 +42,24 @@ exports.logoutCustomer = async (req, res) => {
       httpOnly: true,
       expires: new Date(0),
       sameSite: "strict",
-    })
+    });
     console.log("logged out");
     res.status(200).json({ message: "Logout successful" });
   } catch (error) {
-    console.log(error.message)
+    console.log(error.message);
   }
-}
+};
 
 exports.UpdateCustomerDetailes = async (req, res) => {
-  try{
-    const updateDetailes = await Customer.findByIdAndUpdate(req.params.CustomerId, req.body)
+  try {
+    const updateDetailes = await Customer.findByIdAndUpdate(
+      req.params.CustomerId,
+      req.body
+    );
     res.send(updateDetailes);
     res.status(200).json({ message: "customer detailes updatad." });
     console.log(updated);
+  } catch (error) {
+    console.log(error.message);
   }
- catch (error) {
-  console.log(error.message)
-}
-}
-
+};

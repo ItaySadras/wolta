@@ -6,6 +6,7 @@ restaurantName: { type: String },
   email: { type: String },
   phoneNumber: { type: String },
   open: { type: Boolean },
+  photo: { type: String },
   defaultOpeningTime: [
     {
       openingHour: { type: String, required: true },

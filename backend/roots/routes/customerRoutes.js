@@ -15,6 +15,7 @@ router.use(userController.authenticateCustomer)
 router.post('/createReview/:restaurantId',reviewController.createReview)
 router.route('/createOrder',orderController.createOrder)
 // router.route('/logout').get(customerController.)
+router.route('/updateDetailes/id:').post(customerController.UpdateCustomerDetailes)
 
 
 module.exports = router;

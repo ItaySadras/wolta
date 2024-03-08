@@ -1,0 +1,38 @@
+.about-us {
+  background-color: #e7d7ff;
+  color: #333;
+  width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.about-us h1,
+.about-us h2 {
+  color: #a886d8;
+}
+
+.about-us p,
+.about-us ul {
+  margin-bottom: 15px;
+}
+
+.about-us ul {
+  padding-left: 20px;
+}
+
+.about-us li {
+  margin-bottom: 5px;
+}
+
+.about-us a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.about-us a:hover {
+  text-decoration: underline;
+}

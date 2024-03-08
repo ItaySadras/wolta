@@ -1,5 +1,5 @@
 const { decode } = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+// const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const jwt = require("jsonwebtoken");
 const Customer = require('../models/customerModel');
@@ -50,5 +50,17 @@ exports.logoutCustomer = async (req, res) => {
   } catch (error) {
     console.log(error.message)
   }
+}
+
+exports.UpdateCustomerDetailes = async (req, res) => {
+  try{
+    const updateDetailes = await Customer.findByIdAndUpdate(req.params.CustomerId, req.body)
+    res.send(updateDetailes);
+    res.status(200).json({ message: "customer detailes updatad." });
+    console.log(updated);
+  }
+ catch (error) {
+  console.log(error.message)
+}
 }
 

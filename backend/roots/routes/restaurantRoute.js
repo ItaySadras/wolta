@@ -5,10 +5,12 @@ const dishController = require("../controllers/dishController");
 const menuCategoryController = require("../controllers/menuCategoryController");
 const userController = require("../controllers/userController");
 
-router.get("/getAllRestaurant", restaurantController.getAllRestaurants);
 
 router.use("logIn", userController.logInUser);
 router.use(userController.authenticateRestaurant);
+
+router.get("/getAllRestaurant", restaurantController.getAllRestaurants);
+router.get("/:restaurantId", restaurantController.getRestaurantById);
 /**
  * ! direct restuarnt method
  */

@@ -27,13 +27,15 @@ const CustomerDash = () => {
 
   return (
     <div className="customer-dash">
-      <div className="location-info">
-        <h2 className="location-heading">
-          Your location: {/* user location */}
-        </h2>
-      </div>
-      <div className="customer-search">
-        <CustomerSearch />
+      <div className="dataandlocation">
+        <div className="location-info">
+          <h2 className="location-heading">
+            Your location: {/* user location */}
+          </h2>
+        </div>
+        <div className="customer-search">
+          <CustomerSearch />
+        </div>
       </div>
       <div>
         <ol className="restaurant-items">

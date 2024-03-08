@@ -1,11 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const courierController = require('../controllers/courierController');
+const userController = require('../controllers/userController');
 
-router.post('/', courierController.createCourier);
+
+router.use(userController.authenticateCourier)
+
 // router.patch('/vehicle', courierController.setVehicle);
 router.patch('/rating/:id', courierController.setRating);
 router.patch('/available/:id', courierController.setAvailable);
 
 
-module.exports = router;
+module.exports = router

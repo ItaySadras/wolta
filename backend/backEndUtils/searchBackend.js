@@ -1,21 +1,19 @@
-const Fuse = require('fuse.js');
-const axios = require('axios');
+const Fuse = require("fuse.js");
+const axios = require("axios");
 
 const fuseOptions = {
-	shouldSort: true,
-	keys: [
-		"name",
-		"type"
-	]
+  shouldSort: true,
+  keys: ["name"],
 };
 
-const searchAlgorithm = async (input) => {
-	const response = await axios.get("http://localhost:8000/api/getDictionary");
-	const dictionary = response.data.dictionary[0].items;
-	const fuse = new Fuse(dictionary, fuseOptions);
-	const log = fuse.search(input).slice(0, 20).map(ser => console.log(ser.item));
-	// return fuse.search(name)[0].item;
+const searchAlgorithm = (input, dictionary) => {
+  const { restaurant, dishes } = dictionary;
+  const fuseRestaurant = new Fuse(restaurant, fuseOptions);
+  const fuseDishes = new Fuse(dishes, fuseOptions);
+  const restaurantAnswer = fuseRestaurant.search(input).slice(0, 20).map(res=>res.item);;
+  const dishAnswer = fuseDishes.search(input).slice(0, 20).map(dish=>dish.item);
+  console.log("🚀 ~ searchAlgorithm ~ { dishes: dishAnswer, restaurants: restaurantAnswer };:", { dishes: dishAnswer, restaurants: restaurantAnswer })
+  return { dishes: dishAnswer, restaurants: restaurantAnswer };
 };
 
 module.exports = searchAlgorithm;
-

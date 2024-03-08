@@ -1,25 +1,28 @@
-import React from 'react'
+import React from "react";
+import "./navbar.css";
+import logoImage from "../../assets/BaliFoodLogoNOBG.png";
+import { NavLink } from "react-router-dom";
 
 const CourierNavbar = () => {
   return (
-    <div>
-      <div>
-        {/* logo */}
-        <div>
-          BaliFood
-        </div>
+    <nav className="navbar">
+      <div className="logo-container">
+        <NavLink to={"/courier/:courierId/dashboard"}>
+          <img src={logoImage} alt="BaliFood Logo" className="navbar-logo" />
+        </NavLink>
       </div>
-      <div>
-        profile
+      <div className="nav-section">
+        <li>
+          <NavLink to={"/courier/:courierId/profile"}>
+            <button className="navbutton">Profile</button>
+          </NavLink>
+        </li>
+        <li>
+          <button className="logout-button">Logout</button>
+        </li>
       </div>
-      <div>
-        <h1>Hi! {/* name of user */}</h1>
-      </div>
-      <div>
-        logout button
-      </div>
-    </div>
-  )
-}
+    </nav>
+  );
+};
 
-export default CourierNavbar
+export default CourierNavbar;

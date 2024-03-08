@@ -1,5 +1,52 @@
 const Restaurant = require("../roots/models/restaurantModel");
 const { getDay, getMinutes, getHours, isPast, isFuture } = require("date-fns");
+const axios = require('axios');
+const apiKey = process.env.MAPS_API_KEY;
+
+async function distanceCalculate(origin, destination) {
+    try {
+        const response = await axios.get('https://maps.googleapis.com/maps/api/directions/json', {
+            params: {
+                origin: origin,
+                destination: destination,
+                key: apiKey,
+            }
+        });
+
+        if (response.data.status === 'OK') {
+            const duration = response.data.routes[0].legs[0].duration.text;
+            return duration;
+        } else {
+            console.error('Error:', response.data.status);
+            return null;
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        return null;
+    }
+}
+
+async function reverseGeocode(latitude, longitude) {
+  try {
+    const response = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+      params: {
+        latlng: `${latitude},${longitude}`,
+        key: apiKey, 
+      }
+    });
+
+    if (response.data.status === 'OK') {
+      const address = response.data.results[0].formatted_address;
+      return address;
+    } else {
+      console.error('Error:', response.data.status);
+      return null;
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    return null;
+  }
+}
 
 const isThisRestaurantOpen = (restaurant) => {
     if (!restaurant.open) {
@@ -69,4 +116,4 @@ const uploadToCloudinary = async (imageUrl, title) => {
 //   }
 //   const currOrigin = `${newOrigin.street+" "+newOrigin.streetNumber+" "+newOrigin.city+" "+newOrigin.country}`
 
- module.exports = { isThisRestaurantOpen,uploadToCloudinary,paginateHelper };
+ module.exports = { isThisRestaurantOpen,uploadToCloudinary,paginateHelper ,reverseGeocode,distanceCalculate};

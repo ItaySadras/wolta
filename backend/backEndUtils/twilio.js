@@ -27,6 +27,5 @@ const sendSMS = async (username,phoneNumber) => {
 };
 
 
-sendSMS();
 
 module.exports = { sendSMS };

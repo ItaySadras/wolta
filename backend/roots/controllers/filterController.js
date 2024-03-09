@@ -7,85 +7,41 @@ const Restaurant = require("../models/restaurantModel");
 const Reviews = require("../models/reviewModel");
 const jwt = require("jsonwebtoken");
 secret = "secretkey";
-const { search } = require("../routes/adminRoute");
-const { paginateHelper } = require("../../backEndUtils/helpers");
+const {
+  paginateHelper,
+  getsADishRestaurant,
+  getRestaurantsWithDetails,
+} = require("../../backEndUtils/helpers");
 
 exports.TheGreatFilter = async (req, res) => {
   let paginatedRestaurants, cool, populatedRestaurants;
   try {
     let { filter, page, limit } = req.query;
-    const dictionary = await Dictionary.find({});
-    const { restaurants, dishes } = searchAlgorithm(
-      req.params.searched,
-      dictionary[0]
-    );
-    const populatedDishes = [];
-    const populatedRestaurants = [];
-    for (const dish of dishes) {
-      const populatedDish = await Dish.findById(dish.dishId);
-      populatedDishes.push(populatedDish);
+    const { restaurants, dishes } = await searchAlgorithm(req.params.searched);
+
+    let dishQuery = { _id: { $in: dishes } };
+    let restaurantQuery = { _id: { $in: restaurants } };
+
+    if (filter && filter.length > 0) {
+      dishQuery.intolerances = { $all: filter };
+      restaurantQuery.restaurantFilter = { $all: filter };
     }
+
+    const populatedDishes = await Dish.find(dishQuery);
 
     if (restaurants.length === 0) {
-      for (const dish of populatedDishes) {
-        const menuCategory = await MenuCategory.findById(dish.menuCategory);
-        const menu = await Menu.findById(menuCategory.menu);
-        const populatedRestaurant = await Restaurant.findById(menu)
-          .populate({
-            path: "menu",
-            populate: {
-              path: "menuCategories",
-              populate: {
-                path: "dishes",
-              },
-            },
-          })
-          .populate({
-            path: "Reviews",
-            populate: {
-              path: "customerId",
-            },
-          });
-        if (
-          populatedRestaurants.some(
-            (res) => res._id.toString() !== restaurants._id
-          )
-        ) {
-          populatedRestaurants.push(populatedRestaurant);
-        }
-      }
-    }
-    for (const restaurant of restaurants) {
-      const populatedRestaurant = await Restaurant.findById(
-        restaurant.restaurantId
-      )
-        .populate({
-          path: "menu",
-          populate: {
-            path: "menuCategories",
-            populate: {
-              path: "dishes",
-            },
-          },
-        })
-        .populate({
-          path: "Reviews",
-          populate: {
-            path: "customerId",
-          },
-        });
-      populatedRestaurants.push(populatedRestaurant);
+      populatedRestaurants = await getsADishRestaurant(populatedDishes);
+    } else {
+      FilteredRestaurants = await Restaurant.find(restaurantQuery).limit(4);
+      populatedRestaurants = await getRestaurantsWithDetails(
+        FilteredRestaurants
+      );
     }
 
-    updateCookiesBtSearch(req.params.search, req.cookie);
     res.status(200).send({
       Message: "success",
-      dishes: paginateHelper(
-        handleDishFilter(filter, populatedDishes),
-        page,
-        limit
-      ),
-      restaurants: handleRestaurantFilter(filter, populatedRestaurants),
+      dishes: populatedDishes,
+      restaurants: populatedRestaurants,
     });
   } catch (error) {
     console.log("🚀 ~ exports.TheGreatFilter= ~ error:", error);
@@ -93,60 +49,60 @@ exports.TheGreatFilter = async (req, res) => {
   }
 };
 
-
 exports.createSearchCookie = async (req, res, next) => {
- const { search } = req.params;
- let SearchHistoryToken = [];
+  try {
+    const { searched } = req.params;
+    let SearchHistoryToken = [];
 
- if (req.cookies.s) {
-    try {
-      SearchHistoryToken = jwt.verify(req.cookies.s, secret);
-    } catch (error) {
-      console.error('Error verifying JWT:', error);
+    if (req.cookies && req.cookies.s) {
+      SearchHistoryToken = jwt.verify(req.cookies.s, secret).SearchHistoryToken;
     }
- }
 
- const index = SearchHistoryToken.findIndex((item) => item.name === search);
-
- if (index === -1) {
-    SearchHistoryToken.push({ name: search, count: 1 });
- } else {
-    SearchHistoryToken[index].count++;
- }
-
- res.cookie("s", jwt.sign(SearchHistoryToken, secret), {
-    httpOnly: true,
-    sameSite: "strict",
-    maxAge: 30 * 24 * 60 * 60 * 1000, 
- });
-
- next();
-};
-
-
-const handleDishFilter = (filter, dishes) => {
-  if (filter) {
-    if (typeof filter === "string") {
-      filter = [filter];
-    }
-    const filterdDishes = dishes.filter((dish) =>
-      dish.intolerances.some((resFilter) =>
-        filter.every((searchFilter) => searchFilter === resFilter)
-      )
+    const index = SearchHistoryToken.findIndex(
+      (item) => item.name === searched
     );
-    return filterdDishes;
+
+    if (index === -1) {
+      SearchHistoryToken.push({ name: searched, count: 1 });
+    } else {
+      SearchHistoryToken[index].count++;
+    }
+
+    res.cookie(
+      "s",
+      jwt.sign({ SearchHistoryToken: SearchHistoryToken }, secret),
+      {
+        httpOnly: true,
+        sameSite: "strict",
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+      }
+    );
+  } catch (error) {
+    console.log("error in creating search history  cookie", error);
   }
+  next();
 };
-const handleRestaurantFilter = (filter, restaurant) => {
-  if (filter) {
-    if (typeof filter === "string") {
-      filter = [filter];
+
+exports.getsSearchPreferencesFromCookies = async (req, res, next) => {
+  try {
+    const { page, limit } = req.query;
+    if (req.cookies.s) {
+      const { SearchHistoryToken } = jwt.verify(req.cookies.s, secret);
+      SearchHistoryToken.sort((a, b) => b.count - a.count);
+      req.params.searched = SearchHistoryToken[0].name;
+      next();
+    } else {
+      const restaurants = await Restaurant.find({});
+      const populatedRestaurants = await getRestaurantsWithDetails(restaurants);
+      const dishes = await Dish.find({}).limit(100);
+      res.status(200).send({
+        Message: "success",
+        restaurants: paginateHelper(populatedRestaurants),
+        dishes: paginateHelper(dishes),
+      });
     }
-    const filterdRestaurent = restaurant.filter((res) =>
-      res.restaurantFilter.some((resFilter) =>
-        filter.every((searchFilter) => searchFilter === resFilter)
-      )
-    );
-    return filterdRestaurent;
+  } catch (error) {
+    console.log("🚀 ~ exports.createSearchCookie= ~ error:", error);
+    next();
   }
 };

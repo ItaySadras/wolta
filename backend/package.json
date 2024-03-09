@@ -24,6 +24,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.3.0",
     "mongoose": "^8.2.0",
-    "pexels": "^1.4.0"
+    "pexels": "^1.4.0",
+    "twilio": "^4.23.0"
   }
 }

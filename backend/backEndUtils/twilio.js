@@ -6,13 +6,6 @@ const accountSid = process.env.TWILLIO_AUTH_SID;
 const authToken = process.env.TWILLIO_AUTH_TOKEN;
 const myNumber = process.env.TWILLIO_MY_NUMBER;
 
-// client.messages
-//   .create({
-//     from: "+13343199573",
-//     to: "0546663286",
-//   })
-//   .then((message) => console.log(message.sid))
-//   .done();
 
 const client = require("twilio")(accountSid, authToken);
 const sendSMS = async (username,phoneNumber) => {

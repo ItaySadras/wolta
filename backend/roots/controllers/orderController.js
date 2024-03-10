@@ -1,7 +1,5 @@
 const { isThisRestaurantOpen } = require("../../backEndUtils/helpers");
 const { sendAReviewSurvey } = require("../../backEndUtils/twilio");
-
-const Address = require("../models/addressModel");
 const Courier = require("../models/courierModel");
 const Customer = require("../models/customerModel");
 const Order = require("../models/orderModel");
@@ -9,10 +7,11 @@ const Restaurant = require("../models/restaurantModel");
 
 exports.createOrder = async (req, res) => {
   try {
-    const { restaurantId, customerId, dishes, customerAddressId } = req.body;
-    const restaurant = await Restaurant.findById(restaurantId);
-    const customer = await Customer.findById(customerId);
-    const customerAddress = await Address.findById(customerAddressId);
+    const { restaurantId, customerId, dishes } = req.body;
+    const restaurant = await Restaurant.findById(
+      restaurantId.populate("address")
+    );
+    const customer = await Customer.findById(customerId).populate("addresses");
 
     if (!isThisRestaurantOpen(restaurant)) {
       return res.status(403).send({ message: "This restaurant is closed now" });
@@ -21,17 +20,17 @@ exports.createOrder = async (req, res) => {
     const availableCouriers = await Courier.find({
       available: true,
       currentOrder: null,
-    });
+    }).populate("address");
 
     if (!availableCouriers || availableCouriers.length === 0) {
       return res.status(404).send({ message: "There is no available courier" });
     }
 
     // Calculate distance between each courier and the restaurant
-    const couriersWithDistance = availableCouriers.map(courier => {
+    const couriersWithDistance = availableCouriers.map((courier) => {
       return {
         courier,
-        distance: distanceCalculate(courier.address, restaurant.address)
+        distance: distanceCalculate(courier.address, restaurant.address),
       };
     });
 
@@ -42,23 +41,32 @@ exports.createOrder = async (req, res) => {
     const closestCourier = couriersWithDistance[0].courier;
 
     // duration from restaurant to customer
-    const arrivingTime = distanceCalculate(restaurant.address,customerAddress);
+    const arrivingTime = distanceCalculate(
+      restaurant.address,
+      customer.addresses[0]
+    );
 
     // Create the order and assign it to the closest courier
     const order = await Order.create({
       orderDishes: dishes,
       courier: closestCourier._id, // Assign the courier to the order
       arrivingTime: arrivingTime,
-    })
-    await order.populate([
-      { path: 'customer' },
-      { path: 'courier' },
-      { path: 'restaurant' },
-      { path: 'orderDishes' },
-      
-   ]).execPopulate();
-  
-
+      restaurant:restaurant._id,
+      customer:customer._id
+    });
+    await order
+      .populate([
+        { path: "customer" },
+        { path: "courier" },
+        { path: "restaurant" },
+        {
+          path: "orderDishes",
+          populate: {
+            path: "dish",
+          },
+        },
+      ])
+      .execPopulate();
 
     // Update the restaurant's open orders
     await Restaurant.findByIdAndUpdate(restaurantId, {
@@ -69,20 +77,23 @@ exports.createOrder = async (req, res) => {
     await closestCourier.save();
 
     // Respond with success
-    res.status(200).send({ message: "Order created successfully" ,order:order});
+    res
+      .status(200)
+      .send({ message: "Order created successfully", order: order });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).send({ message: "Internal server error" });
-
   }
 };
 exports.deleteOrder = async (req, res) => {
   try {
-    const order = await Order.findByIdAndDelete(req.params.orderId).populate("customer");
-    const {customer}=order
+    const order = await Order.findByIdAndDelete(req.params.orderId).populate(
+      "customer"
+    );
+    const { customer } = order;
     !order &&
       res.status(404).send({ message: "couldn't find order and delete it" });
-    const courier =await Courier.findOneAndUpdate(
+    const courier = await Courier.findOneAndUpdate(
       { currentOrder: req.params.orderId },
       { currentOrder: null },
       { new: true }
@@ -92,7 +103,7 @@ exports.deleteOrder = async (req, res) => {
         .status(500)
         .send({ message: "server error fail to delete order from courier" });
 
-    const restaurant =await Restaurant.find(
+    const restaurant = await Restaurant.find(
       {
         openOrders: { $in: [req.params.orderId] },
       },
@@ -108,11 +119,9 @@ exports.deleteOrder = async (req, res) => {
     );
     await restaurant.save();
 
-    sendAReviewSurvey(customer.userName,customer.phoneNumber)
-
+    sendAReviewSurvey(customer.userName, customer.phoneNumber);
   } catch (error) {
-    console.log("🚀 ~ exports.deleteOrder ~ error:", error)
+    console.log("🚀 ~ exports.deleteOrder ~ error:", error);
     res.status(500).send({ message: "internal server error" });
   }
 };
-

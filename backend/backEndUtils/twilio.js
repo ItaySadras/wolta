@@ -23,10 +23,10 @@ const sendSMS = async (username, phoneNumber, id) => {
     })
     .then((message) => console.log(message.sid));
 };
-function sendAReviewSurvey(userName, phoneNumber, id) {
+function sendAReviewSurvey(username, phoneNumber, id) {
   const delayInMilliseconds = 30 * 60 * 1000;
   const timeoutId = setTimeout(
-    sendSMS(userName, phoneNumber, hashedKey),
+    sendSMS(username, phoneNumber, id),
     delayInMilliseconds
   );
 }

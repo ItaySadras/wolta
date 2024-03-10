@@ -25,6 +25,7 @@ const CustomerProfile = () => {
     setCustomer(updatedCustomer); // Assume update is successful
     setEditMode(false); // Exit edit mode
   };
+  //comment
 
   if (!customer) return <div>Loading customer details...</div>;
 

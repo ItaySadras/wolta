@@ -1,9 +1,17 @@
+const SurveyValidation = require("../models/SurveyValidationModel");
 const Restaurant = require("../models/restaurantModel");
 const Review = require("../models/reviewModel");
 const { format } = require("date-fns");
 
 exports.createReview = async (req, res) => {
   try {
+    const { secretKey } = req.query;
+    const surveyValidation = await SurveyValidation.findByIdAndDelete({
+      crypt: secretKey,
+    });
+    if (!surveyValidation) {
+      res.status(403).status({message:"this link was already filled"});
+    }
     const restaurant = await Restaurant.findById(req.params.restaurantId);
     !restaurant &&
       res.status(404).send({ message: "Couldn't found restaurant." });

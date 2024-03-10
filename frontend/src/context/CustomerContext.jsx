@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useContext } from 'react';
 import axios from 'axios';
 
 const CustomerContext = createContext();
@@ -7,31 +7,45 @@ const CustomerProvider = ({ children }) => {
     const [customers, setCustomers] = useState([]);
     const [customerInfo, setCustomerInfo] = useState();
 
-    const getAllcustomers = async () => {
+    const getAllCustomers = async () => {
         try {
-            const response = await axios.get(
-                'http://localhost:8000/api/customer/getAllCustomers'
-            );
+            const response = await axios.get('http://localhost:8000/api/customer/getAllCustomers');
             setCustomers(response.data);
-            console.log(response);
         } catch (error) {
-            console.log(error);
+            console.error("Failed to fetch all customers:", error);
+        }
+    };
+
+    const getCustomerDetails = async (customerId) => {
+        try {
+            const response = await axios.get(`http://localhost:8000/api/customer/getCustomerDetails/${customerId}`);
+            setCustomerInfo(response.data); 
+            return response.data;
+        } catch (error) {
+            console.error("Failed to fetch customer details:", error);
+            return null; 
         }
     };
 
 
-    // const updateCustomerDetails = async (id, data) => {
-    //     try {
-    //         const response = await axios.post(`http://localhost:8000/api/customer/updateCustomer`)
-    //         setCustomerInfo(response.data)
-    //     } catch (error) {
-            
-    //     }
-    // }
-    
+    const updateCustomerDetails = async (customerId, customerData) => {
+        try {
+          const response = await axios.put(`http://localhost:8000/api/customer/updateDetails/${customerId}`, customerData);
+          console.log("Customer details updated successfully:", response.data);
+          return response.data; // Make sure to return the updated customer details
+        } catch (error) {
+          console.error("Failed to update customer details:", error);
+          return null; // Return null or throw an error based on your error handling strategy
+        }
+      };
+      
 
     const contextValues = {
-        getAllcustomers
+        customers,
+        customerInfo,
+        getAllCustomers,
+        getCustomerDetails,
+        updateCustomerDetails,
     };
 
     return (
@@ -42,3 +56,7 @@ const CustomerProvider = ({ children }) => {
 };
 
 export { CustomerContext, CustomerProvider };
+
+const useCustomer = () => useContext(CustomerContext);
+
+export default useCustomer;

@@ -13,6 +13,20 @@ exports.getAllCustomers = async (req, res) => {
   }
 };
 
+exports.getCustomerById = async (req, res) => {
+  try {
+    const customer = await Customer.findById(req.params.customerId);
+
+    if (!customer) {
+      return res.status(404).json({ message: "Customer not found" });
+    }
+    res.json(customer);
+  } catch (error) {
+    console.error("Error fetching customer by ID:", error);
+    res.status(500).json({ message: "Error fetching customer details" });
+  }
+};
+
 exports.createCustomer = async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
@@ -50,16 +64,17 @@ exports.logoutCustomer = async (req, res) => {
   }
 };
 
-exports.UpdateCustomerDetailes = async (req, res) => {
+
+exports.UpdateCustomerDetails = async (req, res) => {
   try {
-    const updateDetailes = await Customer.findByIdAndUpdate(
-      req.params.CustomerId,
-      req.body
-    );
-    res.send(updateDetailes);
-    res.status(200).json({ message: "customer detailes updatad." });
-    console.log(updated);
+    const updatedCustomer = await Customer.findByIdAndUpdate(req.params.customerId, req.body ,{ new: true }); 
+    if (!updatedCustomer) {
+      return res.status(404).json({ message: "Customer not found" });
+    }
+     return res.status(200).json({customer:updatedCustomer});
   } catch (error) {
-    console.log(error.message);
+    return res.status(500).json({ message: error.message });
   }
 };
+
+

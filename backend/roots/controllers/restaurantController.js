@@ -3,6 +3,13 @@ const Menu = require("../models/menuModel");
 const dishModel = require("../models/dishModel");
 const menuCategoryModel = require("../models/menuCategoryModel");
 const reviewModel = require("../models/reviewModel");
+secret = "secretkey";
+const jwt = require("jsonwebtoken");
+const {
+  paginateHelper,
+  getRestaurantsWithDetails,
+} = require("../../backEndUtils/helpers");
+const searchAlgorithm = require("../../backEndUtils/searchBackend");
 
 exports.createRestaurant = async (req, res) => {
   try {
@@ -61,36 +68,25 @@ exports.getRestaurantById = async (req, res) => {
 
 exports.getAllRestaurants = async (req, res) => {
   try {
-    const restaurants = await Restaurant.find({})
-      .populate({
-        path: "menu",
-        populate: {
-          path: "menuCategories",
-          populate: {
-            path: "dishes",
-          },
-        },
-      })
-      .populate({
-        path: "Reviews",
-        populate: {
-          path: "customerId",
-        },
-      });
-
-    if (restaurants.length > 0) {
-      const page = parseInt(req.query.page) || 1;
-      const limit = parseInt(req.query.limit) || 10;
-      startIndex = (page - 1) * limit;
-      const endIndex = page * limit;
-      paginatedRestaurants = restaurants.slice(startIndex, endIndex);
-      res.status(200).send({
-        message: "Restaurants retrieved successfully",
-        restaurants: paginatedRestaurants,
-      });
+    let restaurants;
+    const { limit, page } = req.query;
+    if (req.cookies.s) {
+      const search = getsSearchPreferencesFromCookies(req.cookies.s);
+      const response = await searchAlgorithm(search);
+      restaurants = response.restaurants;
+      console.log("🚀 ~ exports.getAllRestaurants= ~ restaurants:", response);
     } else {
-      res.status(404).send({ message: "No restaurants found" });
+      restaurants = await Restaurant.find({});
     }
+    const populatedRestaurant = await getRestaurantsWithDetails(restaurants);
+    const paginatedRestaurants = paginateHelper(
+      populatedRestaurant,
+      page,
+      limit
+    );
+    res
+      .status(200)
+      .send({ message: "success", restaurant: paginatedRestaurants });
   } catch (error) {
     res
       .status(500)
@@ -116,6 +112,11 @@ exports.updateGenericRestaurantData = async (req, res) => {
   }
 };
 
+const getsSearchPreferencesFromCookies =  (searchCookie) => {
+  const { SearchHistoryToken } = jwt.verify(searchCookie, secret);
+  SearchHistoryToken.sort((a, b) => b.count - a.count);
+  return SearchHistoryToken[0].name;
+};
 // exports.updateRestaurantHours = async (req, res) => {
 //   try {
 //     const restaurant = await Restaurant.findById(req.params.restaurantId);

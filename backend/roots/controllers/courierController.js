@@ -1,4 +1,7 @@
+
 const { reverseGeocode } = require("../../backEndUtils/helpers");
+
+
 const Courier = require("../models/courierModel");
 
 exports.createCourier = async (req, res) => {
@@ -23,7 +26,29 @@ exports.createCourier = async (req, res) => {
   }
 };
 
-
+// exports.setCurrOrder= async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     let courier = await Courier.findById(id);
+//     if (!courier) {
+//       return res.status(404).json({ message: "Courier not found" });
+//     }
+//     if (courier.currentOrder){
+//       //  ***** NEED TO CHANGE ONCE WE MAKE THE ORDER FORM **** 
+//       courier.currentOrder= req.body.order;
+//       //  ***** NEED TO CHANGE ONCE WE MAKE THE ORDER FORM **** 
+//     }
+//     else{
+//       courier.currentOrder=null;
+//     }
+//   } catch (error) {
+//     console.error("Error updating Courier's current order:", error);
+//     res.status(500).json({
+//       message: "Error updating Courier's current order",
+//       error: error.message,
+//     });
+//   }
+// }
 
 exports.setAvailable = async (req, res) => {
   try {

@@ -1,4 +1,6 @@
-const { isThisRestaurantOpen, distanceCalculate } = require("../../backEndUtils/helpers");
+const { isThisRestaurantOpen } = require("../../backEndUtils/helpers");
+const { sendAReviewSurvey } = require("../../backEndUtils/twilio");
+
 const Address = require("../models/addressModel");
 const Courier = require("../models/courierModel");
 const Customer = require("../models/customerModel");
@@ -39,14 +41,16 @@ exports.createOrder = async (req, res) => {
     // Get the closest courier to the restaurant
     const closestCourier = couriersWithDistance[0].courier;
 
-    // Calculate arriving time for the closest courier
-    const arrivingTime = distanceCalculate(closestCourier.address, restaurant.address);
+    // duration from restaurant to customer
+    const arrivingTime = distanceCalculate(restaurant.address,customerAddress);
 
     // Create the order and assign it to the closest courier
     const order = await Order.create({
       orderDishes: dishes,
       courier: closestCourier._id, // Assign the courier to the order
       arrivingTime: arrivingTime,
+      restaurant:restaurant._Id,
+      customer:customerId
     });
 
     // Update the restaurant's open orders
@@ -62,12 +66,13 @@ exports.createOrder = async (req, res) => {
   } catch (error) {
     console.error("Error:", error);
     res.status(500).send({ message: "Internal server error" });
+
   }
 };
-
 exports.deleteOrder = async (req, res) => {
   try {
-    const order = await Order.findByIdAndDelete(req.params.orderId);
+    const order = await Order.findByIdAndDelete(req.params.orderId).populate("customer");
+    const {customer}=order
     !order &&
       res.status(404).send({ message: "couldn't find order and delete it" });
     const courier =await Courier.findOneAndUpdate(
@@ -95,8 +100,8 @@ exports.deleteOrder = async (req, res) => {
       (order) => order.toString() !== req.params.orderId
     );
     await restaurant.save();
-    // send a reveiw form for the customer
 
+    sendAReviewSurvey(customer.userName,customer.phoneNumber)
 
   } catch (error) {
     console.log("🚀 ~ exports.deleteOrder ~ error:", error)

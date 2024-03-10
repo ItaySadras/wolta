@@ -1,9 +1,17 @@
-const cors = require("cors");
-const express = require("express"); // Express.js web application framework
+const express = require("express");
 
 const app = express();
+
 app.use(express.json());
-app.use(cors());
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+app.use(cookieParser());
+
+const corsOptions = {
+  origin: "http://localhost:5173",
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 const customerRoutes = require("./roots/routes/customerRoutes");
 const courierRoutes = require("./roots/routes/courierRoute");
@@ -17,8 +25,8 @@ const userController = require("./roots/controllers/userController");
 /**
  * !send the type of user you want to register/login in the body type:customer
  */
-app.use("/registerUser",userController.registerUser)
-app.use("/logInUser",userController.logInUser)
+app.use("/registerUser", userController.registerUser);
+app.use("/logInUser", userController.logInUser);
 
 
 app.use("/api/customer", customerRoutes);

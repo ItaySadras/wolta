@@ -34,6 +34,7 @@ import ManageRestaurants from "./pages/admin/ManageRestaurants";
 import ManageCouriers from "./pages/admin/ManageCouriers";
 
 import GeoComponent from "./geoLocation/GeoComponent";
+import Survey from "./pages/review/Survey";
 
 
 function App() {
@@ -84,6 +85,7 @@ function App() {
           <Route path="manageCouriers" element={<ManageCouriers />}></Route>
         </Route>
         <Route path="/about" element={<AboutUs />}></Route>
+        <Route path="/Survey" element={<Survey />}></Route>
       </Routes>
     </>
   );

@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const addressSchema = new mongoose.Schema({
+  streetName:{type:String},
   streetNumber:{type:String},
   city: {type:String},
-  streetNumber: {type:String},
   country:{type:String,default:"Israel"},
 });
 

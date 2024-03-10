@@ -34,13 +34,18 @@ import ManageRestaurants from "./pages/admin/ManageRestaurants";
 import ManageCouriers from "./pages/admin/ManageCouriers";
 
 import GeoComponent from "./geoLocation/GeoComponent";
+
 import Survey from "./pages/review/Survey";
+
+import LoaderComponent from "./Loader/LoaderComponent";
+
 
 
 function App() {
   return (
     <>
         {/* <GeoComponent></GeoComponent> */}
+//         <LoaderComponent></LoaderComponent>
        <Routes>
         {/* auth routes */}
         <Route path="/" element={<Login />}></Route>
@@ -52,7 +57,6 @@ function App() {
           <Route path="dashboard" element={<CustomerDash />}></Route>
           <Route path="searchResults" element={<SearchResults />}></Route>
           <Route path="basket" element={<CustomerBasket />}></Route>
-
           <Route path="profile" element={<CustomerProfile />}></Route>
         </Route>
 

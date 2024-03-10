@@ -1,8 +1,8 @@
-.customer-dash{
-display: flex;
-justify-content: center;
-align-items: center;
-flex-direction: column;
+.customer-dash {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .customer-dash-container {
@@ -22,9 +22,9 @@ flex-direction: column;
 
 .dataandlocation {
   display: flex;
-justify-content: center;
-align-items: center;
-flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   background-color: #a886d8;
   width: 200px;
   height: 100px;
@@ -43,7 +43,7 @@ flex-direction: column;
   color: #a886d8;
 }
 
-.location-heading{
+.location-heading {
   margin-bottom: 10px;
 }
 
@@ -69,7 +69,7 @@ flex-direction: column;
   text-decoration: none;
   color: #ffffff;
   margin-bottom: 10px;
-  background-color: #d7bbff;
+  background-color: rgb(248, 237, 250);
   padding: 10px;
   border-radius: 5px;
   transition: background-color 0.3s;
@@ -94,7 +94,7 @@ flex-direction: column;
 
 .restaurant-items {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 20px; /* Gap between items */
   list-style: none;
 }
@@ -182,4 +182,9 @@ flex-direction: column;
   font-size: 14px;
   color: #666;
   list-style: none;
+}
+
+.restaurant-image {
+  width: 400px;
+  height: 280px;
 }

@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "./CustomerSearch.css";
+import { CustomerContext } from "../../context/CustomerContext";
 
 const CustomerSearch = () => {
   const navigate = useNavigate();
+
+  const { getRestaurantBySearch } = useContext(CustomerContext);
 
   const {
     register,
@@ -15,7 +18,7 @@ const CustomerSearch = () => {
 
   const onSubmit = async (data) => {
     try {
-      // search functionality
+      getRestaurantBySearch(data);
       console.log(data);
       navigate("/customer/searchResults");
     } catch (error) {

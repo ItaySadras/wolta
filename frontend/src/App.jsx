@@ -43,7 +43,7 @@ function App() {
   return (
     <>
       {/* <GeoComponent></GeoComponent> */}
-      <LoaderComponent></LoaderComponent>
+      {/* <LoaderComponent></LoaderComponent> */}
       <Routes>
         {/* auth routes */}
         <Route path="/" element={<LandingPage />}></Route>

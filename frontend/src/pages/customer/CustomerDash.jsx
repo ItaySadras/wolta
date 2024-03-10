@@ -45,6 +45,11 @@ const CustomerDash = () => {
                 to={`../../restaurant/${restaurant._id}/restaurantPage`}
                 className="restaurant-link"
               >
+                <img
+                  className="restaurant-image"
+                  src={restaurant.image}
+                  alt="Restaurant"
+                />
                 <div>
                   <p className="restaurant-name">{restaurant.restaurantName}</p>
                   <p>

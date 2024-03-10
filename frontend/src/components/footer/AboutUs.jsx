@@ -2,11 +2,12 @@ import React from "react";
 import Footer from "./Footer";
 import CustomerNavbar from "../navbars/CustomerNavbar";
 import "./aboutus.css";
+import LandingPageNavBar from "../navbars/LandingPageNavBar";
 
 function AboutUs() {
   return (
     <>
-      <CustomerNavbar />
+      <LandingPageNavBar />
       <div className="about-us">
         <h1>About BaliFood</h1>
         <p>

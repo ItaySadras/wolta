@@ -47,7 +47,16 @@ exports.createOrder = async (req, res) => {
       orderDishes: dishes,
       courier: closestCourier._id, // Assign the courier to the order
       arrivingTime: arrivingTime,
-    });
+    })
+    await order.populate([
+      { path: 'customer' },
+      { path: 'courier' },
+      { path: 'restaurant' },
+      { path: 'orderDishes' },
+      
+   ]).execPopulate();
+  
+
 
     // Update the restaurant's open orders
     await Restaurant.findByIdAndUpdate(restaurantId, {
@@ -58,7 +67,7 @@ exports.createOrder = async (req, res) => {
     await closestCourier.save();
 
     // Respond with success
-    res.status(200).send({ message: "Order created successfully" });
+    res.status(200).send({ message: "Order created successfully" ,order:order});
   } catch (error) {
     console.error("Error:", error);
     res.status(500).send({ message: "Internal server error" });

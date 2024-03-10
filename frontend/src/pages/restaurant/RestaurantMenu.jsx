@@ -1,50 +1,70 @@
+//react
 import React, { useContext, useEffect, useState } from 'react'
 import { RestaurantContext } from '../../context/RestaurantContext'
 
+//style
+import './RestaurantMenu.css'
+
+//components
+import MenuCategory from '../../components/restaurantMenu/MenuCategory'
+
+
+const reducer = (state, action) => {
+
+}
+
+
 const RestaurantMenu = () => {
-
-  const { getRestaurantById, restaurantInfo } = useContext(RestaurantContext);
-
+  const { loading, setLoading, getRestaurantById, restaurantInfo, } = useContext(RestaurantContext)
   const [restaurant, setRestaurant] = useState()
+  const [fetched, setFetched] = useState(false)
 
+
+  // for (category of menu) {
+  //   const menuCategory = {}
+  //   menuCategory.name = category.menuCategoryName
+  //   menuCategory.dishes = category.dishes
+  // }
+
+
+  const initialState = [{}]
 
   useEffect(() => {
-    getRestaurantById("65e81c798630ba788c71bcb3")
-  }, [])
+    if (!fetched) {
+      const fetchRestaurant = async () => {
+        await getRestaurantById("65e81f2ce6e2c0fa71c343db")
+        setFetched(true)
+        setLoading(false)
+      }
+      fetchRestaurant()
+    }
+  }, [getRestaurantById, fetched])
 
   useEffect(() => {
-    setRestaurant(restaurantInfo);
-  }, [restaurantInfo]);
+    if (restaurantInfo) {
+      setRestaurant(restaurantInfo)
+    }
+  }, [restaurantInfo])
 
-  if (!restaurant) {
-    return <div>Loading...</div>;
+  if (loading) {
+    return <div>Loading...</div>
   }
 
   return (
-    <div>
-      <div>
-        <h3>Your menu</h3>
+    <div className='menu-container'>
+      <div className='menu-title-container'>
+        <h2>Your menu</h2>
       </div>
-      <div>
-        {restaurant && Object.values(restaurant.menu.menuCategories).map((value, index) => (
-          <div key={index}>
-            <h3>
-              {value.menuCategoryName}
-            </h3>
-            {value.dishes.map((dish, index) => (
-              <div>
-                <img src={dish.image} alt="" className='dish-image' />
-                <p>
-                  {dish.dishName}
-                </p>
-                <p>
-                  Price:
-                  {dish.price} ₪
-                </p>
-              </div>
-            ))}
-          </div>
-        ))}
+
+      <div className='menu-category-container'>
+        {restaurant &&
+          Object.values(restaurant.menu.menuCategories).map((category) => (
+            <MenuCategory
+              id={category.id}
+              categoryName={category.menuCategoryName}
+              sentDishes={category.dishes}
+            />
+          ))}
       </div>
     </div>
   )

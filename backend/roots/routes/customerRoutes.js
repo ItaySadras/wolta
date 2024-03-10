@@ -7,7 +7,7 @@ const orderController = require('../controllers/orderController');
 const userController = require('../controllers/userController');
 
 
-// get up to 20 relevant dishes and restaurant by search
+// get up to 30 relevant dishes and restaurant by search
 router.get("/:searched",filterController.createSearchCookie,filterController.TheGreatFilter)
 
 // router.use(userController.authenticateCustomer)

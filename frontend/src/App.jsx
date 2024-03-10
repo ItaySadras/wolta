@@ -24,7 +24,6 @@ import CourierLayout from "./layouts/CourierLayout";
 import CourierDash from "./pages/courier/CourierDash";
 import CourierProfile from "./pages/courier/CourierProfile";
 
-
 import AdminLayout from "./layouts/AdminLayout";
 
 import AdminDash from "./pages/admin/AdminDash";
@@ -39,16 +38,16 @@ import Survey from "./pages/review/Survey";
 
 import LoaderComponent from "./Loader/LoaderComponent";
 
-
-
+import LandingPage from "./pages/authServices/LandingPage";
 function App() {
   return (
     <>
-        {/* <GeoComponent></GeoComponent> */}
-//         <LoaderComponent></LoaderComponent>
-       <Routes>
+      {/* <GeoComponent></GeoComponent> */}
+      <LoaderComponent></LoaderComponent>
+      <Routes>
         {/* auth routes */}
-        <Route path="/" element={<Login />}></Route>
+        <Route path="/" element={<LandingPage />}></Route>
+        <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
 
         {/* customer routes */}

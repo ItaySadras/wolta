@@ -7,7 +7,7 @@ const userController = require("../controllers/userController");
 
 
 router.use("logIn", userController.logInUser);
-router.use(userController.authenticateRestaurant);
+// router.use(userController.authenticateRestaurant);
 
 router.get("/getAllRestaurant", restaurantController.getAllRestaurants);
 router.get("/:restaurantId", restaurantController.getRestaurantById);

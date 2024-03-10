@@ -5,9 +5,8 @@ const dishController = require("../controllers/dishController");
 const menuCategoryController = require("../controllers/menuCategoryController");
 const userController = require("../controllers/userController");
 
-
 router.use("logIn", userController.logInUser);
-router.use(userController.authenticateRestaurant);
+// router.use(userController.authenticateRestaurant);
 
 router.get("/getAllRestaurant", restaurantController.getAllRestaurants);
 router.get("/:restaurantId", restaurantController.getRestaurantById);
@@ -67,5 +66,8 @@ router.patch(
 );
 
 // chenge the order of a menu category get from the body an array of the new orderIds
-router.patch("/changeMenuCategoryOrder/:menuCategoryId",menuCategoryController.changeOrder)
+router.patch(
+  "/changeMenuCategoryOrder/:menuCategoryId",
+  menuCategoryController.changeOrder
+);
 module.exports = router;

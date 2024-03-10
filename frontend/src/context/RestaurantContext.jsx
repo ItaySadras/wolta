@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState } from 'react';
 import axios from 'axios';
 
 const RestaurantContext = createContext();
+axios.defaults.withCredentials = true;
 
 const RestaurantProvider = ({ children }) => {
     const [loading, setLoading] = useState(true)

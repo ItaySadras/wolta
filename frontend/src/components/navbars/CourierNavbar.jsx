@@ -13,6 +13,11 @@ const CourierNavbar = () => {
       </div>
       <div className="nav-section">
         <li>
+          <NavLink to={"/courier/:courierId/Delivery"}>
+            <button className="navbutton">Delivery</button>
+          </NavLink>
+        </li>
+        <li>
           <NavLink to={"/courier/:courierId/profile"}>
             <button className="navbutton">Profile</button>
           </NavLink>

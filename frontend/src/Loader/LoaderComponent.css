@@ -1,0 +1,29 @@
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Set height to 100% of the viewport height */
+}
+
+.loader-wrapper {
+  text-align: center; /* Center the content horizontally */
+}
+
+.loading-text {
+  font-weight: bold;
+  font-family: monospace;
+  font-size: 30px;
+  color: #4c336c; /* Corrected color value */
+  animation: loadingAnimation 2s infinite linear; /* Apply the loading animation */
+}
+
+.loader-animation {
+  width: 500px; /* Adjust the width of the animation container as needed */
+  height: 500px; /* Adjust the height of the animation container as needed */
+}
+@keyframes loadingAnimation {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}

@@ -34,12 +34,14 @@ import ManageRestaurants from "./pages/admin/ManageRestaurants";
 import ManageCouriers from "./pages/admin/ManageCouriers";
 
 import GeoComponent from "./geoLocation/GeoComponent";
+import LoaderComponent from "./Loader/LoaderComponent";
 
 
 function App() {
   return (
     <>
         {/* <GeoComponent></GeoComponent> */}
+        <LoaderComponent></LoaderComponent>
        <Routes>
         {/* auth routes */}
         <Route path="/" element={<Login />}></Route>

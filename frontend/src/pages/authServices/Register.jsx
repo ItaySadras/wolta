@@ -32,7 +32,7 @@ const Register = () => {
             </div>
             <div>
                 <h1>
-                    Wolta
+                    BaliFood
                 </h1>
                 <h2>
                     Create an account

@@ -1,11 +1,11 @@
 const Fuse = require("fuse.js");
 const axios = require("axios");
 const Dictionary = require("../roots/models/dictionaryModel");
-
 const fuseOptions = {
   shouldSort: true,
   keys: ["name"],
 };
+
 
 const searchAlgorithm = async (input) => {
   const dictionary = await Dictionary.find({});
@@ -25,6 +25,7 @@ const searchAlgorithm = async (input) => {
       (restaurant) => restaurant.restaurantId
     );
   return { dishes: dishesIds, restaurants: restaurantIds };
+
 };
 
 module.exports = searchAlgorithm;

@@ -4,7 +4,9 @@ const MenuCategory = require("../roots/models/menuCategoryModel");
 const Menu = require("../roots/models/menuModel");
 const Reviews = require("../roots/models/reviewModel");
 const Customer = require("../roots/models/customerModel");
-
+const axios = require('axios');
+const apiKey = process.env.MAPS_API_KEY;
+const mongoose = require('mongoose');
 const { getDay, getMinutes, getHours, isPast, isFuture } = require("date-fns");
 
 const isThisRestaurantOpen = (restaurant) => {
@@ -61,7 +63,7 @@ const paginateHelper = (array, pageInput, limitInput) => {
   }
 };
 
-const mongoose = require('mongoose');
+
 
 async function getRestaurantsWithDetails(restaurants) {
  try {
@@ -123,31 +125,52 @@ const populatedRestaurants= await getRestaurantsWithDetails(restaurants)
   return populatedRestaurants;
 };
 
-//   async function calculateRoute(origin,destination) {
-// //    const origin=formatAddress(addressA)
-// //    const destination=formatAddress(addressB)
 
-//     if (!origin || !destination) {
-//       console.error("Origin or destination is not set");
-//       return;
-//     }
-//     console.log("Origin:", origin);
-//     console.log("Destination:", destination);
-//     const directionService = new google.maps.DirectionsService();
-//     const results = await directionService.route({
-//       origin,
-//       destination,
-//       travelMode: google.maps.TravelMode.BICYCLING,
-//     });
-//     console.log(results);
-//     return results
 
-//   }
+async function distanceCalculate(origin, destination) {
+    try {
+        const response = await axios.get('https://maps.googleapis.com/maps/api/directions/json', {
+            params: {
+                origin: origin,
+                destination: destination,
+                key: apiKey,
+            }
+        });
 
-//   const formatAddress=async(address)=>{
-//    return  `${newOrigin.street+" "+newOrigin.streetNumber+" "+newOrigin.city+" "+newOrigin.country}`
-//   }
-//   const currOrigin = `${newOrigin.street+" "+newOrigin.streetNumber+" "+newOrigin.city+" "+newOrigin.country}`
+        if (response.data.status === 'OK') {
+            const duration = response.data.routes[0].legs[0].duration.text;
+            return duration;
+        } else {
+            console.error('Error:', response.data.status);
+            return null;
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        return null;
+    }
+}
+
+async function reverseGeocode(latitude, longitude) {
+  try {
+    const response = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+      params: {
+        latlng: `${latitude},${longitude}`,
+        key: apiKey, 
+      }
+    });
+
+    if (response.data.status === 'OK') {
+      const address = response.data.results[0].formatted_address;
+      return address;
+    } else {
+      console.error('Error:', response.data.status);
+      return null;
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    return null;
+  }
+}
 
 module.exports = {
   isThisRestaurantOpen,
@@ -155,4 +178,7 @@ module.exports = {
   paginateHelper,
   getRestaurantsWithDetails,
   getsADishRestaurant,
+  reverseGeocode,
+  distanceCalculate
 };
+

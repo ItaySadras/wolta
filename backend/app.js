@@ -1,4 +1,5 @@
 const express = require("express");
+
 const app = express();
 
 app.use(express.json());
@@ -27,10 +28,13 @@ const userController = require("./roots/controllers/userController");
 app.use("/registerUser", userController.registerUser);
 app.use("/logInUser", userController.logInUser);
 
+
 app.use("/api/customer", customerRoutes);
 app.use("/api/courier", courierRoutes);
 app.use("/api/restaurant", restaurantRoute);
 app.use("/api/admin", adminRoute);
+
+
 
 // Export the app to be used by the server
 module.exports = app;

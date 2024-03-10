@@ -6,7 +6,6 @@ const menuCategoryController = require("../controllers/menuCategoryController");
 const userController = require("../controllers/userController");
 const filterController = require("../controllers/filterController");
 
-
 router.use("logIn", userController.logInUser);
 // router.use(userController.authenticateRestaurant);
 
@@ -68,5 +67,8 @@ router.patch(
 );
 
 // chenge the order of a menu category get from the body an array of the new orderIds
-router.patch("/changeMenuCategoryOrder/:menuCategoryId",menuCategoryController.changeOrder)
+router.patch(
+  "/changeMenuCategoryOrder/:menuCategoryId",
+  menuCategoryController.changeOrder
+);
 module.exports = router;

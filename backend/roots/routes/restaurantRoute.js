@@ -4,11 +4,14 @@ const restaurantController = require("../controllers/restaurantController");
 const dishController = require("../controllers/dishController");
 const menuCategoryController = require("../controllers/menuCategoryController");
 const userController = require("../controllers/userController");
+const filterController = require("../controllers/filterController");
 
-router.get("/getAllRestaurant", restaurantController.getAllRestaurants);
 
 router.use("logIn", userController.logInUser);
-router.use(userController.authenticateRestaurant);
+// router.use(userController.authenticateRestaurant);
+
+router.get("/getAllRestaurant", filterController.getsSearchPreferencesFromCookies,filterController.TheGreatFilter);
+router.get("/:restaurantId", restaurantController.getRestaurantById);
 /**
  * ! direct restuarnt method
  */
@@ -64,4 +67,6 @@ router.patch(
   menuCategoryController.changeName
 );
 
+// chenge the order of a menu category get from the body an array of the new orderIds
+router.patch("/changeMenuCategoryOrder/:menuCategoryId",menuCategoryController.changeOrder)
 module.exports = router;

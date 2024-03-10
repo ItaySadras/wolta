@@ -1,3 +1,7 @@
+
+const { reverseGeocode } = require("../../backEndUtils/helpers");
+
+
 const Courier = require("../models/courierModel");
 
 exports.createCourier = async (req, res) => {
@@ -21,29 +25,31 @@ exports.createCourier = async (req, res) => {
       .json({ message: "Error creating Courier", error: error.message });
   }
 };
-exports.setCurrOrder= async (req, res) => {
-  try {
-    const { id } = req.params;
-    let courier = await Courier.findById(id);
-    if (!courier) {
-      return res.status(404).json({ message: "Courier not found" });
-    }
-    if (courier.currentOrder){
-      //  ***** NEED TO CHANGE ONCE WE MAKE THE ORDER FORM **** 
-      courier.currentOrder= req.body.order;
-      //  ***** NEED TO CHANGE ONCE WE MAKE THE ORDER FORM **** 
-    }
-    else{
-      courier.currentOrder=null;
-    }
-  } catch (error) {
-    console.error("Error updating Courier's current order:", error);
-    res.status(500).json({
-      message: "Error updating Courier's current order",
-      error: error.message,
-    });
-  }
-}
+
+// exports.setCurrOrder= async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     let courier = await Courier.findById(id);
+//     if (!courier) {
+//       return res.status(404).json({ message: "Courier not found" });
+//     }
+//     if (courier.currentOrder){
+//       //  ***** NEED TO CHANGE ONCE WE MAKE THE ORDER FORM **** 
+//       courier.currentOrder= req.body.order;
+//       //  ***** NEED TO CHANGE ONCE WE MAKE THE ORDER FORM **** 
+//     }
+//     else{
+//       courier.currentOrder=null;
+//     }
+//   } catch (error) {
+//     console.error("Error updating Courier's current order:", error);
+//     res.status(500).json({
+//       message: "Error updating Courier's current order",
+//       error: error.message,
+//     });
+//   }
+// }
+
 exports.setAvailable = async (req, res) => {
   try {
     const { id } = req.params;
@@ -51,11 +57,20 @@ exports.setAvailable = async (req, res) => {
     if (!courier) {
       return res.status(404).json({ message: "Courier not found" });
     }
-    courier.available = !courier.available;
+    courier.available = false;
+    courier.currentOrder = null;
+    // Get his lat,long from the setAvailable button in FRONTEND
+    const { latitude, longitude } = req.body;
+    if (latitude && longitude) {
+      const address = await reverseGeocode(latitude, longitude);
+      if (address) {
+        courier.address = address;
+      }
+    }
     await courier.save();
     res
       .status(200)
-      .json({ message: "Courier's availability updated successfully", courier });
+      .json({ message: "Courier is now available!", courier });
   } catch (error) {
     console.error("Error updating Courier's availability:", error);
     res.status(500).json({

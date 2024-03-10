@@ -26,7 +26,7 @@ const Login = () => {
         theme="dark"
       />
       <div>
-        <h1>Wolta</h1>
+        <h1>BaliFood</h1>
         <h2>Login</h2>
       </div>
       <div>

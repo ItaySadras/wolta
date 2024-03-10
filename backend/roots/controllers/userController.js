@@ -74,7 +74,7 @@ exports.logInUser = async (req, res) => {
       const token = jwt.sign({ userId: user._id, type: type }, secret, {
         expiresIn: "1h",
       });
-      res.cookie("uit", token, {
+      res.cookie("ui", token, {
         httpOnly: true,
         maxAge: 60000,
         sameSite: "strict",

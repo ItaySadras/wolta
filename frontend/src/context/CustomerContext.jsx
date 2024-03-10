@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext } from 'react';
 import axios from 'axios';
 
 const CustomerContext = createContext();
+axios.defaults.withCredentials = true;
 
 const CustomerProvider = ({ children }) => {
     const [customers, setCustomers] = useState([]);

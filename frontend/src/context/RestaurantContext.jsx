@@ -2,11 +2,12 @@ import React, { createContext, useEffect, useState } from 'react';
 import axios from 'axios';
 
 const RestaurantContext = createContext();
+axios.defaults.withCredentials = true;
 
 const RestaurantProvider = ({ children }) => {
+    const [loading, setLoading] = useState(true)
     const [restaurants, setRestaurants] = useState([]);
     const [restaurantInfo, setRestaurantInfo] = useState();
-
 
     useEffect(() => {
         getAllRestaurants()
@@ -35,6 +36,19 @@ const RestaurantProvider = ({ children }) => {
         }
     }
 
+    const deleteDishById = async (id, ) => {
+        try {
+            const response = await axios.delete(
+                `http://localhost:8000/api/restaurant/deleteDish/${id}`
+            );
+            return response
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+
 
 
     const contextValues = {
@@ -43,9 +57,12 @@ const RestaurantProvider = ({ children }) => {
         setRestaurants,
         restaurantInfo,
         setRestaurantInfo,
+        loading,
+        setLoading,
         // functions
         getAllRestaurants,
         getRestaurantById,
+        deleteDishById,
 
     };
 

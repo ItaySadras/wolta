@@ -22,10 +22,10 @@ const CustomerProfile = () => {
 
   const handleUpdateCustomer = async (updatedCustomer) => {
     await updateCustomerDetails(customerId, updatedCustomer);
-    setCustomer(updatedCustomer); // Assume update is successful
-    setEditMode(false); // Exit edit mode
+    setCustomer(updatedCustomer); 
+    setEditMode(false); 
   };
-  //comment
+
 
   if (!customer) return <div>Loading customer details...</div>;
 

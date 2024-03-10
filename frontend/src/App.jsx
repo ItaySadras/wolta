@@ -23,6 +23,7 @@ import RestaurantReviews from "./pages/restaurant/RestaurantReviews";
 import CourierLayout from "./layouts/CourierLayout";
 import CourierDash from "./pages/courier/CourierDash";
 import CourierProfile from "./pages/courier/CourierProfile";
+import CourierDelivery from "./pages/courier/CourierDelivery"
 
 import AdminLayout from "./layouts/AdminLayout";
 
@@ -75,6 +76,7 @@ function App() {
         <Route path="/courier/:courierId" element={<CourierLayout />}>
           <Route path="dashboard" element={<CourierDash />}></Route>
           <Route path="profile" element={<CourierProfile />}></Route>
+          <Route path="Delivery" element={<CourierDelivery />}></Route>
         </Route>
 
         {/* admin routes */}

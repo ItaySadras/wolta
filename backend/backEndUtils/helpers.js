@@ -156,10 +156,17 @@ async function reverseGeocode(latitude, longitude) {
         },
       }
     );
-
     if (response.data.status === "OK") {
-      const address = response.data.results[0].formatted_address;
+      const addressComponents = response.data.results[0].address_components;
+      const address = {
+        streetName: addressComponents[1].long_name, // Assuming street name is at index 1
+        streetNumber: addressComponents[0].long_name, // Assuming street number is at index 0
+        city: addressComponents[2].long_name, // Assuming city name is at index 2
+        country: addressComponents[addressComponents.length - 1].long_name // Assuming country name is at the last index
+      };
+      // console.log("🚀 ~ reverseGeocode ~ address:", address);
       return address;
+
     } else {
       console.error("Error:", response.data.status);
       return null;

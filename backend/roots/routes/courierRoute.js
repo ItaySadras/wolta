@@ -4,7 +4,7 @@ const courierController = require('../controllers/courierController');
 const userController = require('../controllers/userController');
 const orderController = require('../controllers/orderController');
 
-router.use(userController.authenticateCourier)
+// router.use(userController.authenticateCourier)
 
 // router.patch('/vehicle', courierController.setVehicle);
 router.patch('/rating/:id', courierController.setRating);

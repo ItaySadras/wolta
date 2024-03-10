@@ -1,6 +1,9 @@
-const { uploadToCloudinary } = require("../../backEndUtils/helpers");
+const { uploadToCloudinary, getRestaurantsWithDetails, getsADishRestaurant } = require("../../backEndUtils/helpers");
+const { populate } = require("../models/customerModel");
 const Dish = require("../models/dishModel");
 const MenuCategory = require("../models/menuCategoryModel");
+const Menu = require("../models/menuModel");
+const Restaurant = require("../models/restaurantModel");
 
 exports.createDish = async (req, res) => {
   try {
@@ -14,8 +17,8 @@ exports.createDish = async (req, res) => {
     const menuCategory = await MenuCategory.findById(req.params.menuCategoryId);
     const dish = await Dish.create({
       image: imgUrl,
-      price:price,
-      dishName:dishName,
+      price: price,
+      dishName: dishName,
       menuCategory: req.params.menuCategoryId,
     });
     menuCategory.dishes.push(dish._id);
@@ -104,5 +107,16 @@ const addToArrays = (key, action, data, currentValue) => {
 
     default:
       return error;
+  }
+};
+
+exports.getDishRestaurant = async (req, res) => {
+  try {
+    const restaurants=await getsADishRestaurant(req.params.dishId)
+    res.status(200).send({ restaurants: restaurants });
+
+  } catch (error) {
+    console.log("🚀 ~ exports.getDishRestaurant= ~ error:", error);
+    res.status(500).send({ message: "intarnel server error" });
   }
 };

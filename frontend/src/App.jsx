@@ -53,7 +53,6 @@ function App() {
           <Route path="dashboard" element={<CustomerDash />}></Route>
           <Route path="searchResults" element={<SearchResults />}></Route>
           <Route path="basket" element={<CustomerBasket />}></Route>
-
           <Route path="profile" element={<CustomerProfile />}></Route>
         </Route>
 

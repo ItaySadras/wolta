@@ -21,7 +21,7 @@ exports.createReview = async (req, res) => {
       ...req.body,
       Restaurant: restaurant._id,
       whenSubmitted: now,
-    });
+    }).populate("customerId")
     restaurant.Reviews.push(newReview._id);
 
     restaurant.save();

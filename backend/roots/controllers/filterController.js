@@ -11,6 +11,7 @@ const {
   paginateHelper,
   getsADishRestaurant,
   getRestaurantsWithDetails,
+  getsADishesRestaurants
 } = require("../../backEndUtils/helpers");
 
 exports.TheGreatFilter = async (req, res) => {
@@ -18,6 +19,7 @@ exports.TheGreatFilter = async (req, res) => {
   try {
     let { filter, page, limit } = req.query;
     const { restaurants, dishes } = await searchAlgorithm(req.params.searched);
+    console.log("🚀 ~ exports.TheGreatFilter= ~ restaurants:", restaurants)
 
     let dishQuery = { _id: { $in: dishes } };
     let restaurantQuery = { _id: { $in: restaurants } };
@@ -30,7 +32,8 @@ exports.TheGreatFilter = async (req, res) => {
     const populatedDishes = await Dish.find(dishQuery);
 
     if (restaurants.length === 0) {
-      populatedRestaurants = await getsADishRestaurant(populatedDishes);
+      console.log("wo");
+      populatedRestaurants = await  getsADishesRestaurants(populatedDishes);
     } else {
       FilteredRestaurants = await Restaurant.find(restaurantQuery).limit(4);
       populatedRestaurants = await getRestaurantsWithDetails(

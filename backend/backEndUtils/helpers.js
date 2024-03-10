@@ -4,9 +4,9 @@ const MenuCategory = require("../roots/models/menuCategoryModel");
 const Menu = require("../roots/models/menuModel");
 const Reviews = require("../roots/models/reviewModel");
 const Customer = require("../roots/models/customerModel");
-const axios = require('axios');
+const axios = require("axios");
 const apiKey = process.env.MAPS_API_KEY;
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { getDay, getMinutes, getHours, isPast, isFuture } = require("date-fns");
 
 const isThisRestaurantOpen = (restaurant) => {
@@ -15,7 +15,7 @@ const isThisRestaurantOpen = (restaurant) => {
   }
 
   const today = getDay(new Date());
-  const { openingHour, closingHour } = defaultOpeningTime[today - 1];
+  const { openingHour, closingHour } = restaurant.defaultOpeningTime[today - 1];
 
   const [hourOpen, minutesOpen] = openingHour.split(":").map(Number);
   const [hourClose, minutesClose] = closingHour.split(":").map(Number);
@@ -63,15 +63,15 @@ const paginateHelper = (array, pageInput, limitInput) => {
   }
 };
 
-
-
 async function getRestaurantsWithDetails(restaurants) {
- try {
+  try {
     // Assuming restaurants is an array of Mongoose documents
     const populatedRestaurants = await Promise.all(
       restaurants.map(async (restaurant) => {
         // Correctly use populate on a Mongoose query
-        return await mongoose.model('Restaurant').findById(restaurant._id)
+        return await mongoose
+          .model("Restaurant")
+          .findById(restaurant._id)
           .populate({
             path: "menu",
             populate: {
@@ -91,83 +91,81 @@ async function getRestaurantsWithDetails(restaurants) {
       })
     );
 
-
     return populatedRestaurants;
   } catch (error) {
     console.error("Error populating restaurant details:", error);
     throw error;
   }
 }
-
-const getsADishRestaurant = async (dishes) => {
-  const dishesIds = dishes.map((dish) => dish._id);
+const getsADishRestaurant = async (dishId) => {
   const menuCategories = await MenuCategory.find({
-    dishes: { $in: dishesIds },
-  });
-  const menus = await Promise.all(
-    menuCategories.map(async (menuCategory) => {
-      return menuCategory.populate({
-        path: "menu",
-      });
+    dishes: { $in: dishId },
+  }).populate({ path: "menu" });
+  const menu = menuCategories[0].menu._id;
+  const restaurant = await Restaurant.find({ menu: menu });
+  console.log("🚀 ~ getsADishRestaurant ~ restaurant:", restaurant)
+  populatedRestaurants = await getRestaurantsWithDetails(restaurant);
+  return populatedRestaurants
+};
+const getsADishesRestaurants = async (dishes) => {
+  const dishesIds = dishes.map((dish) => dish._id);
+
+  const restaurant = await Promise.all(
+    dishesIds.map(async (dishId) => {
+      return  getsADishRestaurant(dishId);
     })
   );
+  return restaurant
 
-  const menusIds = menus.map((menuCategory) => menuCategory.menu._id);
-  const distinctRestaurantIds = await Restaurant.distinct("_id", {
-    menu: { $in: menusIds },
-  });
-
-  // Now, you have an array of distinct restaurant IDs. You can use these IDs to find the full restaurant documents.
-  const restaurants = await Restaurant.find({
-    _id: { $in: distinctRestaurantIds },
-  }).limit(4).exec();
-const populatedRestaurants= await getRestaurantsWithDetails(restaurants)
-  return populatedRestaurants;
 };
 
-
-
 async function distanceCalculate(origin, destination) {
-    try {
-        const response = await axios.get('https://maps.googleapis.com/maps/api/directions/json', {
-            params: {
-                origin: origin,
-                destination: destination,
-                key: apiKey,
-            }
-        });
+  try {
+    const response = await axios.get(
+      "https://maps.googleapis.com/maps/api/directions/json",
+      {
+        params: {
+          origin: origin,
+          destination: destination,
+          key: apiKey,
+        },
+      }
+    );
 
-        if (response.data.status === 'OK') {
-            const duration = response.data.routes[0].legs[0].duration.text;
-            return duration;
-        } else {
-            console.error('Error:', response.data.status);
-            return null;
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        return null;
+    if (response.data.status === "OK") {
+      const duration = response.data.routes[0].legs[0].duration.text;
+      return duration;
+    } else {
+      console.error("Error:", response.data.status);
+      return null;
     }
+  } catch (error) {
+    console.error("Error:", error);
+    return null;
+  }
 }
 
 async function reverseGeocode(latitude, longitude) {
   try {
-    const response = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
-      params: {
-        latlng: `${latitude},${longitude}`,
-        key: apiKey, 
+    const response = await axios.get(
+      "https://maps.googleapis.com/maps/api/geocode/json",
+      {
+        params: {
+          latlng: `${latitude},${longitude}`,
+          key: apiKey,
+        },
       }
-    });
+    );
 
-    if (response.data.status === 'OK') {
+    if (response.data.status === "OK") {
       const address = response.data.results[0].formatted_address;
       return address;
     } else {
-      console.error('Error:', response.data.status);
+      console.error("Error:", response.data.status);
       return null;
     }
   } catch (error) {
-    console.error('Error:', error);
+    console.error("Error:", error);
     return null;
   }
 }
@@ -179,6 +177,6 @@ module.exports = {
   getRestaurantsWithDetails,
   getsADishRestaurant,
   reverseGeocode,
-  distanceCalculate
+  distanceCalculate,
+  getsADishesRestaurants
 };
-

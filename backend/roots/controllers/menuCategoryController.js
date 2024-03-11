@@ -67,30 +67,20 @@ exports.changeName = async (req, res) => {
 
 exports.changeOrder = async (req, res) => {
   try {
-    console.log("🚀 ~ exports.changeOrder= ~ req.params.menuCategoryId:", req.params.menuCategoryId)
     const menuCategory = await MenuCategory.findById(
       req.params.menuCategoryId
     );
 
-    console.log("🚀 ~ exports.changeOrder= ~ menuCategory:", menuCategory)
     !menuCategory &&
       res.status(404).send({ message: "cant find menu catgory" });
-    const oldOrder = req.body.slice().sort();
-    console.log("🚀 ~ exports.changeOrder= ~ oldOrder:", oldOrder)
-    const newOrder = menuCategory.dishes
-      .slice()
-      .map((id) => id.toString())
-      .sort();
-    console.log("🚀 ~ exports.changeOrder= ~ newOrder:", newOrder)
-    if (oldOrder.length == !newOrder.length) {
-      res.status(404).send({ message: "bad request " });
-    }
-    for (let i = 0; i < oldOrder.length; i++) {
-      if (oldOrder[i] !== newOrder[i]) {
-        res.status(404).send({ message: "bad request " });
-      }
-    }
-    menuCategory.dishes = newOrder;
+      console.log(req.body, "body")
+
+    // const oldOrder = req.body.slice();
+    // const newOrder = menuCategory.dishes.slice().map((id) => id.toString());
+    // if (oldOrder.length !== newOrder.length || !oldOrder.every((value, index) => value === newOrder[index])) {
+    //   return res.status(404).send({ message: "bad request" });
+    // }
+    menuCategory.dishes = req.body;
     await menuCategory.save();
     res
       .status(200)

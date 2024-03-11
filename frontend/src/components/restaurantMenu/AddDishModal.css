@@ -1,0 +1,9 @@
+.add-dish-modal-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-dish-modal-form input {
+    display: flex;
+    flex-direction: column;
+}

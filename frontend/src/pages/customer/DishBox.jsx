@@ -15,7 +15,6 @@ import "./DishBox.css";
 // __v
 // 0
 const DishBox = ({ dish }) => {
-  console.log("🚀 ~ DishBox ~ dish:", dish);
   return (
     <div className="dish-card">
       <div className="dish-name">{dish.dishName}</div>

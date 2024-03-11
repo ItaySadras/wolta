@@ -2,7 +2,7 @@ import React from "react";
 import CustomerSearch from "../../components/customerDash/CustomerSearch";
 import "./CustomerDash.css";
 
-const SearchBox = ({ dispatch }) => {
+const SearchBox = ({ dispatch,page }) => {
   return (
     <>
       <div className="location-info">
@@ -10,7 +10,7 @@ const SearchBox = ({ dispatch }) => {
           <h2 className="location-heading">
             Your location: {/* Replace this with actual user location data */}
           </h2>
-          <CustomerSearch dispatch={dispatch} />
+          <CustomerSearch page={page} dispatch={dispatch} />
         </div>
       </div>
     </>

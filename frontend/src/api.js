@@ -7,15 +7,14 @@ export const getAllRestaurants = async (page, limit) => {
         );
         return response.data;
     } catch (error) {
-        console.log("boob");
         console.log(error);
     }
 };
 
-export const getRestaurantBySearch = async ({searchInput}) => {
+export const getRestaurantBySearch = async (page,limit,{searchInput}) => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/customer/${searchInput}`
+        `http://localhost:8000/api/customer/${searchInput}?page=${page}&limit=${limit}`
       );
       return response.data;
     } catch (error) {

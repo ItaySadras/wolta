@@ -41,8 +41,8 @@ exports.TheGreatFilter = async (req, res) => {
 
     res.status(200).send({
       Message: "success",
-      dishes: populatedDishes,
-      restaurants: populatedRestaurants,
+      dishes: paginateHelper(populatedDishes,page,limit),
+      restaurants: paginateHelper(populatedRestaurants,1,4),
     });
   } catch (error) {
     console.log("🚀 ~ exports.TheGreatFilter= ~ error:", error);
@@ -95,11 +95,11 @@ exports.getsSearchPreferencesFromCookies = async (req, res, next) => {
     } else {
       const restaurants = await Restaurant.find({}).limit(4);
       const populatedRestaurants = await getRestaurantsWithDetails(restaurants);
-      const dishes = await Dish.find({}).limit(100);
+      const dishes = await Dish.find({}).limit(120);
       res.status(200).send({
         Message: "success",
         restaurants: paginateHelper(populatedRestaurants, 1, 4),
-        dishes: paginateHelper(dishes),
+        dishes: paginateHelper(dishes,page,limit),
       });
     }
   } catch (error) {

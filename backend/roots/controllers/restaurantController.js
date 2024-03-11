@@ -77,7 +77,6 @@ exports.getAllRestaurants = async (req, res) => {
       const search = getsSearchPreferencesFromCookies(req.cookies.s);
       const response = await searchAlgorithm(search);
       restaurants = response;
-      console.log("🚀 ~ exports.getAllRestaurants= ~ restaurants:", response);
     } else {
       restaurants = await Restaurant.find({});
     }

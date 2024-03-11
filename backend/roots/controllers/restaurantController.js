@@ -73,7 +73,7 @@ exports.getAllRestaurants = async (req, res) => {
     if (req.cookies.s) {
       const search = getsSearchPreferencesFromCookies(req.cookies.s);
       const response = await searchAlgorithm(search);
-      restaurants = response.restaurants;
+      restaurants = response;
       console.log("🚀 ~ exports.getAllRestaurants= ~ restaurants:", response);
     } else {
       restaurants = await Restaurant.find({});
@@ -112,7 +112,7 @@ exports.updateGenericRestaurantData = async (req, res) => {
   }
 };
 
-const getsSearchPreferencesFromCookies =  (searchCookie) => {
+const getsSearchPreferencesFromCookies = (searchCookie) => {
   const { SearchHistoryToken } = jwt.verify(searchCookie, secret);
   SearchHistoryToken.sort((a, b) => b.count - a.count);
   return SearchHistoryToken[0].name;

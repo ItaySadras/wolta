@@ -26,20 +26,19 @@
   align-items: center;
   flex-direction: column;
   background-color: #a886d8;
-  width: 200px;
+  width: 300px;
   height: 100px;
-  background-color: #a886d8;
   color: rgb(40, 2, 50);
   border: none;
   padding: 10px 20px;
   border-radius: 20px;
   font-size: 16px;
   transition: background-color 0.3s;
-  justify-content: center;
-  align-items: center;
-  width: 300px;
 }
-.customer-dash-container h1 {
+
+.customer-dash-container h1,
+h3,
+span {
   color: #a886d8;
 }
 
@@ -68,15 +67,13 @@
   display: block;
   text-decoration: none;
   color: #ffffff;
-  margin-bottom: 10px;
   background-color: rgb(248, 237, 250);
-  padding: 10px;
   border-radius: 5px;
   transition: background-color 0.3s;
 }
 
 .restaurant-link:hover {
-  background-color: #b682ff;
+  background-color: #ede0ff;
 }
 
 .restaurant-item {
@@ -93,37 +90,44 @@
 }
 
 .restaurant-items {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  display: flex;
   gap: 20px; /* Gap between items */
   list-style: none;
+  white-space: nowrap;
 }
 
 .restaurant-name {
   font-size: 20px;
   color: #333;
   margin: 0;
+  margin-left: 10px;
+  height: 35vh;
 }
 
 .restaurant-info {
   list-style: none;
   padding: 0;
   margin: 0;
+  margin-left: 20px;
 }
 
 .restaurant-info li {
   font-size: 16px;
   color: #666;
   margin-bottom: 5px;
+  margin-left: 20px;
 }
 
 .restaurant-status {
   font-weight: bold;
   padding: 5px 10px;
-  border-radius: 5px;
+  border-radius: 15px;
   color: #ffffff;
   width: fit-content;
   margin-top: 10px;
+  margin-left: 20px;
+  color: black;
+  background-color: white;
 }
 
 .restaurant-status.Open {
@@ -163,6 +167,7 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
+  margin-left: 20px;
 }
 
 .filter-list,
@@ -172,6 +177,7 @@
   gap: 10px;
   padding-left: 0;
   list-style: none;
+  margin-left: 20px;
 }
 
 .filter-item,

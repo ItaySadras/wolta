@@ -51,9 +51,10 @@ const CustomerDash = () => {
                   alt="Restaurant"
                 />
                 <div>
-                  <p className="restaurant-name">{restaurant.restaurantName}</p>
-                  <p>
-                    address:
+                  <div className="restaurant-name">
+                    <h3>{restaurant.restaurantName}</h3>
+                    <br />
+                    <span>address:</span>
                     <ul className="address-details">
                       {Object.values(generalAddress).map((value, index) => (
                         <li key={index} className="address-detail">
@@ -61,9 +62,7 @@ const CustomerDash = () => {
                         </li>
                       ))}
                     </ul>
-                  </p>
-                  <p>
-                    filters:
+                    <span>filters:</span>
                     <ul className="filter-list">
                       {restaurant.restaurantFilter.map((element, index) => (
                         <li key={index} className="filter-item">
@@ -71,16 +70,17 @@ const CustomerDash = () => {
                         </li>
                       ))}
                     </ul>
-                  </p>
-                  <p className="restaurant-status">
-                    {restaurant.open ? "Open" : "Closed"}
-                  </p>
+                    <div className="restaurant-status">
+                      {restaurant.open ? "Open" : "Closed"}
+                    </div>
+                  </div>
                 </div>
               </NavLink>
             </li>
           ))}
         </ol>
       </div>
+
       <div className="load-more-container">
         <button onClick={handleLoadMore} className="load-more-btn">
           Load More

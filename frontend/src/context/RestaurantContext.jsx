@@ -36,10 +36,35 @@ const RestaurantProvider = ({ children }) => {
         }
     }
 
-    const deleteDishById = async (id, ) => {
+    const deleteDishById = async (id) => {
         try {
             const response = await axios.delete(
                 `http://localhost:8000/api/restaurant/deleteDish/${id}`
+            );
+            return response
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const updateDishOrder = async (categoryId, dishOrder) => {
+        try {
+            const response = await axios.patch(
+                `http://localhost:8000/api/restaurant/changeMenuCategoryOrder/${categoryId}`,
+                dishOrder,
+            )
+            console.log("🚀 ~ updateDishOrder ~ dishOrder:", dishOrder)
+            return response
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const editDish = async (dishId, newDishData) => {
+        try {
+            const response = await axios.patch(
+                `http://localhost:8000/api/restaurant/updateDish/${dishId}`,
+                newDishData
             );
             return response
         } catch (error) {
@@ -63,6 +88,8 @@ const RestaurantProvider = ({ children }) => {
         getAllRestaurants,
         getRestaurantById,
         deleteDishById,
+        updateDishOrder,
+        editDish,
 
     };
 

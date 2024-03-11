@@ -1,0 +1,64 @@
+/* EditDishModal.css */
+.modal {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.modal-main {
+    background-color: white;
+    padding: 20px;
+    border-radius: 0;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.display-block {
+    display: block;
+}
+
+.display-none {
+    display: none;
+}
+
+
+.edit-dish-inputs {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.edit-dish-inputs label {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.edit-dish-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.edit-dish-buttons button {
+        padding: 5px 7px;
+        background-color: #8361ac;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 18px;
+        transition: background-color 0.2s;
+        text-decoration: none;
+}

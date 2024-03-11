@@ -39,7 +39,7 @@ router.delete("/deleteDish/:dishId", dishController.delateDish);
 
 // params= your wanted dishId,query only needed for modifying an array  req.query.action=remove/add
 // in the body you send the key you want to update and the value you want to update
-// req.example http://localhost:8000/api/restaurant/updateDish/65e81b898630ba788c71bb5c?action=add,body:{ingredients:baanna}
+// req.example http://localhost:8000/api/restaurant/updateDish/65e81b898630ba788c71bb5c?action=add/remove,body:{ingredients:baanna}
 router.patch("/updateDish/:dishId", dishController.dishUpdater);
 
 /**

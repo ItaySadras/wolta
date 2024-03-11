@@ -66,30 +66,42 @@ exports.delateDish = async (req, res) => {
   }
 };
 
+// exports.dishUpdater = async (req, res) => {
+//   try {
+//     const dish = await Dish.findById(req.params.dishId);
+//     !dish && res.status(404).send({ message: "dish not find" });
+//     const [key, value] = Object.entries(req.body)[0];
+//     switch (key) {
+//       case "ingredients" || "intolerances":
+//         dish[key] = addToArrays(key, req.query.action, value, dish[key]);
+//         break;
+
+//       case "image":
+//         res.status(500).send({ message: "this feature isnt ready yet" });
+//         break;
+
+//       case "dishName" || "price":
+//         dish[key] = value;
+//         break;
+
+//       default:
+//         res.status(404).send({ message: `dish have no key keyd ${key}` });
+//         break;
+//     }
+//     await dish.save();
+//     res.status(200).send({ message: "sucsses", updatedDish: dish });
+//   } catch (error) {
+//     res.status(500).send({ message: error.message });
+//   }
+// };
+
+
 exports.dishUpdater = async (req, res) => {
   try {
-    const dish = await Dish.findById(req.params.dishId);
-    !dish && res.status(404).send({ message: "dish not find" });
-    const [key, value] = Object.entries(req.body)[0];
-    switch (key) {
-      case "ingredients" || "intolerances":
-        dish[key] = addToArrays(key, req.query.action, value, dish[key]);
-        break;
-
-      case "image":
-        res.status(500).send({ message: "this feature isnt ready yet" });
-        break;
-
-      case "dishName" || "price":
-        dish[key] = value;
-        break;
-
-      default:
-        res.status(404).send({ message: `dish have no key keyd ${key}` });
-        break;
-    }
-    await dish.save();
-    res.status(200).send({ message: "sucsses", updatedDish: dish });
+    const dish = await Dish.findByIdAndUpdate(req.params.dishId, req.body);
+    !dish && res.status(404).send({ message: "dish not found" });
+    console.log(dish);
+    res.status(200).send({ message: "success", updatedDish: dish });
   } catch (error) {
     res.status(500).send({ message: error.message });
   }

@@ -3,6 +3,8 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const jwt = require("jsonwebtoken");
 const Customer = require("../models/customerModel");
+const Address = require("../models/addressModel");
+const { reverseGeocode } = require("../../backEndUtils/helpers");
 
 exports.getAllCustomers = async (req, res) => {
   try {
@@ -12,6 +14,37 @@ exports.getAllCustomers = async (req, res) => {
     res.status(400).send(error);
   }
 };
+
+exports.createCustomerAddress = async(req,res) =>{
+  try {
+  const { customerId,latitude, longitude } = req.body;
+  const customer= await Customer.findById(customerId);
+  if (latitude && longitude) {
+    const address = await reverseGeocode(latitude, longitude);
+    console.log("🚀 ~ exports.createCustomerAddress=async ~ address:", address)
+    if (address) {
+      // Create a new Address instance using the address data
+      console.log("🚀 ~ exports.setAvailable= ~ streetNumber:", typeof address.streetNumber)
+      const newAddress = await Address.create({
+        streetName: address.streetName,
+        streetNumber: address.streetNumber,
+        city: address.city,
+        country: address.country,
+      });
+      await newAddress.save(); // Save the new address to the database
+      customer.addresses.push(newAddress) ; // Assign the new address to the customer
+    }
+  }
+  await customer.save();
+  res
+      .status(200)
+      .send({ message: "Customer address created successfully", customerAddresses: customer.addresses[0] });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send({ message: "Internal server error" });
+  }
+};
+
 
 exports.getCustomerById = async (req, res) => {
   try {

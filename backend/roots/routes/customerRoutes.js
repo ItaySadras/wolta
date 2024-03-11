@@ -23,6 +23,7 @@ router.get('/getDishRestaurant/:dishId',dishController.getDishRestaurant)
 // router.route('/logout').get(customerController.)
 router.put('/updateDetails/:customerId', customerController.UpdateCustomerDetails)
 
-router.route('/creteOrder/:').post(orderController.createOrder)
+router.route('/createOrder').post(orderController.createOrder)
+router.route('/createCustomerAddress').post(customerController.createCustomerAddress)
 
 module.exports = router;

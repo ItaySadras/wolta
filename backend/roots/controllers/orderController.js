@@ -1,4 +1,4 @@
-const { isThisRestaurantOpen } = require("../../backEndUtils/helpers");
+const { isThisRestaurantOpen, distanceCalculate,ignoreMin } = require("../../backEndUtils/helpers");
 const { sendAReviewSurvey } = require("../../backEndUtils/twilio");
 const Courier = require("../models/courierModel");
 const Customer = require("../models/customerModel");
@@ -7,9 +7,9 @@ const Restaurant = require("../models/restaurantModel");
 
 exports.createOrder = async (req, res) => {
   try {
-    const { restaurantId, customerId, dishes } = req.body;
-    const restaurant = await Restaurant.findById(
-      restaurantId.populate("address")
+    const { restaurantId, customerId, orderDishes } = req.body;
+    const restaurant = await Restaurant.findById(restaurantId).populate(
+      "address"
     );
     const customer = await Customer.findById(customerId).populate("addresses");
 
@@ -27,32 +27,35 @@ exports.createOrder = async (req, res) => {
     }
 
     // Calculate distance between each courier and the restaurant
-    const couriersWithDistance = availableCouriers.map((courier) => {
-      return {
+    const couriersWithDistance =await Promise.all( availableCouriers.map(async(courier) => {
+      return  {
         courier,
-        distance: distanceCalculate(courier.address, restaurant.address),
+        distance:await distanceCalculate(courier.address, restaurant.address),
       };
-    });
+    }));
 
     // Sort couriers by distance from the restaurant
-    couriersWithDistance.sort((a, b) => a.distance - b.distance);
+    couriersWithDistance.sort((a, b) => ignoreMin(a.distance) - ignoreMin(b.distance));
 
     // Get the closest courier to the restaurant
-    const closestCourier = couriersWithDistance[0].courier;
+    const closestCourier = couriersWithDistance[1].courier._doc;
+    console.log("🚀 ~ exports.createOrder= ~ closestCourier:", closestCourier)
+
+
 
     // duration from restaurant to customer
-    const arrivingTime = distanceCalculate(
+    const arrivingTime = await distanceCalculate(
       restaurant.address,
       customer.addresses[0]
     );
 
     // Create the order and assign it to the closest courier
     const order = await Order.create({
-      orderDishes: dishes,
+      orderDishes: orderDishes,
       courier: closestCourier._id, // Assign the courier to the order
-      arrivingTime: arrivingTime,
-      restaurant:restaurant._id,
-      customer:customer._id
+      arrivingTime: ignoreMin(arrivingTime) + ignoreMin(closestCourier.distance),
+      restaurant: restaurant._id,
+      customer: customer._id,
     });
     await order
       .populate([
@@ -66,7 +69,7 @@ exports.createOrder = async (req, res) => {
           },
         },
       ])
-      .execPopulate();
+      
 
     // Update the restaurant's open orders
     await Restaurant.findByIdAndUpdate(restaurantId, {
@@ -84,6 +87,7 @@ exports.createOrder = async (req, res) => {
     console.error("Error:", error);
     res.status(500).send({ message: "Internal server error" });
   }
+
 };
 exports.deleteOrder = async (req, res) => {
   try {

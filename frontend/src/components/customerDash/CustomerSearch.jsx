@@ -7,7 +7,6 @@ import { CustomerContext } from "../../context/CustomerContext";
 import { getRestaurantBySearch } from "../../api";
 
 const CustomerSearch = ({dispatch,page}) => {
- const navigate = useNavigate();
  const [isFormSubmitted, setIsFormSubmitted] = useState(false); // New state variable
 
  const {

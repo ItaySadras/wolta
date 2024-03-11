@@ -6,7 +6,7 @@ const RestaurantBox = ({restaurant}) => {
   return (
     <li  className="restaurant-item">
     <NavLink
-      to={`../../restaurant/${restaurant._id}/restaurantPage`}
+      to={`../../customer/65e81bb38630ba788c71bb8a/${restaurant._id}/restaurantPage`}
       className="restaurant-link"
     >
       <img

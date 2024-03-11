@@ -9,9 +9,6 @@ const RestaurantProvider = ({ children }) => {
     const [restaurants, setRestaurants] = useState([]);
     const [restaurantInfo, setRestaurantInfo] = useState();
 
-    useEffect(() => {
-        getAllRestaurants()
-    }, [])
 
 
     const getAllRestaurants = async (page, limit) => {
@@ -25,6 +22,9 @@ const RestaurantProvider = ({ children }) => {
         }
     };
 
+    useEffect(() => {
+        getAllRestaurants()
+    }, [])
     const getRestaurantById = async (id) => {
         try {
             const response = await axios.get(
@@ -64,8 +64,8 @@ const RestaurantProvider = ({ children }) => {
             const response = await axios.patch(
                 `http://localhost:8000/api/restaurant/changeMenuCategoryOrder/${categoryId}`,
                 dishOrder,
-                )
-                console.log("🚀 ~ updateDishOrder ~ dishOrder:", dishOrder)
+            )
+            console.log("🚀 ~ updateDishOrder ~ dishOrder:", dishOrder)
             return response
         } catch (error) {
             console.log(error);

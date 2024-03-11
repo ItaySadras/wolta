@@ -43,9 +43,12 @@ import RestaurantPage from "./pages/restaurant/RestaurantPage";
 function App() {
 
   const initializeLocalStorage = () => {
-    localStorage.setItem("orders", JSON.stringify({}));
+    localStorage.setItem("orders", JSON.stringify([]));
   }
-  initializeLocalStorage();
+
+  if ( !localStorage.getItem("orders")) {
+     initializeLocalStorage();
+  }
 
   return (
     <>

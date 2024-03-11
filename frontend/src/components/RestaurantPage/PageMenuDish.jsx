@@ -2,17 +2,16 @@ import React from 'react';
 
 
 
-const PageMenuDish = ({ dishId, dishName, price, image, ingredients, intolerances }) => {
-    
-
-    
-
+const PageMenuDish = ({ dishId, dishName, price, image, ingredients, intolerances, dispatch, restaurantId }) => {
 
     const handleClick = () => {
-        // dispatch({
-        //     type: 'ADD_DISH',
-        //     payload: { id: dishId, name: dishName, price, image }
-        // });
+        dispatch({
+            type: 'ADD_DISH',
+            payload: {
+                dishId: dishId, 
+                restaurantId: restaurantId
+            }
+        });
     };
 
     return (
@@ -25,7 +24,7 @@ const PageMenuDish = ({ dishId, dishName, price, image, ingredients, intolerance
                 <p>Intolerances: {intolerances}</p>
             </div>
             <div>
-                <button onClick={() => handleClick()}>Add to order</button>
+                <button onMouseDown={() => handleClick()}>Add to order</button>
             </div>
         </div>
     );

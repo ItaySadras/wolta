@@ -1,0 +1,11 @@
+.review-box {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 400px;
+}
+
+.review-box p {
+  margin: 5px 0;
+}

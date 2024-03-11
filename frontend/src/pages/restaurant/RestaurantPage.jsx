@@ -1,7 +1,11 @@
 import React from "react";
 import "./restaurant.css";
+import Reviews from "./Reviews";
 
 const RestaurantPage = () => {
+  // const { restaurantInfo, getRestaurantById } = useContext(RestaurantContext);
+  // const [restaurant, setRestaurant] = useState();
+
   return (
     <div className="restaurant-container">
       <div className="restaurant-section">
@@ -19,7 +23,6 @@ const RestaurantPage = () => {
           <li>location:</li>
         </ul>
       </div>
-
       <div className="menu-container">
         <ul className="menu-category">
           <li>
@@ -44,6 +47,7 @@ const RestaurantPage = () => {
           </li>
         </ul>
       </div>
+      <Reviews />;
     </div>
   );
 };

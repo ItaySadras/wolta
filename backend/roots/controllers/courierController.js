@@ -40,7 +40,11 @@ exports.setAvailable = async (req, res) => {
     courier.currentOrder = null;
 
     const { latitude, longitude } = req.body;
+   
     if (latitude && longitude) {
+      console.log("🚀 ~ exports.setAvailable= ~ longitude:", longitude)
+      console.log("🚀 ~ exports.setAvailable= ~ latitude:", latitude)
+      
       const address = await reverseGeocode(latitude, longitude);
       if (address) {
         // Create a new Address instance using the address data

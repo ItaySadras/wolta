@@ -7,20 +7,34 @@ const Customer = require("../roots/models/customerModel");
 const axios = require("axios");
 const apiKey = process.env.MAPS_API_KEY;
 const mongoose = require("mongoose");
-const { getDay, getMinutes, getHours, isPast, isFuture } = require("date-fns");
+const { getDay, getMinutes, getHours, isPast, isFuture, addDays, addHours } = require("date-fns");
+
+function ignoreMin(duration){
+  console.log("🚀 ~ ignoreMin ~ duration:", duration)
+  
+    const parts = duration.split(' ');
+    const minutesString= parts[0];
+    const minutes=parseInt(minutesString,10);
+    return minutes;
+} 
+
 
 const isThisRestaurantOpen = (restaurant) => {
   if (!restaurant.open) {
     return false;
   }
-
-  const today = getDay(new Date());
-  const { openingHour, closingHour } = restaurant.defaultOpeningTime[today - 1];
+  
+    const currentDate = new Date().toLocaleString("en-US", {
+      timeZone: "Israel",
+    });
+   const twoHoursAgo= new Date(currentDate);
+   const now= addHours(twoHoursAgo,2);
+  const today = getDay(now);
+  const { openingHour, closingHour } = restaurant.defaultOpeningTime[today];
 
   const [hourOpen, minutesOpen] = openingHour.split(":").map(Number);
   const [hourClose, minutesClose] = closingHour.split(":").map(Number);
 
-  const now = new Date();
   const openingHourDate = new Date(
     now.getFullYear(),
     now.getMonth(),
@@ -35,6 +49,7 @@ const isThisRestaurantOpen = (restaurant) => {
     hourClose,
     minutesClose
   );
+
 
   if (now >= openingHourDate && now <= closingHourDate) {
     return true;
@@ -103,20 +118,19 @@ const getsADishRestaurant = async (dishId) => {
   }).populate({ path: "menu" });
   const menu = menuCategories[0].menu._id;
   const restaurant = await Restaurant.find({ menu: menu });
-  console.log("🚀 ~ getsADishRestaurant ~ restaurant:", restaurant)
+  console.log("🚀 ~ getsADishRestaurant ~ restaurant:", restaurant);
   populatedRestaurants = await getRestaurantsWithDetails(restaurant);
-  return populatedRestaurants
+  return populatedRestaurants;
 };
 const getsADishesRestaurants = async (dishes) => {
   const dishesIds = dishes.map((dish) => dish._id);
 
   const restaurant = await Promise.all(
     dishesIds.map(async (dishId) => {
-      return  getsADishRestaurant(dishId);
+      return getsADishRestaurant(dishId);
     })
   );
-  return restaurant
-
+  return restaurant;
 };
 
 async function distanceCalculate(origin, destination) {
@@ -134,13 +148,15 @@ async function distanceCalculate(origin, destination) {
 
     if (response.data.status === "OK") {
       const duration = response.data.routes[0].legs[0].duration.text;
-      return duration;
+      const newDuration = duration
+      console.log("🚀 ~ distanceCalculate ~ newDuration:", newDuration)
+      return newDuration;
     } else {
-      console.error("Error:", response.data.status);
+      console.error("Error:fetching geo api response");
       return null;
     }
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Error: in try distanceCalculate");
     return null;
   }
 }
@@ -158,15 +174,18 @@ async function reverseGeocode(latitude, longitude) {
     );
     if (response.data.status === "OK") {
       const addressComponents = response.data.results[0].address_components;
+      console.log(
+        "🚀 ~ reverseGeocode ~ response.data.results[0].address_components:",
+        response.data.results[0]
+      );
       const address = {
         streetName: addressComponents[1].long_name, // Assuming street name is at index 1
         streetNumber: addressComponents[0].long_name, // Assuming street number is at index 0
         city: addressComponents[2].long_name, // Assuming city name is at index 2
-        country: addressComponents[addressComponents.length - 1].long_name // Assuming country name is at the last index
+        country: addressComponents[addressComponents.length - 1].long_name, // Assuming country name is at the last index
       };
       // console.log("🚀 ~ reverseGeocode ~ address:", address);
       return address;
-
     } else {
       console.error("Error:", response.data.status);
       return null;
@@ -185,5 +204,6 @@ module.exports = {
   getsADishRestaurant,
   reverseGeocode,
   distanceCalculate,
-  getsADishesRestaurants
+  getsADishesRestaurants,
+  ignoreMin
 };

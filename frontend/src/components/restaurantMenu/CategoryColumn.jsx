@@ -6,7 +6,7 @@ import {
 import MenuDish from './MenuDish';
 import { RestaurantContext } from '../../context/RestaurantContext';
 
-const CategoryColumn = ({ dishes, setDishes, dispatch, state }) => {
+const CategoryColumn = ({ dishes, setDishes, dispatch, state, ACTIONS }) => {
 
 
     return (
@@ -22,8 +22,8 @@ const CategoryColumn = ({ dishes, setDishes, dispatch, state }) => {
                         ingredients={dish.ingredients}
                         intolerances={dish.intolerances}
                         dispatch={dispatch}
-                        // setDishes={setDishes}
                         state={state}
+                        ACTIONS={ACTIONS}
                     />
                 ))}
             </SortableContext>

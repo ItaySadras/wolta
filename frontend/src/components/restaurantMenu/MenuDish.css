@@ -11,3 +11,8 @@
   /* Example transition property */
   /* Other styles */
 }
+
+.dish-handle {
+  background-color: yellow;
+  width: 100%;
+}

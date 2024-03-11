@@ -15,10 +15,10 @@ const reducer = (state, action) => {
 
 
 const RestaurantMenu = () => {
-  const { loading, setLoading, getRestaurantById, restaurantInfo, } = useContext(RestaurantContext)
+  const {  getRestaurantById, restaurantInfo, } = useContext(RestaurantContext)
   const [restaurant, setRestaurant] = useState()
   const [fetched, setFetched] = useState(false)
-
+  const [loading, setLoading] = useState(true)
 
   // for (category of menu) {
   //   const menuCategory = {}
@@ -32,7 +32,7 @@ const RestaurantMenu = () => {
   useEffect(() => {
     if (!fetched) {
       const fetchRestaurant = async () => {
-        await getRestaurantById("65e81f2ce6e2c0fa71c343db")
+        await getRestaurantById("65e81e3de6e2c0fa71c34279")
         setFetched(true)
         setLoading(false)
       }
@@ -60,7 +60,7 @@ const RestaurantMenu = () => {
         {restaurant &&
           Object.values(restaurant.menu.menuCategories).map((category) => (
             <MenuCategory
-              id={category.id}
+              categoryId={category._id}
               categoryName={category.menuCategoryName}
               sentDishes={category.dishes}
             />

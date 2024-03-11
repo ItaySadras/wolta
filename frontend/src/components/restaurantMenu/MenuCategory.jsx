@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react'
+import React, { useContext, useReducer, useState } from 'react'
 import './MenuCategory.css'
 import CategoryColumn from './CategoryColumn';
 
@@ -17,15 +17,23 @@ import {
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 
+import { RestaurantContext } from '../../context/RestaurantContext';
+
+const ACTIONS = {
+    DELETE_DISH: "DELETE_DISH",
+    SORT_DISHES: "SORT_DISHES"
+}
+
+
 const reducer = (state, action) => {
     const currentDishes = state.dishes
     const filteredDishes = currentDishes.filter(dish => dish._id !== action.payload)
     switch (action.type) {
-        case "DELETE_DISH":
+        case ACTIONS.DELETE_DISH:
             return {
                 dishes: filteredDishes
             }
-        case "SORT_DISHES":
+        case ACTIONS.SORT_DISHES:
             const { activeId, overId } = action.payload;
             const activeIndex = state.dishes.findIndex(dish => dish._id === activeId);
             const overIndex = state.dishes.findIndex(dish => dish._id === overId);
@@ -39,13 +47,16 @@ const reducer = (state, action) => {
     }
 }
 
-const MenuCategory = ({ id, categoryIndex, categoryName, sentDishes }) => {
+const MenuCategory = ({ categoryId, categoryIndex, categoryName, sentDishes }) => {
 
     const initialState = {
         dishes: sentDishes
     }
-
     const [state, dispatch] = useReducer(reducer, initialState)
+
+
+    const { updateDishOrder } = useContext(RestaurantContext)
+
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -54,15 +65,20 @@ const MenuCategory = ({ id, categoryIndex, categoryName, sentDishes }) => {
 
     const handleDragEnd = (event) => {
         const { active, over } = event;
-    
+
         if (active.id === over.id) return;
-    
+
         dispatch({
-            type: "SORT_DISHES",
+            type: ACTIONS.SORT_DISHES,
             payload: { activeId: active.id, overId: over.id }
         });
+        const dishOrder = state.dishes.map((dish => dish._id.toString()))
+        
+
+        updateDishOrder(categoryId, dishOrder)
+
+
     };
-    
 
 
 
@@ -80,9 +96,9 @@ const MenuCategory = ({ id, categoryIndex, categoryName, sentDishes }) => {
                 <div className='dish-list'>
                     <CategoryColumn
                         dishes={state.dishes}
-                        // setDishes={setDishes}
                         dispatch={dispatch}
                         state={state}
+                        ACTIONS={ACTIONS}
                     />
                 </div>
             </DndContext>

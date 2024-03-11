@@ -67,16 +67,21 @@ exports.changeName = async (req, res) => {
 
 exports.changeOrder = async (req, res) => {
   try {
-    const menuCategory = await MenuCategory.findByIdAndUpdate(
-      req.params.MenuCategoryId
+    console.log("🚀 ~ exports.changeOrder= ~ req.params.menuCategoryId:", req.params.menuCategoryId)
+    const menuCategory = await MenuCategory.findById(
+      req.params.menuCategoryId
     );
+
+    console.log("🚀 ~ exports.changeOrder= ~ menuCategory:", menuCategory)
     !menuCategory &&
       res.status(404).send({ message: "cant find menu catgory" });
     const oldOrder = req.body.slice().sort();
+    console.log("🚀 ~ exports.changeOrder= ~ oldOrder:", oldOrder)
     const newOrder = menuCategory.dishes
       .slice()
       .map((id) => id.toString())
       .sort();
+    console.log("🚀 ~ exports.changeOrder= ~ newOrder:", newOrder)
     if (oldOrder.length == !newOrder.length) {
       res.status(404).send({ message: "bad request " });
     }
@@ -94,4 +99,5 @@ exports.changeOrder = async (req, res) => {
     console.log(error);
     res.status(500).send({ message: "server error" });
   }
+
 };

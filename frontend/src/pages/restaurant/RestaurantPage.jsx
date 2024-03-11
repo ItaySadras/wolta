@@ -4,7 +4,6 @@ import "./restaurant.css";
 const RestaurantPage = () => {
   return (
     <div className="restaurant-container">
-
       <div className="restaurant-section">
         <div className="restaurant-section">
           <img
@@ -31,12 +30,13 @@ const RestaurantPage = () => {
                   <img
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1FYhwYWg1RldR2Tz9jn2Q1hBtxaWdc-y-Pw&usqp=CAU"
                     alt="this dish has no img."
-                  /> <div>
-                  <h3>dish name</h3>
-                  <p>
-                    dish description. Lorem ipsum dolor sit amet consectetur
-                    adipisicing elit. Iste,{" "}
-                  </p>
+                  />{" "}
+                  <div>
+                    <h3>dish name</h3>
+                    <p>
+                      dish description. Lorem ipsum dolor sit amet consectetur
+                      adipisicing elit. Iste,{" "}
+                    </p>
                   </div>
                 </div>
               </li>

@@ -21,12 +21,15 @@ const reducer = (state, action) => {
 const CustomerDash = () => {
   const [state, dispatch] = useReducer(reducer, InitialState);
 
+
+
   const fetch = async () => {
     const response = await getAllRestaurants(1, 10);
     dispatch({
       type: "update",
       payload: { restaurants: response.restaurants, dishes: response.dishes },
     });
+
   };
   useEffect(() => {
     fetch();
@@ -40,9 +43,11 @@ const CustomerDash = () => {
           <RestaurantsCustomerDisplay restaurants={state.restaurants} />
           <DishesCustomerDisplay dishes={state.dishes} />
         </div>
+
       ) : (
         <LoaderComponent />
       )}
+
     </div>
   );
 };

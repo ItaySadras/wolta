@@ -5,6 +5,7 @@ import './CustomerBasket.css';
 
 const CustomerBasket = () => {
   const [showModal, setShowModal] = useState(false);
+  
   const [orderObjects, setOrderObjects] = useState([
     {
       _id: "65e81b8a8630ba788c71bb5e1",

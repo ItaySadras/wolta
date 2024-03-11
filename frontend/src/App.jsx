@@ -16,7 +16,6 @@ import CustomerProfile from "./pages/customer/CustomerProfile";
 import RestaurantLayout from "./layouts/RestaurantLayout";
 import RestaurantMenu from "./pages/restaurant/RestaurantMenu";
 import DishPage from "./pages/restaurant/Dishpage";
-import RestuarantPage from "./pages/restaurant/RestaurantPage";
 import RestaurantProfile from "./pages/restaurant/RestaurantProfile";
 import RestaurantReviews from "./pages/restaurant/RestaurantReviews";
 
@@ -40,6 +39,7 @@ import Survey from "./pages/review/Survey";
 import LoaderComponent from "./Loader/LoaderComponent";
 
 import LandingPage from "./pages/authServices/LandingPage";
+import RestaurantPage from "./pages/restaurant/RestaurantPage";
 function App() {
 
   const initializeLocalStorage = () => {
@@ -64,7 +64,7 @@ function App() {
           <Route path="searchResults" element={<SearchResults />}></Route>
           <Route path="basket" element={<CustomerBasket />}></Route>
           <Route path="profile" element={<CustomerProfile />}></Route>
-          <Route path=":restaurantId/restaurantPage" element={<RestuarantPage />}></Route>
+          <Route path=":restaurantId/restaurantPage" element={<RestaurantPage/>}></Route>
         </Route>
 
         {/* restaurant routes */}

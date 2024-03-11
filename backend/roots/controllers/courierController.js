@@ -26,7 +26,26 @@ exports.createCourier = async (req, res) => {
       .json({ message: "Error creating Courier", error: error.message });
   }
 };
+exports.setNotAvailable = async (req, res) => {
+  try {
+    const { id } = req.params;
+    let courier = await Courier.findById(id);
 
+    if (!courier) {
+      return res.status(404).json({ message: "Courier not found" });
+    }
+    courier.available = false;
+    await courier.save();
+    res.status(200).json({ message: "Courier is now NOT available", courier });
+  } catch (error) {
+    console.error("Error updating Courier's to Not availabile:", error);
+    res.status(500).json({
+      message: "Error updating Courier's Not availabe",
+      error: error.message,
+    });
+  }
+};
+  
 exports.setAvailable = async (req, res) => {
   try {
     const { id } = req.params;

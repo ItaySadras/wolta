@@ -1,0 +1,77 @@
+.customer-basket {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+
+  .basket-h2{
+    color: #5c0261;
+    font-size: 35px;
+    margin: 2vh;
+  }
+  
+  
+  .order-summary {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .order-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .order-item {
+    background-color: #fee8ff;
+    border: 2px solid #a608ae;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .dish-name {
+    font-weight: bold;
+  }
+  
+  .price,
+  .quantity {
+    margin-top: 5px;
+  }
+  
+  .payment-options {
+    text-align: center;
+  }
+  
+  .pay-button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .credit-card {
+    background-color: #086a0be1; 
+    color: white;
+  }
+  
+  .paypal {
+    background-color: #1298ffc3; 
+    color: black;
+  }
+
+  .basket-remove-button{
+    background-color: rgba(0, 0, 0, 0.51);
+    padding: 10px;
+    font-size: smaller;
+    margin-top: 10px;
+  }
+  
+  .basket-remove-button:hover{
+    background-color: black;
+  }

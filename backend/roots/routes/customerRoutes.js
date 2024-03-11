@@ -25,4 +25,6 @@ router.put('/updateDetails/:customerId', customerController.UpdateCustomerDetail
 
 router.route('/creteOrder/:').post(orderController.createOrder)
 
+
+
 module.exports = router;

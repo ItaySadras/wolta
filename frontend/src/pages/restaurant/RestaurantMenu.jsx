@@ -15,22 +15,18 @@ const reducer = (state, action) => {
 
 
 const RestaurantMenu = () => {
-  const {  getRestaurantById, restaurantInfo, } = useContext(RestaurantContext)
+  const { getRestaurantById, restaurantInfo, } = useContext(RestaurantContext)
   const [restaurant, setRestaurant] = useState()
-  const [fetched, setFetched] = useState(false)
   const [loading, setLoading] = useState(true)
 
+  const fetchRestaurant = async () => {
+    await getRestaurantById("65e81e3de6e2c0fa71c34279")
+    setLoading(false)
+  }
 
   useEffect(() => {
-    if (!fetched) {
-      const fetchRestaurant = async () => {
-        await getRestaurantById("65e81e3de6e2c0fa71c34279")
-        setFetched(true)
-        setLoading(false)
-      }
-      fetchRestaurant()
-    }
-  }, [getRestaurantById, fetched])
+    fetchRestaurant()
+  }, [getRestaurantById])
 
   useEffect(() => {
     if (restaurantInfo) {

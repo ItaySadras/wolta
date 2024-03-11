@@ -40,7 +40,7 @@ const CustomerBasket = () => {
   };
 
 
-  localStorage.setItem('order', JSON.stringify(orderObjects));
+  // localStorage.setItem('order', JSON.stringify(orderObjects));
   console.log(JSON.parse(localStorage.getItem('order')));
 
   return (

@@ -1,7 +1,7 @@
 import React from 'react'
 import PageMenuDish from './PageMenuDish'
 
-const PageMenuCategory = ({ categoryId, categoryName, sentDishes }) => {
+const PageMenuCategory = ({ categoryId, categoryName, sentDishes, dispatch, restaurantId }) => {
     return (
         <div>
             <h3>{categoryName}</h3>
@@ -14,6 +14,8 @@ const PageMenuCategory = ({ categoryId, categoryName, sentDishes }) => {
                         image={dish.image}
                         ingredients={dish.ingredients}
                         intolerances={dish.intolerances}
+                        dispatch={dispatch}
+                        restaurantId={restaurantId}
                     />
                 ))}
             </ul>

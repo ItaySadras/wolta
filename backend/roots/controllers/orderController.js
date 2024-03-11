@@ -29,25 +29,27 @@ exports.createOrder = async (req, res) => {
     // Calculate distance between each courier and the restaurant
     const couriersWithDistance =await Promise.all( availableCouriers.map(async(courier) => {
       return  {
-        courier,
+        courier : courier.toObject(),
         distance:await distanceCalculate(courier.address, restaurant.address),
       };
     }));
+    
 
     // Sort couriers by distance from the restaurant
     couriersWithDistance.sort((a, b) => ignoreMin(a.distance) - ignoreMin(b.distance));
 
     // Get the closest courier to the restaurant
-    const closestCourier = couriersWithDistance[1].courier._doc;
-    console.log("🚀 ~ exports.createOrder= ~ closestCourier:", closestCourier)
+   const closestCourier = couriersWithDistance[0];
 
 
+    
 
     // duration from restaurant to customer
     const arrivingTime = await distanceCalculate(
       restaurant.address,
       customer.addresses[0]
     );
+    console.log("🚀 ~ exports.createOrder= ~ arrivingTime:", arrivingTime)
 
     // Create the order and assign it to the closest courier
     const order = await Order.create({
@@ -57,32 +59,28 @@ exports.createOrder = async (req, res) => {
       restaurant: restaurant._id,
       customer: customer._id,
     });
-    await order
-      .populate([
-        { path: "customer" },
-        { path: "courier" },
-        { path: "restaurant" },
-        {
-          path: "orderDishes",
-          populate: {
-            path: "dish",
-          },
-        },
-      ])
+    populatedOrder = await Order.populate(order, [
+      { path: "customer" },
+      { path: "courier" },
+      { path: "restaurant" },
+      {
+        path: "orderDishes.dish",
+        model: "Dish"
+      },
+    ]);
       
 
     // Update the restaurant's open orders
     await Restaurant.findByIdAndUpdate(restaurantId, {
-      $push: { openOrders: order._id },
+      $push: { openOrders: populatedOrder._id },
     });
     //update courier order
-    closestCourier.currentOrder = order._id;
-    await closestCourier.save();
-
+    const newClosestCourier  = await Courier.findByIdAndUpdate(closestCourier.courier._id,{currentOrder: order._id});
+    !newClosestCourier && res.status(403).send({message:"Could not address order for courier",error});
     // Respond with success
     res
       .status(200)
-      .send({ message: "Order created successfully", order: order });
+      .send({ message: "Order created successfully", order: populatedOrder });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).send({ message: "Internal server error" });

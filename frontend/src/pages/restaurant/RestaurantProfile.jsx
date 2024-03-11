@@ -1,7 +1,6 @@
-import React from 'react'
+import React from "react";
 
 const RestaurantProfile = () => {
-
   const sampleRestaurant = {
     _id: "65e81b7f8630ba788c71bb4f",
     restaurantName: "Dragon Palace",
@@ -51,7 +50,8 @@ const RestaurantProfile = () => {
         customerId: "65e81bb38630ba788c71bb86",
         Restaurant: "65e81b7f8630ba788c71bb4f",
         grade: 5,
-        comment: "Solutio verbera adeo inflammatio conqueror virtus spargo aeternus. Adopto vitiosus alias. Patria ustilo valeo.",
+        comment:
+          "Solutio verbera adeo inflammatio conqueror virtus spargo aeternus. Adopto vitiosus alias. Patria ustilo valeo.",
         whenSubmitted: "2024-02-23T02:58:21.737Z",
       },
       {
@@ -59,7 +59,8 @@ const RestaurantProfile = () => {
         customerId: "65e81bb38630ba788c71bb86",
         Restaurant: "65e81b7f8630ba788c71bb4f",
         grade: 5,
-        comment: "Solutio verbera adeo inflammatio conqueror virtus spargo aeternus. Adopto vitiosus alias. Patria ustilo valeo.",
+        comment:
+          "Solutio verbera adeo inflammatio conqueror virtus spargo aeternus. Adopto vitiosus alias. Patria ustilo valeo.",
         whenSubmitted: "2024-02-23T02:58:21.737Z",
       },
       {
@@ -67,12 +68,12 @@ const RestaurantProfile = () => {
         customerId: "65e81bb38630ba788c71bb86",
         Restaurant: "65e81b7f8630ba788c71bb4f",
         grade: 5,
-        comment: "Solutio verbera adeo inflammatio conqueror virtus spargo aeternus. Adopto vitiosus alias. Patria ustilo valeo.",
+        comment:
+          "Solutio verbera adeo inflammatio conqueror virtus spargo aeternus. Adopto vitiosus alias. Patria ustilo valeo.",
         whenSubmitted: "2024-02-23T02:58:21.737Z",
       },
     ],
-
-  }
+  };
 
   return (
     <div>
@@ -88,22 +89,20 @@ const RestaurantProfile = () => {
         <button>Edit phone number</button>
       </div>
       <div>
-        <h3>Address: {Object.values(sampleRestaurant.address).join(', ')}</h3>
+        <h3>Address: {Object.values(sampleRestaurant.address).join(", ")}</h3>
         <button>Edit address</button>
       </div>
       <div>
         <h3>Opening times:</h3>
         <ul>
           {sampleRestaurant.defaultOpeningTime.map((time, index) => (
-            <li key={index}>
-              {`${time.openingHour} - ${time.closingHour}`}
-            </li>
+            <li key={index}>{`${time.openingHour} - ${time.closingHour}`}</li>
           ))}
         </ul>
         <button>edit opening times</button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default RestaurantProfile
+export default RestaurantProfile;

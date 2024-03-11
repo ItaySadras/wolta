@@ -7,6 +7,9 @@ const Customer = require("../roots/models/customerModel");
 const axios = require("axios");
 const apiKey = process.env.MAPS_API_KEY;
 const mongoose = require("mongoose");
+
+const { cloudinary } = require("./cloudinarySetUp");
+
 const { getDay, getMinutes, getHours, isPast, isFuture, addDays, addHours } = require("date-fns");
 
 function ignoreMin(duration){

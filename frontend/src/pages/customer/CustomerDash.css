@@ -4,8 +4,8 @@
   align-items: center;
   flex-direction: column;
 }
-.restaurant-closed{
-   opacity:"0.5"
+.restaurant-closed {
+  opacity: "0.5";
 }
 .customer-dash-container {
   display: flex;
@@ -65,7 +65,7 @@ span {
 }
 
 .restaurant-link {
-  width: 400px;
+  width: 250px;
   display: block;
   text-decoration: none;
   color: #ffffff;
@@ -84,7 +84,7 @@ span {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
   transition: box-shadow 0.3s ease;
-  width: 400px;
+  width: 250px;
 }
 
 .restaurant-item:hover {
@@ -92,8 +92,9 @@ span {
 }
 
 .restaurant-items {
-  display: flex;
-  gap: 20px; /* Gap between items */
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 20px;
   list-style: none;
   white-space: nowrap;
 }
@@ -193,6 +194,6 @@ span {
 }
 
 .restaurant-image {
-  width: 400px;
-  height: 280px;
+  width: 250px;
+  height: 180px;
 }

@@ -1,5 +1,5 @@
 import React from "react";
-
+import "./DishBox.css";
 // dishName
 // "Lunch Salad, Chang's Chinese Chicken Salad"
 
@@ -17,10 +17,9 @@ import React from "react";
 const DishBox = ({ dish }) => {
   console.log("🚀 ~ DishBox ~ dish:", dish);
   return (
-    <div>
-      
-      
-      
+    <div className="dish-card">
+      <div className="dish-name">{dish.dishName}</div>
+      <img src={dish.image} alt={dish.dishName} className="dish-image1" />
     </div>
   );
 };

@@ -1,4 +1,6 @@
 const { cloudinary } = require("./cloudinarySetUp");
+const { createClient } = require("pexels");
+
 const axios = require("axios");
 const { faker } = require("@faker-js/faker");
 const Restaurant = require("../roots/models/restaurantModel");
@@ -9,12 +11,12 @@ const Customer = require("../roots/models/customerModel");
 const Address = require("../roots/models/addressModel");
 const Dish = require("../roots/models/dishModel");
 const MenuCategory = require("../roots/models/menuCategoryModel");
-const { restaurantsData } = require("./DBData");
+const { additionalRestaurants, RestaurantsAddress } = require("./DBData");
 const { uploadToCloudinary } = require("./helpers");
 
 const createDB = async () => {
-  for (let index = 0; index < restaurantsData.length; index++) {
-    await generateRestaurant(restaurantsData[index]);
+  for (let index = 0; index < additionalRestaurants.length; index++) {
+    await generateRestaurant(additionalRestaurants[index]);
   }
   console.log("im done");
 };
@@ -163,6 +165,28 @@ const generateDish = async (dishData, menuCategoryId) => {
     console.log("cant upload this to cloudnry");
   }
 };
+const generateRestaurantsImages = async () => {
+  const client = createClient(process.env.PEXELS_SECRET_KEY);
+  const restaurants = await Restaurant.find({ image: { $exists: false } });
+  console.log(
+    "🚀 ~ generateRestaurantsImages ~ restaurants:",
+    restaurants.length
+  );
+  const photoList = await client.photos.search({
+    query: "food",
+    per_page: 100,
+  });
+  for (let index = 0; index < photoList.photos.length; index++) {
+    const response = await uploadToCloudinary(
+      photoList.photos[index],
+      restaurants[index].restaurantName
+    );
+    if (response) {
+      restaurants[index].image = response;
+      restaurants[index].save();
+    }
+  }
+};
 
 // const generateAddress = async () => {
 //     const address={}
@@ -208,9 +232,25 @@ const generateRandomHour = () => {
   return { openingHour, closingHour };
 };
 
+const generateRestaurantsAddress = async () => {
+  const restaurant=await Restaurant.find({})
+  for (let index = 0; index < restaurant.length; index++) {
+    const newAddress = await Address.create({
+      streetNumber: RestaurantsAddress[index].streetNumber,
+      streetName: RestaurantsAddress[index].streetName,
+    });
+    restaurant[index].address=newAddress
+    await restaurant[index].save()
+
+  }
+
+};
+
 module.exports = {
+  generateRestaurantsImages,
   createDB,
   generateRandomHour,
   generateDefaultOpeningTime,
   addsDesertsAndAppetizers,
+  generateRestaurantsAddress,
 };

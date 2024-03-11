@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const restaurantSchema = new mongoose.Schema({
-restaurantName: { type: String },
+  restaurantName: { type: String },
   userName: { type: String },
   password: { type: String },
   email: { type: String },
@@ -13,12 +13,12 @@ restaurantName: { type: String },
       closingHour: { type: String, required: true },
     },
   ],
-  menu: { type: mongoose.Schema.Types.ObjectId,ref:"Menu" },
-  Reviews:[{type: mongoose.Schema.Types.ObjectId,ref:"Review"}],
-  restaurantFilter:[{type:String}],
+  menu: { type: mongoose.Schema.Types.ObjectId, ref: "Menu" },
+  Reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
+  restaurantFilter: [{ type: String }],
   address: { type: mongoose.Schema.Types.ObjectId, ref: "Address" },
-  openOrders:[{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }]
-
+  openOrders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
+  image: { type: String },
 });
 
 const Restaurant = mongoose.model("Restaurant", restaurantSchema);

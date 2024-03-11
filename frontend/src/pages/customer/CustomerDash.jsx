@@ -1,91 +1,48 @@
-import React, { useContext, useEffect, useState } from "react";
-import CustomerSearch from "../../components/customerDash/CustomerSearch";
-import { RestaurantContext } from "../../context/RestaurantContext";
-import { NavLink } from "react-router-dom";
+import React, { useContext, useEffect, useReducer, useState } from "react";
 import "./CustomerDash.css";
+import RestaurantsCustomerDisplay from "./RestaurantsCustomerDisplay";
+import { getAllRestaurants } from "../../api";
+import DishesCustomerDisplay from "./DishesCustomerDisplay";
+import LoaderComponent from "../../Loader/LoaderComponent";
+import SearchBox from "./SearchBox";
+const InitialState = { dishes: null, restaurants: null };
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "update":
+      return {
+        restaurants: action.payload.restaurants,
+        dishes: action.payload.dishes,
+      };
 
+    default:
+      break;
+  }
+};
 const CustomerDash = () => {
-  const { restaurants, getAllRestaurants } = useContext(RestaurantContext);
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(4);
+  const [state, dispatch] = useReducer(reducer, InitialState);
 
-  const handleLoadMore = () => {
-    setPage(page + 1);
+  const fetch = async () => {
+    const response = await getAllRestaurants(1, 10);
+    dispatch({
+      type: "update",
+      payload: { restaurants: response.restaurants, dishes: response.dishes },
+    });
   };
-
   useEffect(() => {
-    if (page > 1) {
-      getAllRestaurants(page, limit);
-    }
-  }, [page]);
-
-  const generalAddress = {
-    streetname: "hahilazon",
-    streetNumber: "3",
-    city: "ramat gan",
-  };
+    fetch();
+  }, []);
 
   return (
     <div className="customer-dash">
-      <div className="dataandlocation">
-        <div className="location-info">
-          <h2 className="location-heading">
-            Your location: {/* user location */}
-          </h2>
+      <SearchBox dispatch={dispatch}/>
+      {state.restaurants ? (
+        <div>
+          <RestaurantsCustomerDisplay restaurants={state.restaurants} />
+          <DishesCustomerDisplay dishes={state.dishes} />
         </div>
-        <div className="customer-search">
-          <CustomerSearch />
-        </div>
-      </div>
-      <div>
-        <ol className="restaurant-items">
-          {restaurants.map((restaurant, index) => (
-            <li key={index} className="restaurant-item">
-              <NavLink
-                to={`../../restaurant/${restaurant._id}/restaurantPage`}
-                className="restaurant-link"
-              >
-                <img
-                  className="restaurant-image"
-                  src={restaurant.image}
-                  alt="Restaurant"
-                />
-                <div>
-                  <div className="restaurant-name">
-                    <h3>{restaurant.restaurantName}</h3>
-                    <br />
-                    <span>address:</span>
-                    <ul className="address-details">
-                      {Object.values(generalAddress).map((value, index) => (
-                        <li key={index} className="address-detail">
-                          {value}
-                        </li>
-                      ))}
-                    </ul>
-                    <span>filters:</span>
-                    <ul className="filter-list">
-                      {restaurant.restaurantFilter.map((element, index) => (
-                        <li key={index} className="filter-item">
-                          {element}
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="restaurant-status">
-                      {restaurant.open ? "Open" : "Closed"}
-                    </div>
-                  </div>
-                </div>
-              </NavLink>
-            </li>
-          ))}
-        </ol>
-      </div>
-
-      <div className="load-more-container">
-        <button onClick={handleLoadMore} className="load-more-btn">
-          Load More
-        </button>
-      </div>
+      ) : (
+        <LoaderComponent />
+      )}
     </div>
   );
 };

@@ -7,9 +7,13 @@ const Restaurant = require("../models/restaurantModel");
 
 exports.createDish = async (req, res) => {
   try {
+    let imgUrl;
     const { image, price, dishName } = req.body.dish;
+    console.log("🚀 ~ exports.createDish= ~ image:", image)
+    console.log("🚀 ~ exports.createDish= ~ dishName:", dishName)
     if (image) {
-      const imgUrl = await uploadToCloudinary(image, dishName);
+      imgUrl = await uploadToCloudinary(image, dishName);
+      console.log("🚀 ~ exports.createDish= ~ imgUrl:", imgUrl)
       if (!imgUrl) {
         res.status(500).send({ message: "cant upload image" });
       }
@@ -23,10 +27,11 @@ exports.createDish = async (req, res) => {
     });
     menuCategory.dishes.push(dish._id);
     menuCategory.save();
-    res.status(201).json({ message: "Dish created successfully", dish: dish });
+    res.status(201).send({ message: "Dish created successfully", dish: dish });
   } catch (error) {
-    res.status(404).json({
-      status: failed,
+    console.log("🚀 ~ exports.createDish= ~ error:", error)
+    res.status(404).send({
+      status: "failed",
       message: error.message,
     });
   }
@@ -124,7 +129,7 @@ const addToArrays = (key, action, data, currentValue) => {
 
 exports.getDishRestaurant = async (req, res) => {
   try {
-    const restaurants=await getsADishRestaurant(req.params.dishId)
+    const restaurants = await getsADishRestaurant(req.params.dishId)
     res.status(200).send({ restaurants: restaurants });
 
   } catch (error) {

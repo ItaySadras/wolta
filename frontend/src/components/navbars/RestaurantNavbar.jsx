@@ -23,7 +23,7 @@ const RestaurantNavbar = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to={"/restaurant/:restaurantId/restaurantPage"}>
+          <NavLink to={"/restaurant/:restaurantId/profile"}>
             <button className="navbutton">Profile</button>
           </NavLink>
         </li>

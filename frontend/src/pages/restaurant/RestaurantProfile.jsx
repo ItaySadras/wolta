@@ -1,109 +1,61 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react';
+import { RestaurantContext } from '../../context/RestaurantContext';
 
 const RestaurantProfile = () => {
+ const { getRestaurantById, restaurantInfo } = useContext(RestaurantContext);
+ const [loading, setLoading] = useState(true);
 
-  const sampleRestaurant = {
-    _id: "65e81b7f8630ba788c71bb4f",
-    restaurantName: "Dragon Palace",
-    userName: "Billy_Pfannerstill",
-    password: "hs4z8W3nBTllpsj",
-    email: "Billy_Pfannerstill52@yahoo.com",
-    phoneNumber: "284-537-1286 x5870",
-    open: true,
-    address: {
-      streetname: "tuval",
-      streetNumber: "10",
-      city: "ramat gan",
-    },
-    defaultOpeningTime: [
-      {
-        openingHour: "10:00",
-        closingHour: "17:00",
-      },
-      {
-        openingHour: "10:00",
-        closingHour: "17:00",
-      },
-      {
-        openingHour: "10:00",
-        closingHour: "17:00",
-      },
-      {
-        openingHour: "10:00",
-        closingHour: "17:00",
-      },
-      {
-        openingHour: "10:00",
-        closingHour: "17:00",
-      },
-      {
-        openingHour: "14:00",
-        closingHour: "20:00",
-      },
-      {
-        openingHour: "14:00",
-        closingHour: "20:00",
-      },
-    ],
-    reviews: [
-      {
-        _id: "65e81bb38630ba788c71bb88",
-        customerId: "65e81bb38630ba788c71bb86",
-        Restaurant: "65e81b7f8630ba788c71bb4f",
-        grade: 5,
-        comment: "Solutio verbera adeo inflammatio conqueror virtus spargo aeternus. Adopto vitiosus alias. Patria ustilo valeo.",
-        whenSubmitted: "2024-02-23T02:58:21.737Z",
-      },
-      {
-        _id: "65e81bb38630ba788c71bb88",
-        customerId: "65e81bb38630ba788c71bb86",
-        Restaurant: "65e81b7f8630ba788c71bb4f",
-        grade: 5,
-        comment: "Solutio verbera adeo inflammatio conqueror virtus spargo aeternus. Adopto vitiosus alias. Patria ustilo valeo.",
-        whenSubmitted: "2024-02-23T02:58:21.737Z",
-      },
-      {
-        _id: "65e81bb38630ba788c71bb88",
-        customerId: "65e81bb38630ba788c71bb86",
-        Restaurant: "65e81b7f8630ba788c71bb4f",
-        grade: 5,
-        comment: "Solutio verbera adeo inflammatio conqueror virtus spargo aeternus. Adopto vitiosus alias. Patria ustilo valeo.",
-        whenSubmitted: "2024-02-23T02:58:21.737Z",
-      },
-    ],
+ useEffect(() => {
+    const fetchRestaurant = async () => {
+      await getRestaurantById("65e81e3de6e2c0fa71c34279");
+      setLoading(false);
+    };
+    fetchRestaurant();
+ }, [getRestaurantById]);
 
-  }
+ if (loading) {
+    return <div>Loading...</div>;
+ }
 
-  return (
+ const formatAddress = (address) => {
+    if (!address) return ''; 
+    const unwantedKeys = ['_id', '__v'];
+    const filteredKeys = Object.keys(address).filter(key => !unwantedKeys.includes(key));
+    const order = ['streetName', 'streetNumber', 'city', 'country']; 
+    return order.map(key => filteredKeys.includes(key) ? address[key] : '').filter(Boolean).join(', ');
+ };
+ const formattedAddress = restaurantInfo && restaurantInfo.address ? formatAddress(restaurantInfo.address) : '';
+
+ return (
     <div>
       <div>
-        <h2> Hello {sampleRestaurant.restaurantName}!</h2>
+        <h2>Hello {restaurantInfo?.restaurantName}!</h2>
       </div>
       <div>
-        <h3>Email: {sampleRestaurant.email}</h3>
+        <h3>Email: {restaurantInfo?.email}</h3>
         <button>Edit email</button>
       </div>
       <div>
-        <h3>Phone number: {sampleRestaurant.phoneNumber}</h3>
+        <h3>Phone number: {restaurantInfo?.phoneNumber}</h3>
         <button>Edit phone number</button>
       </div>
       <div>
-        <h3>Address: {Object.values(sampleRestaurant.address).join(', ')}</h3>
+        <h3>Address: {formattedAddress}</h3>
         <button>Edit address</button>
       </div>
       <div>
         <h3>Opening times:</h3>
         <ul>
-          {sampleRestaurant.defaultOpeningTime.map((time, index) => (
+          {restaurantInfo?.defaultOpeningTime.map((time, index) => (
             <li key={index}>
               {`${time.openingHour} - ${time.closingHour}`}
             </li>
           ))}
         </ul>
-        <button>edit opening times</button>
+        <button>Edit opening times</button>
       </div>
     </div>
-  )
-}
+ );
+};
 
-export default RestaurantProfile
+export default RestaurantProfile;

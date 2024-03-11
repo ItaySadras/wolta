@@ -50,6 +50,9 @@ exports.getRestaurantById = async (req, res) => {
         populate: {
           path: "customerId",
         },
+      })
+      .populate({
+        path: "address",
       });
 
     if (restaurant) {

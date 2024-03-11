@@ -20,14 +20,6 @@ const RestaurantMenu = () => {
   const [fetched, setFetched] = useState(false)
   const [loading, setLoading] = useState(true)
 
-  // for (category of menu) {
-  //   const menuCategory = {}
-  //   menuCategory.name = category.menuCategoryName
-  //   menuCategory.dishes = category.dishes
-  // }
-
-
-  const initialState = [{}]
 
   useEffect(() => {
     if (!fetched) {

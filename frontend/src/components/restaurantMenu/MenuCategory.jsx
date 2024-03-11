@@ -18,6 +18,7 @@ import {
 } from "@dnd-kit/sortable";
 
 import { RestaurantContext } from '../../context/RestaurantContext';
+import AddDishModal from './AddDishModal';
 
 const ACTIONS = {
     DELETE_DISH: "DELETE_DISH",
@@ -27,6 +28,7 @@ const ACTIONS = {
 
 const reducer = (state, action) => {
     const currentDishes = state.dishes
+    console.log("🚀 ~ reducer ~ currentDishes:", currentDishes)
     const filteredDishes = currentDishes.filter(dish => dish._id !== action.payload)
     switch (action.type) {
         case ACTIONS.DELETE_DISH:
@@ -35,11 +37,11 @@ const reducer = (state, action) => {
             }
         case ACTIONS.SORT_DISHES:
             const { activeId, overId } = action.payload;
-            const activeIndex = state.dishes.findIndex(dish => dish._id === activeId);
-            const overIndex = state.dishes.findIndex(dish => dish._id === overId);
-            const newDishes = arrayMove(state.dishes, activeIndex, overIndex);
+            const activeIndex =currentDishes.findIndex(dish => dish._id === activeId);
+            const overIndex = currentDishes.findIndex(dish => dish._id === overId);
+            const newDishes = arrayMove(currentDishes, activeIndex, overIndex);
+            console.log("🚀 ~ reducer ~ newDishes:", newDishes)
             return {
-                ...state,
                 dishes: newDishes
             };
         default:
@@ -73,20 +75,29 @@ const MenuCategory = ({ categoryId, categoryIndex, categoryName, sentDishes }) =
             payload: { activeId: active.id, overId: over.id }
         });
         const dishOrder = state.dishes.map((dish => dish._id.toString()))
-        
+
 
         updateDishOrder(categoryId, dishOrder)
+        console.log("🚀 ~ handleDragEnd ~ categoryId:", categoryId)
+        console.log('biger was right')
 
 
     };
 
-
+    
 
     return (
         <div className='category-container'>
             <div>
                 <h2 className='category-title'>{categoryName}</h2>
-                <button>Add dish</button>
+            </div>
+            <div>
+                <div>
+                    <AddDishModal
+                        
+                        categoryId={categoryId}
+                    />
+                </div>
             </div>
             <DndContext
                 sensors={sensors}

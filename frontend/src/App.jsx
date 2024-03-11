@@ -41,6 +41,12 @@ import LoaderComponent from "./Loader/LoaderComponent";
 
 import LandingPage from "./pages/authServices/LandingPage";
 function App() {
+
+  const initializeLocalStorage = () => {
+    localStorage.setItem("orders", JSON.stringify({}));
+  }
+  initializeLocalStorage();
+
   return (
     <>
       {/* <GeoComponent></GeoComponent> */}
@@ -58,12 +64,12 @@ function App() {
           <Route path="searchResults" element={<SearchResults />}></Route>
           <Route path="basket" element={<CustomerBasket />}></Route>
           <Route path="profile" element={<CustomerProfile />}></Route>
+          <Route path=":restaurantId/restaurantPage" element={<RestuarantPage />}></Route>
         </Route>
 
         {/* restaurant routes */}
 
         <Route path="/restaurant/:restaurantId" element={<RestaurantLayout />}>
-          <Route path="restaurantPage" element={<RestuarantPage />}></Route>
 
           <Route path="menu" element={<RestaurantMenu />}>
             <Route path=":dishId" element={<DishPage />}></Route>

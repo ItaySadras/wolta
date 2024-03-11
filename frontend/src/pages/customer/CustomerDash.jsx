@@ -9,6 +9,8 @@ const CustomerDash = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(4);
 
+  const customerId = 'loggedInCustomerId'
+
   const handleLoadMore = () => {
     setPage(page + 1);
   };
@@ -42,7 +44,7 @@ const CustomerDash = () => {
           {restaurants.map((restaurant, index) => (
             <li key={index} className="restaurant-item">
               <NavLink
-                to={`../../restaurant/${restaurant._id}/restaurantPage`}
+                to={`../../customer/${customerId}/${restaurant._id}/restaurantPage`}
                 className="restaurant-link"
               >
                 <img

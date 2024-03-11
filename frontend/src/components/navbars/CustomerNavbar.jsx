@@ -20,11 +20,6 @@ const CustomerNavbar = () => {
         <li>
           <button className="nav-logout-button">Logout</button>
         </li>
-        <li>
-          <NavLink to={"/customer/:customerId/basket"}>
-            <button style={{background:"white" , color:"black"}} className="navbutton">🛒 order </button>
-          </NavLink>
-        </li>
       </div>
     </nav>
   );

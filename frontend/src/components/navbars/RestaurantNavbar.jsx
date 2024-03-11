@@ -28,7 +28,7 @@ const RestaurantNavbar = () => {
           </NavLink>
         </li>
         <li>
-          <button className="logout-button">Logout</button>
+          <button className="nav-logout-button">Logout</button>
         </li>
       </div>
     </nav>

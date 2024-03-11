@@ -13,7 +13,7 @@ const CourierDelivery = () => {
         };
         fetchCustomerDetails();
       }, []);
-      
+
   const [deliveryDetails, setDeliveryDetails] = useState({
     restaurantName: '',
     restaurantLocation: '',

@@ -30,12 +30,7 @@
   background-color: #a886d8;
   width: 300px;
   height: 100px;
-  color: rgb(40, 2, 50);
-  border: none;
-  padding: 10px 20px;
   border-radius: 20px;
-  font-size: 16px;
-  transition: background-color 0.3s;
 }
 
 .customer-dash-container h1,
@@ -93,8 +88,8 @@ span {
 }
 
 .restaurant-items {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  display: flex;
+  justify-content: center;
   gap: 20px;
   list-style: none;
   white-space: nowrap;

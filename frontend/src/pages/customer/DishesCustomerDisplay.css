@@ -1,0 +1,15 @@
+.big {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-left: 50px;
+}
+
+.titledishes {
+  justify-content: center;
+  align-items: center;
+}
+
+.titledish {
+  display: flex;
+  justify-content: center;
+}

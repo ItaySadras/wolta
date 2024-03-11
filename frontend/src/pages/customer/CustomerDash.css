@@ -4,7 +4,9 @@
   align-items: center;
   flex-direction: column;
 }
-
+.restaurant-closed{
+   opacity:"0.5"
+}
 .customer-dash-container {
   display: flex;
   justify-content: center;

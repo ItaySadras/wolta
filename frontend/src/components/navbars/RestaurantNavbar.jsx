@@ -23,12 +23,12 @@ const RestaurantNavbar = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to={"/restaurant/:restaurantId/restaurantPage"}>
+          <NavLink to={"/restaurant/:restaurantId/profile"}>
             <button className="navbutton">Profile</button>
           </NavLink>
         </li>
         <li>
-          <button className="logout-button">Logout</button>
+          <button className="nav-logout-button">Logout</button>
         </li>
       </div>
     </nav>

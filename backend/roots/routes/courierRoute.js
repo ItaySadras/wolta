@@ -9,6 +9,8 @@ const orderController = require('../controllers/orderController');
 // router.patch('/vehicle', courierController.setVehicle);
 router.patch('/rating/:id', courierController.setRating);
 router.patch('/available/:id', courierController.setAvailable);
+router.patch('/notAvailable/:id', courierController.setNotAvailable);
+
 // router.patch('/currOrder/:id', courierController.setCurrOrder);
 router.post('/',courierController.createCourier);
 // except an order Id and delete it from all the relevant places 

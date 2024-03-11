@@ -47,7 +47,7 @@
   font-size: 20px;
 }
 
-.logout-button {
+.nav-logout-button {
   padding: 8px 16px;
   background-color: #8361ac;
   color: #ffffff;
@@ -61,6 +61,6 @@
   text-decoration: none;
 }
 
-.logout-button:hover {
+.nav-logout-button:hover {
   background-color: #4c336c;
 }

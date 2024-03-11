@@ -40,8 +40,8 @@ const CustomerBasket = () => {
   };
 
 
-  // localStorage.setItem('order', JSON.stringify(orderObjects));
-  // console.log(JSON.parse(localStorage.getItem('order')));
+  localStorage.setItem('order', JSON.stringify(orderObjects));
+  console.log(JSON.parse(localStorage.getItem('order')));
 
   return (
     <div className="customer-basket">

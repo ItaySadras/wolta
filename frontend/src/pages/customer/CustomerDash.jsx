@@ -61,12 +61,15 @@ const CustomerDash = () => {
     });
   };
 
+
+
   const fetch = async () => {
     const response = await getAllRestaurants(state.page, 12);
     dispatch({
       type: "update",
       payload: { restaurants: response.restaurants, dishes: response.dishes,callBackFunction:getAllRestaurants},
     });
+
   };
   useEffect(() => {
     fetch();
@@ -80,9 +83,11 @@ const CustomerDash = () => {
           <RestaurantsCustomerDisplay restaurants={state.restaurants} />
           <DishesCustomerDisplay dishes={state.dishes} />
         </div>
+
       )}
       {state.loading && <LoaderComponent />}
       <button onClick={() => fetchMoreDishes()}>load more</button>
+
     </div>
   );
 };

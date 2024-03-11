@@ -85,6 +85,7 @@ span {
   background-color: #ffffff;
   transition: box-shadow 0.3s ease;
   width: 250px;
+  height: 500px;
 }
 
 .restaurant-item:hover {
@@ -104,7 +105,7 @@ span {
   color: #333;
   margin: 0;
   margin-left: 10px;
-  height: 35vh;
+  height: 315px;
 }
 
 .restaurant-info {

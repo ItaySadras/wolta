@@ -14,7 +14,6 @@ mongoose
 
 const app = require("./app");
 const searchAlgorithm = require("./backEndUtils/searchBackend");
-const { createDB, addsDesertsAndAppetizers, generateRestaurantsImages, generateRestaurantsAddress } = require("./backEndUtils/dataBaseBuilder");
+const { createDB, addsDesertsAndAppetizers, generateRestaurantsImages, generateRestaurantsAddress, cryptAllPasswords } = require("./backEndUtils/dataBaseBuilder");
 app.listen(8000, () => console.log(`Dev Server is Running 8000`));
 
-// generateRestaurantsImages()

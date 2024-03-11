@@ -1,6 +1,7 @@
 const { cloudinary } = require("./cloudinarySetUp");
 const { createClient } = require("pexels");
-
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 const axios = require("axios");
 const { faker } = require("@faker-js/faker");
 const Restaurant = require("../roots/models/restaurantModel");
@@ -246,6 +247,41 @@ const generateRestaurantsAddress = async () => {
 
 };
 
+const cryptAllPasswords = async () => {
+  try {
+     // Function to hash a password
+     const hashPassword = async (password) => {
+       return await bcrypt.hash(password, saltRounds);
+     };
+ 
+     // Update customers' passwords
+     const customers = await Customer.find({});
+     for (const customer of customers) {
+       customer.password = await hashPassword(customer.password);
+       await customer.save();
+     }
+ 
+     // Update restaurants' passwords
+     const restaurants = await Restaurant.find({});
+     for (const restaurant of restaurants) {
+       restaurant.password = await hashPassword(restaurant.password);
+       await restaurant.save();
+     }
+ 
+     // Update couriers' passwords
+     const couriers = await Courier.find({});
+     for (const courier of couriers) {
+       courier.password = await hashPassword(courier.password);
+       await courier.save();
+     }
+ 
+     console.log("All passwords have been successfully encrypted.");
+  } catch (error) {
+     console.error("Error encrypting passwords:", error);
+  }
+ };
+ 
+
 module.exports = {
   generateRestaurantsImages,
   createDB,
@@ -253,4 +289,5 @@ module.exports = {
   generateDefaultOpeningTime,
   addsDesertsAndAppetizers,
   generateRestaurantsAddress,
+  cryptAllPasswords
 };

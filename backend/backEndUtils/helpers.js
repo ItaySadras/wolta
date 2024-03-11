@@ -104,7 +104,7 @@ async function getRestaurantsWithDetails(restaurants) {
             populate: {
               path: "customerId",
             },
-          })
+          }).populate({path:"address"})
           .exec(); // Execute the query
       })
     );

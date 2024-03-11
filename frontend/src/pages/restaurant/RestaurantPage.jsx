@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./restaurant.css";
+
 import { NavLink, useParams } from "react-router-dom";
 import { RestaurantContext } from "../../context/RestaurantContext";
 import RestaurantPageMenu from "../../components/RestaurantPage/RestaurantPageMenu";
@@ -32,6 +33,7 @@ const RestaurantPage = () => {
   };
   const formattedAddress = restaurantInfo && restaurantInfo.address ? formatAddress(restaurantInfo.address) : '';
 
+
   return (
     <div className="restaurant-container">
       <NavLink to={"/customer/:customerId/basket"}>
@@ -53,11 +55,13 @@ const RestaurantPage = () => {
           </li>
         </ul>
       </div>
+
       <div>
         <button>
           go to cart
         </button>
       </div>
+
       <div className="menu-container">
         <RestaurantPageMenu
           restaurantInfo={restaurantInfo}
@@ -92,3 +96,4 @@ export default RestaurantPage;
             </ul>
           </li>
         </ul> */}
+

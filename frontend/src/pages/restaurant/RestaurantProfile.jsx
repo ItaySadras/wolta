@@ -40,12 +40,14 @@ const RestaurantProfile = () => {
         <button>Edit phone number</button>
       </div>
       <div>
+
         <h3>Address: {formattedAddress}</h3>
         <button>Edit address</button>
       </div>
       <div>
         <h3>Opening times:</h3>
         <ul>
+
           {restaurantInfo?.defaultOpeningTime.map((time, index) => (
             <li key={index}>
               {`${time.openingHour} - ${time.closingHour}`}
@@ -55,6 +57,8 @@ const RestaurantProfile = () => {
         <button>Edit opening times</button>
       </div>
     </div>
+
+
  );
 };
 

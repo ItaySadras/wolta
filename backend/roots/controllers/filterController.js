@@ -93,12 +93,12 @@ exports.getsSearchPreferencesFromCookies = async (req, res, next) => {
       req.params.searched = SearchHistoryToken[0].name;
       next();
     } else {
-      const restaurants = await Restaurant.find({});
+      const restaurants = await Restaurant.find({}).limit(4);
       const populatedRestaurants = await getRestaurantsWithDetails(restaurants);
       const dishes = await Dish.find({}).limit(100);
       res.status(200).send({
         Message: "success",
-        restaurants: paginateHelper(populatedRestaurants),
+        restaurants: paginateHelper(populatedRestaurants, 1, 4),
         dishes: paginateHelper(dishes),
       });
     }

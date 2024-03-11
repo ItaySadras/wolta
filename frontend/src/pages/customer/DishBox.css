@@ -1,0 +1,29 @@
+.dish-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  color: #a886d8;
+  padding: 20px;
+  margin: 20px;
+  width: 200px;
+  height: 300px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dish-name {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.dish-image1 {
+  border-radius: 5px;
+  margin-bottom: 10px;
+    max-height: 200px;
+  object-fit: cover;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

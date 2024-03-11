@@ -4,11 +4,12 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "./CustomerSearch.css";
 import { CustomerContext } from "../../context/CustomerContext";
+import { getRestaurantBySearch } from "../../api";
 
-const CustomerSearch = () => {
+
+const CustomerSearch = ({dispatch}) => {
   const navigate = useNavigate();
 
-  const { getRestaurantBySearch } = useContext(CustomerContext);
 
   const {
     register,
@@ -18,9 +19,12 @@ const CustomerSearch = () => {
 
   const onSubmit = async (data) => {
     try {
-      getRestaurantBySearch(data);
+      const response=await getRestaurantBySearch(data)
+      dispatch({
+        type: "update",
+        payload: { restaurants: response.restaurants, dishes: response.dishes },
+      });
       console.log(data);
-      navigate("/customer/searchResults");
     } catch (error) {
       console.log(error);
     }

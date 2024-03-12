@@ -13,7 +13,6 @@ const { cloudinary } = require("./cloudinarySetUp");
 const { getDay, getMinutes, getHours, isPast, isFuture, addDays, addHours } = require("date-fns");
 
 function ignoreMin(duration){
-  console.log("🚀 ~ ignoreMin ~ duration:", duration)
   
     const parts = duration.split(' ');
     const minutesString= parts[0];

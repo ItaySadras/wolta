@@ -19,7 +19,7 @@ exports.TheGreatFilter = async (req, res) => {
   try {
     let { filter, page, limit } = req.query;
     const { restaurants, dishes } = await searchAlgorithm(req.params.searched);
-
+    
     let dishQuery = { _id: { $in: dishes } };
     let restaurantQuery = { _id: { $in: restaurants } };
 

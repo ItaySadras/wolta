@@ -5,7 +5,7 @@ export const getAllRestaurants = async (page, limit) => {
         const response = await axios.get(
             `http://localhost:8000/api/restaurant/getAllRestaurant?page=${page}&limit=${limit}`
         );
-        return response.data;
+        return response;
     } catch (error) {
         console.log(error);
     }
@@ -16,7 +16,7 @@ export const getRestaurantBySearch = async (page,limit,{searchInput}) => {
       const response = await axios.get(
         `http://localhost:8000/api/customer/${searchInput}?page=${page}&limit=${limit}`
       );
-      return response.data;
+      return response;
     } catch (error) {
       console.error("Failed to fetch restaurant", error);
     }

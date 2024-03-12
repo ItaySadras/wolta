@@ -1,4 +1,6 @@
 // utils.js
+import { getDay, getMinutes, getHours, isPast, isFuture, addDays, addHours } from "date-fns";
+
 import axios from "axios";
 
 export const getUserLocation = async () => {
@@ -47,4 +49,42 @@ export const getUserLocation = async () => {
       reject(new Error("Geolocation is not supported by this browser."));
     }
   });
+};
+export const isThisRestaurantOpenFront = (restaurant) => {
+  if (!restaurant.open) {
+    return false;
+  }
+  
+    const currentDate = new Date().toLocaleString("en-US", {
+      timeZone: "Israel",
+    });
+   const twoHoursAgo= new Date(currentDate);
+   const now= addHours(twoHoursAgo,2);
+  const today = getDay(now);
+  const { openingHour, closingHour } = restaurant.defaultOpeningTime[today];
+
+  const [hourOpen, minutesOpen] = openingHour.split(":").map(Number);
+  const [hourClose, minutesClose] = closingHour.split(":").map(Number);
+
+  const openingHourDate = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    hourOpen,
+    minutesOpen
+  );
+  const closingHourDate = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    hourClose,
+    minutesClose
+  );
+
+
+  if (now >= openingHourDate && now <= closingHourDate) {
+    return true;
+  }
+
+  return false;
 };

@@ -6,6 +6,7 @@ import DishesCustomerDisplay from "./DishesCustomerDisplay";
 import LoaderComponent from "../../Loader/LoaderComponent";
 import SearchBox from "./SearchBox";
 import ErrorAlert from "../ErrorAlert";
+import { useParams } from "react-router-dom";
 const InitialState = {
   dishes: [],
   restaurants: [],
@@ -53,6 +54,8 @@ const CustomerDash = () => {
   const [state, dispatch] = useReducer(reducer, InitialState);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
+
+  const {customerId} = useParams()
 
   const fetchMoreDishes = async () => {
 
@@ -121,7 +124,7 @@ const CustomerDash = () => {
       {state.restaurants.length > 0 && (
         <div>
           <br />
-          <RestaurantsCustomerDisplay restaurants={state.restaurants} />
+          <RestaurantsCustomerDisplay restaurants={state.restaurants} customerId={customerId} />
           <DishesCustomerDisplay dishes={state.dishes} />
           <br />
         </div>

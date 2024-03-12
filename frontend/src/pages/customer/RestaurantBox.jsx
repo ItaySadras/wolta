@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import "./CustomerDash.css";
 import { isThisRestaurantOpenFront } from "../../components/utils";
 
-const RestaurantBox = ({ restaurant }) => {
+const RestaurantBox = ({ restaurant, customerId }) => {
   useEffect(() => {
     setOpen(isThisRestaurantOpenFront(restaurant));
   }, []);
@@ -12,7 +12,7 @@ const RestaurantBox = ({ restaurant }) => {
   return (
     <li className="restaurant-item">
       <NavLink
-        to={`../../customer/65e81bb38630ba788c71bb8a/${restaurant._id}/restaurantPage`}
+        to={`../${restaurant._id}/restaurantPage`}
         className="restaurant-link"
       >
         <img

@@ -30,7 +30,7 @@ exports.createOrder = async (req, res) => {
     const couriersWithDistance =await Promise.all( availableCouriers.map(async(courier) => {
       return  {
         courier : courier.toObject(),
-        distance:await distanceCalculate(courier.address, restaurant.address,courier.vehicleType),
+        distance:await distanceCalculate(courier.address, restaurant.address),
       };
     }));
     console.log("🚀 ~ couriersWithDistance ~ courier.vehicleType:",couriersWithDistance)
@@ -43,7 +43,7 @@ exports.createOrder = async (req, res) => {
    const closestCourier = couriersWithDistance[0];
     
     // duration from restaurant to customer
-    const arrivingTime = await distanceCalculate(restaurant.address,customer.addresses[0],closestCourier.courier.vehicleType);
+    const arrivingTime = await distanceCalculate(restaurant.address,customer.addresses[0]);
 
 
     // Create the order and assign it to the closest courier

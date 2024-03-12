@@ -33,7 +33,7 @@ const CustomerBasket = () => {
 
   useEffect(() => {
     setOrderDishes(newOrderARR)
-  },[])
+  }, [])
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -46,7 +46,7 @@ const CustomerBasket = () => {
     const updatedDishes = orderDishes.filter(dish => dish.dishId !== id);
     // console.log("🚀 ~ handleRemoveDish ~ updatedDishes:", updatedDishes)
     setOrderDishes(updatedDishes);
- };
+  };
 
 
 
@@ -66,7 +66,13 @@ const CustomerBasket = () => {
       </div>
       <div className="payment-options">
         <button onClick={handleOpenModal} className="pay-button credit-card">Pay with credit card</button>
-        <CustomerPaymentModal handleClose={handleCloseModal} show={showModal} />
+        {orderDishes !== null &&
+        <CustomerPaymentModal
+          handleClose={handleCloseModal}
+          show={showModal}
+          orderDishes={orderDishes}
+          restaurantId={restaurantId}
+        />}
         <button className="pay-button paypal">Pay with PayPal</button>
       </div>
     </div>

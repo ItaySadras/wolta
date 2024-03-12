@@ -55,6 +55,7 @@ const CustomerDash = () => {
   const [message, setMessage] = useState(null);
 
   const fetchMoreDishes = async () => {
+
     try {
       dispatch({
         type: "loading",
@@ -107,6 +108,7 @@ const CustomerDash = () => {
       setMessage("something want wrong ");
       setError(true);
     }
+
   };
   useEffect(() => {
     fetch();
@@ -114,16 +116,24 @@ const CustomerDash = () => {
 
   return (
     <div className="customer-dash">
+      <br />
       <SearchBox dispatch={dispatch} page={state.page} />
       {state.restaurants.length > 0 && (
         <div>
+          <br />
           <RestaurantsCustomerDisplay restaurants={state.restaurants} />
           <DishesCustomerDisplay dishes={state.dishes} />
+          <br />
         </div>
       )}
       {state.loading && <LoaderComponent />}
-      <button onClick={() => fetchMoreDishes()}>load more</button>
-      <ErrorAlert message={message} open={!!error} onClose={handleCloseError} />
+
+      <button className="button2" onClick={() => fetchMoreDishes()}>
+        load more
+      </button>
+      <br />
+           <ErrorAlert message={message} open={!!error} onClose={handleCloseError} />
+
     </div>
   );
 };

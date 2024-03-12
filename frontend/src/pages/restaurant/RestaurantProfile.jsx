@@ -5,11 +5,12 @@ const RestaurantProfile = () => {
  const { getRestaurantById, restaurantInfo } = useContext(RestaurantContext);
  const [loading, setLoading] = useState(true);
 
+ const fetchRestaurant = async () => {
+   await getRestaurantById("65e81e3de6e2c0fa71c34279");
+   setLoading(false);
+ };
+ 
  useEffect(() => {
-    const fetchRestaurant = async () => {
-      await getRestaurantById("65e81e3de6e2c0fa71c34279");
-      setLoading(false);
-    };
     fetchRestaurant();
  }, [getRestaurantById]);
 

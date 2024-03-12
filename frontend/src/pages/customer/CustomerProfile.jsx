@@ -10,13 +10,13 @@ const CustomerProfile = () => {
   const [editMode, setEditMode] = useState(false);
   const customerId = "65e81c488630ba788c71bc68";
 
+  const fetchCustomerDetails = async () => {
+    const details = await getCustomerDetails(customerId);
+    if (details) {
+      setCustomer(details);
+    }
+  };
   useEffect(() => {
-    const fetchCustomerDetails = async () => {
-      const details = await getCustomerDetails(customerId);
-      if (details) {
-        setCustomer(details);
-      }
-    };
     fetchCustomerDetails();
   }, []);
 

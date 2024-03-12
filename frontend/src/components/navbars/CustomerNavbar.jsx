@@ -18,7 +18,9 @@ const CustomerNavbar = () => {
           </NavLink>
         </li>
         <li>
-          <button className="nav-logout-button">Logout</button>
+        <NavLink to={"/"}>
+            <button className="navbutton">Logout</button>
+          </NavLink>
         </li>
       </div>
     </nav>

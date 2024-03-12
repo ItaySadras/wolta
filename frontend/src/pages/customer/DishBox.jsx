@@ -19,7 +19,15 @@ const DishBox = ({ dish }) => {
     <div className="dish-card">
       <div className="dish-name">{dish.dishName}</div>
       <img src={dish.image} alt={dish.dishName} className="dish-image1" />
+      <div>Price: {dish.price}₪</div>
     </div>
+    //       <>
+    //         <NavLink
+    //           to={`../../customer/65e81bb38630ba788c71bb8a/${restaurant._id}/restaurantPage`}
+    //           className="restaurant-link"
+    //         >
+    //   </NavLink>
+    // </>
   );
 };
 

@@ -52,7 +52,17 @@ const CourierDash = () => {
   };
 
   return (
-    <div>
+
+      <div>
+        <button onClick={handleAvailableButton} disabled={loading}>
+          {loading ? <LoaderComponent /> : "Available"}
+        </button>
+        <ErrorAlert message={error} open={!!error} onClose={handleCloseError} />
+        <button onClick={handleNotAvailableButton} disabled={loading}>
+          {loading ? <LoaderComponent /> : "Not Available"}
+        </button>
+        <ErrorAlert message={error} open={!!error} onClose={handleCloseError} />
+
       <div className="availabillities1">
         <div class="centered">
           <button

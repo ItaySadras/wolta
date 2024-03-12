@@ -32,7 +32,7 @@ h4 {
   font-size: 32px;
 }
 
-button {
+.button1 {
   padding: 16px 24px;
   background-color: #8361ac;
   color: #ffffff;
@@ -44,11 +44,9 @@ button {
   text-transform: uppercase;
   font-weight: bold;
   text-decoration: none;
-}
-
-.button1 {
   margin-left: 35%;
 }
+
 button:hover {
   background-color: #4c336c;
 }

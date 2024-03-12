@@ -19,8 +19,8 @@ const courierSchema = new mongoose.Schema({
   },
   vehicleType: {
     type: String,
-    enum: ["Car", "Motorbike", "Bike", "Truck"],
-    required: false,
+    mode: ["DRIVING","WALKING", "BICYCLING"],
+    default: "DRIVING"
   },
   available: {
     type: Boolean,

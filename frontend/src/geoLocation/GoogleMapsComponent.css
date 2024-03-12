@@ -42,9 +42,19 @@
     border-radius: 5px;
     cursor: pointer;
     font-size: 18px;
+    text-transform: capitalize;
     transition: background-color 0.2s;
     font-weight: bold;
     text-decoration: none;
   }
 
-  
+  .button-div{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .stronga{
+font-weight: bold; 
+ }

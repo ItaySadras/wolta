@@ -73,8 +73,8 @@ exports.logInUser = async (req, res) => {
   try {
     const { email, password, accountType } = req.body;
     const user = await validateUserByType(email, accountType);
-    if (!user || !bcrypt.compare(password, user.password)) {
-      return res.status(401).json({
+    if (!user || !await bcrypt.compare(password, user.password)) {
+      return res.status(401).send({
         status: "fail",
         message: "Incorrect email or password",
       });

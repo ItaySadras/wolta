@@ -8,18 +8,19 @@ secret = "secretkey";
 
 exports.registerUser = async (req, res, next) => {
   try {
-    const { username, email, password, type } = req.body;
+    const { username, email, password, accountType } = req.body;
+    console.log(req.body);
 
     const hashedPassword = await ReturnHashedPassword(password);
 
-    switch (type) {
+    switch (accountType) {
       case "customer":
         const isCustomer = await Customer.findOne({ email: email });
         if (isCustomer) {
           return res.status(401).send({ message: "Customer already exists" });
         }
         req.mySchemaInstance = await Customer.create({
-          username,
+          name:username,
           email,
           password: hashedPassword,
         });
@@ -52,8 +53,8 @@ exports.registerUser = async (req, res, next) => {
           message: "Invalid user type",
         });
     }
-    next();
   } catch (err) {
+    console.log(err);
     res.status(500).send({
       status: "internal server error",
       message: err.message,
@@ -63,15 +64,15 @@ exports.registerUser = async (req, res, next) => {
 
 exports.logInUser = async (req, res) => {
   try {
-    const { email, password, type } = req.body;
-    const user = await validateUserByType(email, type);
+    const { email, password, accountType } = req.body;
+    const user = await validateUserByType(email, accountType);
     if (!user || !bcrypt.compare(password, user.password)) {
       return res.status(401).json({
         status: "fail",
         message: "Incorrect email or password",
       });
     } else {
-      const token = jwt.sign({ userId: user._id, type: type }, secret, {
+      const token = jwt.sign({ userId: user._id, type: accountType }, secret, {
         expiresIn: "1h",
       });
       res.cookie("ui", token, {

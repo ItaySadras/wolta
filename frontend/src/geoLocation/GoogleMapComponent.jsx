@@ -1,114 +1,111 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   useJsApiLoader,
   GoogleMap,
   Marker,
-  Autocomplete,
   DirectionsRenderer,
 } from "@react-google-maps/api";
-import { getUserLocation } from "../components/utils";
+import LoaderComponent from "../Loader/LoaderComponent";
+import "./GoogleMapsComponent.css"
+import { getLatLngFromAddress } from "../components/utils";
+const libraries = ["places"]; 
 
-const libraries = ["places"];
-
-function GoogleMapComponent({ userAddress, setUserAddress}) {
-  const center = { lat: userAddress.latitude, lng: userAddress.longitude };
+function GoogleMapComponent({ originA, destinationB }) {
+  const [userAddress, setUserAddress] = useState(originA);
+  const [destinationAddress, setDestinationAddress] = useState(destinationB);
+  const [center, setCenter] = useState(null);
   const [map, setMap] = useState(null);
   const [directionsResponse, setDirectionsResponse] = useState(null);
   const [distance, setDistance] = useState("");
   const [duration, setDuration] = useState("");
-  const [origin, setOrigin] = useState(""); 
-  const [destination, setDestination] = useState(""); 
-
+  const [showRoute, setShowRoute] = useState(false);
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_MAPS_API_KEY,
-    libraries: libraries,
+    libraries: libraries, // Passing libraries array directly
   });
+  
+  useEffect(() => {
+    const fetchCenterAndCalculateRoute = async () => {
+      try {
+        // Assuming getLatLngFromAddress returns an object with lat and lng
+        console.log("🚀 ~ fetchCenterAndCalculateRoute ~ userAddress:", userAddress)
+        const originLatLng = await getLatLngFromAddress(userAddress);
+        setCenter({ lat: originLatLng.lat, lng: originLatLng.lng });
+        
+        calculateRoute();
+      } catch (error) {
+        console.error("Error fetching center:", error);
+      }
+    };
+
+    fetchCenterAndCalculateRoute();
+ }, [userAddress, destinationAddress]);
 
   const onLoad = (map) => {
     setMap(map);
   };
 
-  if (!isLoaded) return <div>Loading Google Maps...</div>;
+  const calculateRoute = async () => {
+    try {
+      if (!userAddress || !destinationAddress) {
+        console.error("Origin or destination is not set");
+        return;
+      }
 
-  async function calculateRoute() {
-    if (!origin || !destination) {
-      console.error("Origin or destination is not set");
-      return;
+      const directionService = new google.maps.DirectionsService();
+      const request = {
+        origin: userAddress,
+        destination: destinationAddress,
+        travelMode: google.maps.TravelMode.DRIVING,
+      };
+
+      directionService.route(request, (result, status) => {
+        if (status === google.maps.DirectionsStatus.OK) {
+          setDirectionsResponse(result);
+          setDistance(result.routes[0].legs[0].distance.text);
+          setDuration(result.routes[0].legs[0].duration.text);
+          setShowRoute(true);
+        } else {
+          console.error("Failed to calculate route:", status);
+        }
+      });
+    } catch (error) {
+      console.error("Error calculating route:", error);
     }
-    console.log("Origin:", origin);
-    console.log("Destination:", destination);
-    const directionService = new google.maps.DirectionsService();
-    const results = await directionService.route({
-      origin,
-      destination,
-      travelMode: google.maps.TravelMode.BICYCLING,
-    });
-    setDirectionsResponse(results);
-    console.log(results);
-    setDistance(results.routes[0].legs[0].distance.text);
-    setDuration(results.routes[0].legs[0].duration.text);
-  }
+  };
 
-  function clearRoute() {
+  const clearRoute = () => {
     setDirectionsResponse(null);
     setDistance("");
     setDuration("");
-    setOrigin("");
-    setDestination("");
-  }
-
-  const handleGetUserLocation = async (e) => {
-    e.preventDefault();
-    // e.target.value
-    const newOrigin = await getUserLocation({setUserAddress});
-    console.log(newOrigin);
-    const currOrigin = `${newOrigin.street+" "+newOrigin.streetNumber+" "+newOrigin.city+" "+newOrigin.country}`
-    console.log("🚀 ~ handleGetUserLocation ~ currOrigin:", currOrigin)
-    setOrigin(currOrigin); // Directly set the new origin
-    console.log(origin);
+    setShowRoute(false);
   };
+
+  // Render LoaderComponent when Google Maps API is not loaded
+  if (!isLoaded) return <LoaderComponent />;
 
   return (
     <div>
       <GoogleMap
         center={center}
         zoom={15}
-        mapContainerStyle={{ width: "60vw", height: "40vh" }}
+        mapContainerStyle={{ width: "600px", height: "40vh" }}
         onLoad={onLoad}
       >
         <Marker position={center} />
-        {directionsResponse && (
+        {directionsResponse && showRoute && (
           <DirectionsRenderer directions={directionsResponse} />
         )}
       </GoogleMap>
-
       <div className="dash">
-        <div style={{ display: "flex" }}>
-          <button onClick={() => map && map.panTo(center)}>Center Me!</button>
-          <Autocomplete>
-            <input
-              type="text"
-              value={origin ?? ""}
-              onChange={(e) => setOrigin(e.target.value)}
-            />
-          </Autocomplete>
-          <Autocomplete>
-            <input
-              type="text"
-              value={destination ?? ""}
-              onChange={(e) => setDestination(e.target.value)}
-            />
-          </Autocomplete>
-          <button onClick={(e) => handleGetUserLocation(e)}>
-            set origin current location
-          </button>
+        <div className={"button-div"}>
+          <button className={"button4"} onClick={calculateRoute}>Show Route</button>
+          <button className={"button4"} onClick={clearRoute}>Clear Route</button>
         </div>
-        <button onClick={calculateRoute}>Calculate Route !</button>
-        <button onClick={clearRoute}>Clear Route</button>
         <div>
-          <p>Distance : {distance}</p>
-          <p>Duration : {duration}</p>
+          <p className={"stronga"}>Distance : {distance}</p>
+          <p className={"stronga"}>Duration : {duration}</p>
         </div>
       </div>
     </div>

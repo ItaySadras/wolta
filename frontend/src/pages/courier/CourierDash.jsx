@@ -3,6 +3,7 @@ import axios from "axios";
 import { LocationContext } from "../../context/LocationContext";
 import LoaderComponent from "../../Loader/LoaderComponent";
 import ErrorAlert from "../ErrorAlert";
+import "../../components/navbars/navbar.css";
 
 const CourierDash = () => {
   const [error, setError] = useState(null);
@@ -51,7 +52,7 @@ const CourierDash = () => {
   };
 
   return (
-    <div>
+
       <div>
         <button onClick={handleAvailableButton} disabled={loading}>
           {loading ? <LoaderComponent /> : "Available"}
@@ -61,6 +62,34 @@ const CourierDash = () => {
           {loading ? <LoaderComponent /> : "Not Available"}
         </button>
         <ErrorAlert message={error} open={!!error} onClose={handleCloseError} />
+
+      <div className="availabillities1">
+        <div class="centered">
+          <button
+            className="navbutton1"
+            onClick={handleAvailableButton}
+            disabled={loading}
+          >
+            {loading ? <LoaderComponent /> : "Available"}
+          </button>
+          <ErrorAlert
+            message={error}
+            open={!!error}
+            onClose={handleCloseError}
+          />
+          <button
+            className="navbutton2"
+            onClick={handleNotAvailableButton}
+            disabled={loading}
+          >
+            {loading ? <LoaderComponent /> : "Not Available"}
+          </button>
+          <ErrorAlert
+            message={error}
+            open={!!error}
+            onClose={handleCloseError}
+          />
+        </div>
       </div>
     </div>
   );

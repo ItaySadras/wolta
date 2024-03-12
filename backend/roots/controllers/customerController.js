@@ -48,7 +48,7 @@ exports.createCustomerAddress = async(req,res) =>{
 
 exports.getCustomerById = async (req, res) => {
   try {
-    const customer = await Customer.findById(req.params.customerId);
+    const customer = await Customer.findById(req.params.customerId).populate('addresses');
 
     if (!customer) {
       return res.status(404).json({ message: "Customer not found" });

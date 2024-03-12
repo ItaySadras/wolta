@@ -8,6 +8,7 @@ const userController = require('../controllers/userController');
 const dishController = require('../controllers/dishController');
 
 
+router.use(userController.authenticateCustomer)
 // get up to 30 relevant dishes and restaurant by search
 router.get("/:searched",filterController.createSearchCookie,filterController.TheGreatFilter)
 
@@ -15,7 +16,6 @@ router.get("/:searched",filterController.createSearchCookie,filterController.The
 router.get('/getCustomerDetails/:customerId',customerController.getCustomerById);
 
 
-// router.use(userController.authenticateCustomer)
 // acsses the rlevent resturent throw the params
 router.post('/createReview/:restaurantId',reviewController.createReview)
 // gets the populated restaurant of a specific dish

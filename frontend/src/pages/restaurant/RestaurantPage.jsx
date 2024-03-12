@@ -16,6 +16,7 @@ const RestaurantPage = () => {
     await getRestaurantById(`${restaurantId}`);
     setLoading(false);
   };
+
   useEffect(() => {
     fetchRestaurant();
   }, [getRestaurantById]);

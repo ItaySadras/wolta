@@ -43,9 +43,12 @@ import RestaurantPage from "./pages/restaurant/RestaurantPage";
 function App() {
 
   const initializeLocalStorage = () => {
-    localStorage.setItem("orders", JSON.stringify({}));
+    localStorage.setItem("orders", JSON.stringify([]));
   }
-  initializeLocalStorage();
+
+  if ( !localStorage.getItem("orders")) {
+     initializeLocalStorage();
+  }
 
   return (
     <>
@@ -79,8 +82,7 @@ function App() {
         </Route>
 
         {/* courier routes */}
-        <Route path="/courier/:courierId" element={<CourierLayout />}>
-          <Route path="dashboard" element={<CourierDash />}></Route>
+        <Route path="/courier/65ef24ffdd3a8542f70d1154" element={<CourierLayout />}>
           <Route path="profile" element={<CourierProfile />}></Route>
           <Route path="Delivery" element={<CourierDelivery />}></Route>
         </Route>

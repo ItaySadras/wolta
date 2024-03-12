@@ -23,8 +23,8 @@ exports.TheGreatFilter = async (req, res) => {
     let dishQuery = { _id: { $in: dishes } };
     let restaurantQuery = { _id: { $in: restaurants } };
 
-    if (filter && filter.length > 0) {
-      dishQuery.intolerances = { $all: filter };
+    if (filter) {
+      // dishQuery.intolerances = { $all: filter };
       restaurantQuery.restaurantFilter = { $all: filter };
     }
 

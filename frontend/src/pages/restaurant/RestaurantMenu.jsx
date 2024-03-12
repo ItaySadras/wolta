@@ -7,6 +7,7 @@ import './RestaurantMenu.css'
 
 //components
 import MenuCategory from '../../components/restaurantMenu/MenuCategory'
+import { useParams } from 'react-router-dom'
 
 
 const reducer = (state, action) => {
@@ -18,11 +19,12 @@ const RestaurantMenu = () => {
   const { getRestaurantById, restaurantInfo, } = useContext(RestaurantContext)
   const [restaurant, setRestaurant] = useState()
   const [loading, setLoading] = useState(true)
-
+  const { restaurantId } = useParams();
   const fetchRestaurant = async () => {
-    await getRestaurantById("65e81e3de6e2c0fa71c34279")
+    await getRestaurantById(restaurantId)
     setLoading(false)
   }
+  console.log("🚀 ~ RestaurantMenu ~ restaurant:", restaurant)
 
   useEffect(() => {
     fetchRestaurant()
@@ -32,7 +34,7 @@ const RestaurantMenu = () => {
     if (restaurantInfo) {
       setRestaurant(restaurantInfo)
     }
-  }, [restaurantInfo])
+  }, [])
 
   if (loading) {
     return <div>Loading...</div>

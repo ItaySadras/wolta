@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavLink } from "react-router-dom";
 import "./CustomerDash.css";
 import { isThisRestaurantOpenFront } from '../../components/utils';
 
 
 const RestaurantBox = ({restaurant}) => {
+  useEffect(() => {
+    setOpen(isThisRestaurantOpenFront(restaurant))
+   
+  }, [])
+  
+  const [open, setOpen] = useState(false)
   return (
     <li  className="restaurant-item">
     <NavLink
@@ -12,10 +18,11 @@ const RestaurantBox = ({restaurant}) => {
       className="restaurant-link"
     >
       <img
-        className="restaurant-image"
+        className={`${open ? "" : "close"} restaurant-image`}
         src={restaurant.image}
         alt="Restaurant"
       />
+            {!open?<div className='closed'>close</div>:""}
       <div>
         <div className="restaurant-name">
           <h3>{restaurant.restaurantName}</h3>
@@ -36,9 +43,6 @@ const RestaurantBox = ({restaurant}) => {
               </li>
             ))}
           </ul>
-          <div className="restaurant-status">
-            {restaurant.open ? "Open" : "Closed"}
-          </div>
         </div>
       </div>
     </NavLink>

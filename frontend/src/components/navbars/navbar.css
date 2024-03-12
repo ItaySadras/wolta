@@ -21,6 +21,7 @@
   text-decoration: none;
 }
 
+
 .navbutton:hover {
   background-color: #4c336c;
 }
@@ -63,4 +64,48 @@
 
 .nav-logout-button:hover {
   background-color: #4c336c;
+}
+.navbutton1 {
+  padding: 8px 16px;
+  background-color: #68e78c;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-decoration: none;
+  /* margin-right:20px */
+
+}
+.navbutton2 {
+  padding: 8px 16px;
+  background-color: #fb4545;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-decoration: none;
+  margin-top: 10px;
+
+
+}
+.availabillities1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* Or specify a fixed width */
+}
+
+.centered {
+  position: absolute; /* Position the element absolutely */
+  left: 50%; /* Move the element to the horizontal center of the parent container */
+  transform: translateX(-50%); /* Adjust the position to center exactly */
 }

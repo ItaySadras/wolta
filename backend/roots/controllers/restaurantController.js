@@ -50,6 +50,9 @@ exports.getRestaurantById = async (req, res) => {
         populate: {
           path: "customerId",
         },
+      })
+      .populate({
+        path: "address",
       });
 
     if (restaurant) {
@@ -62,8 +65,8 @@ exports.getRestaurantById = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .send({ status: "internal server error", message: error.message });
-  }
+      .send({ status: "internal server error", message: error.message });
+  }
 };
 
 exports.getAllRestaurants = async (req, res) => {

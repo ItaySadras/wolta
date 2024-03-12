@@ -13,7 +13,6 @@ const { cloudinary } = require("./cloudinarySetUp");
 const { getDay, getMinutes, getHours, isPast, isFuture, addDays, addHours } = require("date-fns");
 
 function ignoreMin(duration){
-  console.log("🚀 ~ ignoreMin ~ duration:", duration)
   
     const parts = duration.split(' ');
     const minutesString= parts[0];
@@ -136,24 +135,24 @@ const getsADishesRestaurants = async (dishes) => {
   return restaurant;
 };
 
-async function distanceCalculate(origin, destination) {
+async function distanceCalculate(origin, destination, mode) {
   try {
+    console.log("🚀 ~ distanceCalculate ~ mode:", mode)
     const response = await axios.get(
       "https://maps.googleapis.com/maps/api/directions/json",
       {
         params: {
           origin: origin,
           destination: destination,
+          mode: mode,
           key: apiKey,
         },
       }
     );
-
+      
     if (response.data.status === "OK") {
       const duration = response.data.routes[0].legs[0].duration.text;
-      const newDuration = duration
-      console.log("🚀 ~ distanceCalculate ~ newDuration:", newDuration)
-      return newDuration;
+      return duration;
     } else {
       console.error("Error:fetching geo api response");
       return null;

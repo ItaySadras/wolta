@@ -6,30 +6,35 @@ import "./CustomerSearch.css";
 import { CustomerContext } from "../../context/CustomerContext";
 import { getRestaurantBySearch } from "../../api";
 
-const CustomerSearch = ({dispatch,page}) => {
- const [isFormSubmitted, setIsFormSubmitted] = useState(false); // New state variable
+const CustomerSearch = ({ dispatch, page }) => {
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false); // New state variable
 
- const {
+  const {
     register,
     handleSubmit,
     formState: { errors },
- } = useForm();
+  } = useForm();
 
- const onSubmit = async (data) => {
+  const onSubmit = async (data) => {
     if (!isFormSubmitted) return; // Prevent submission if the flag is false
 
     try {
-      const response = await getRestaurantBySearch(page,12,data);
+      const response = await getRestaurantBySearch(page, 12, data);
       dispatch({
         type: "update",
-        payload: { restaurants: response.restaurants, dishes: response.dishes,callBackFunction:getRestaurantBySearch,searchValue:data},
+        payload: {
+          restaurants: response.restaurants,
+          dishes: response.dishes,
+          callBackFunction: getRestaurantBySearch,
+          searchValue: data,
+        },
       });
     } catch (error) {
       console.log(error);
     }
- };
+  };
 
- return (
+  return (
     <div className="customer-search-container">
       <ToastContainer
         position="top-center"
@@ -51,11 +56,34 @@ const CustomerSearch = ({dispatch,page}) => {
           onChange={() => setIsFormSubmitted(true)} // Set the flag to true when the user types
         />
         {errors.searchInput && toast.error("You must search something!")}
-
+        <br />
+        <select className="intolerance-input">
+          <option value="barbecue">Cuisine/Intolerance</option>
+          <option value="barbecue">Barbecue</option>
+          <option value="glutenfree">Gluten Free</option>
+          <option value="american">American</option>
+          <option value="steak">Steak</option>
+          <option value="sushi">Sushi</option>
+          <option value="seafood">Seafood</option>
+          <option value="french">French</option>
+          <option value="korean">Korean</option>
+          <option value="spanish">Spanish</option>
+          <option value="vegan">Vegan</option>
+          <option value="vegetarian">Vegetarian</option>
+          <option value="kosher">Kosher</option>
+          <option value="chinese">Chinese</option>
+          <option value="hamburger">Hamburger</option>
+          <option value="greek">Greek</option>
+          <option value="italian">Italian</option>
+          <option value="mexican">Mexican</option>
+          <option value="japanese">Japanese</option>
+          <option value="thai">Thai</option>
+          <option value="mediterranean">Mediterranean</option>
+        </select>
         <input type="submit" className="submit-btn" />
       </form>
     </div>
- );
+  );
 };
 
 export default CustomerSearch;

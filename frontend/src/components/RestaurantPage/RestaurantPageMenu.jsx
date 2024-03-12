@@ -86,7 +86,7 @@ const RestaurantPageMenu = ({ restaurantInfo }) => {
   return (
     <div>
       <div>
-        <h2>Menu</h2>
+        <h1>Menu:</h1>
       </div>
       {restaurantInfo &&
         Object.values(restaurantInfo.menu.menuCategories).map((category) => (

@@ -88,7 +88,7 @@ const RestaurantPage = () => {
         </ul>
       </div>
       <NavLink to={`/customer/:customerId/basket/${restaurantId}`}>
-        <button className="navbutton-order">🛒 Order</button>
+        <button className="navbutton-order">🛒 Complete Order</button>
       </NavLink>
       <div className="menu-container-restaurant">
         <RestaurantPageMenu restaurantInfo={restaurantInfo} />

@@ -1,23 +1,27 @@
 .restaurant-container {
   width: 93%;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .restaurant-section {
   margin-bottom: 20px;
   display: flex;
-  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   gap: 2vw;
 }
 
 .restaurant-img {
-  width: 200px;
-  height: 170px;
+  width: 100%;
+  max-height: 400px;
   border-radius: 20px;
 }
 
 .restaurant-header {
-  color: #333;
+  color: #a886d8;
   margin-top: 10px;
   font-size: 50px;
 }
@@ -34,11 +38,13 @@
   color: #0f0e0e;
 }
 
-.menu-container-restaurant{
+.menu-container-restaurant {
   margin-top: 20px;
+  width: 800px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
 }
-
-
 
 .menu-category {
   list-style: none;
@@ -90,22 +96,33 @@
 .navbutton-order {
   position: fixed;
   font-size: 20px;
-  width: 500px;
-  right: 50vw;
+  width: 250px;
   bottom: 1vh;
   z-index: 1000;
   padding: 10px 20px;
-  background-color: #e8a1ff;
+  background-color: #f3cfff;
   color: rgb(0, 0, 0);
-  border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-left: 600px;
 }
 
-.restaurant-details-for-page{
-display: flex;
-flex-direction: row;
-gap: 20px;
-color: #000000;
+.restaurant-details-for-page {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  color: #000000;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  color: #a886d8;
+  padding: 20px;
+  margin: 20px;
+  width: 600px;
+  height: 312px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #f3cfff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-

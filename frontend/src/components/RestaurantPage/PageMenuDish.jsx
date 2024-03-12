@@ -34,14 +34,15 @@ const PageMenuDish = ({
           {" "}
           <h1>{dishName}</h1>
           <p>Price: ${price}</p>
-          <p>Ingredients: {ingredients}</p>
-          <p>Intolerances: {intolerances}</p>
+          {/* <p>Ingredients: {ingredients}</p> */}
+          {/* <p>Intolerances: {intolerances}</p> */}
         </div>
-        
       </div>
       <div>
-          <button className="dish-addtoorder-button" onClick={handleClick}>Add to order</button>
-        </div>
+        <button className="dish-addtoorder-button" onClick={handleClick}>
+          Add to order
+        </button>
+      </div>
     </div>
   );
 };

@@ -65,7 +65,7 @@ function App() {
         <Route path="/customer/:customerId" element={<CustomerLayout />}>
           <Route path="dashboard" element={<CustomerDash />}></Route>
           <Route path="searchResults" element={<SearchResults />}></Route>
-          <Route path="basket" element={<CustomerBasket />}></Route>
+          <Route path="basket/:restaurantId" element={<CustomerBasket />}></Route>
           <Route path="profile" element={<CustomerProfile />}></Route>
           <Route path=":restaurantId/restaurantPage" element={<RestaurantPage/>}></Route>
         </Route>

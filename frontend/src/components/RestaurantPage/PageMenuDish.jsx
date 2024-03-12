@@ -1,7 +1,5 @@
 import React from 'react';
 
-
-
 const PageMenuDish = ({ dishId, dishName, price, image, ingredients, intolerances, dispatch, restaurantId }) => {
 
     const handleClick = () => {
@@ -9,7 +7,10 @@ const PageMenuDish = ({ dishId, dishName, price, image, ingredients, intolerance
             type: 'ADD_DISH',
             payload: {
                 dishId: dishId, 
-                restaurantId: restaurantId
+                restaurantId: restaurantId,
+                dishName: dishName,
+                price: price,
+                image: image,
             }
         });
     };
@@ -24,7 +25,7 @@ const PageMenuDish = ({ dishId, dishName, price, image, ingredients, intolerance
                 <p>Intolerances: {intolerances}</p>
             </div>
             <div>
-                <button onMouseDown={() => handleClick()}>Add to order</button>
+                <button onClick={handleClick}>Add to order</button>
             </div>
         </div>
     );

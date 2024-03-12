@@ -37,9 +37,6 @@ const RestaurantPage = () => {
 
   return (
     <div className="restaurant-container">
-      <NavLink to={"/customer/:customerId/basket"}>
-        <button style={{ background: "white", color: "black" }} className="navbutton">🛒 order </button>
-      </NavLink>
       <div className="restaurant-section">
         <div className="restaurant-section">
           <img
@@ -56,13 +53,9 @@ const RestaurantPage = () => {
           </li>
         </ul>
       </div>
-
-      <div>
-        <button>
-          go to cart
-        </button>
-      </div>
-
+      <NavLink to={`/customer/:customerId/basket/${restaurantId}`}>
+        <button style={{ background: "white", color: "black" }} className="navbutton">🛒 order</button>
+      </NavLink>
       <div className="menu-container">
         <RestaurantPageMenu
           restaurantInfo={restaurantInfo}

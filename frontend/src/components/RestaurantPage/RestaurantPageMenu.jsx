@@ -11,6 +11,9 @@ function reducer(state, action) {
             const ordersData = localStorage.getItem('orders');
             const restaurantKey = action.payload.restaurantId
             const dishId = action.payload.dishId
+            const dishName = action.payload.dishName
+            const price = action.payload.price
+            const image = action.payload.image
             const parsedOrdersData = JSON.parse(ordersData);
             // console.log("🚀 ~ reducer ~ parsedOrdersData:", parsedOrdersData)
             const index = parsedOrdersData.findIndex(item => Object.keys(item)[0] === restaurantKey)
@@ -18,7 +21,7 @@ function reducer(state, action) {
                 // console.log(index);
                 const helper = parsedOrdersData[index]
                 // console.log("🚀 ~ reducer ~ helper:", Object.values(helper))
-                helper[restaurantKey].push(dishId)
+                helper[restaurantKey].push({dishId, image, price, dishName})
                 parsedOrdersData[index] = helper
                 localStorage.setItem('orders', JSON.stringify(parsedOrdersData));
                 return state

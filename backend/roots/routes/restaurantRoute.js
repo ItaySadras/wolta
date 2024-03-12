@@ -9,7 +9,6 @@ const filterController = require("../controllers/filterController");
 router.use("logIn", userController.logInUser);
 // router.use(userController.authenticateRestaurant);
 
-router.get("/getAllRestaurant", filterController.getsSearchPreferencesFromCookies,filterController.TheGreatFilter);
 router.get("/:restaurantId", restaurantController.getRestaurantById);
 /**
  * ! direct restuarnt method

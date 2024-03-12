@@ -82,7 +82,7 @@ function App() {
         </Route>
 
         {/* courier routes */}
-        <Route path="/courier/65ef24ffdd3a8542f70d1154" element={<CourierLayout />}>
+        <Route path="/courier/:courierId" element={<CourierLayout />}>
           <Route path="profile" element={<CourierProfile />}></Route>
           <Route path="Delivery" element={<CourierDelivery />}></Route>
         </Route>

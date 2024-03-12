@@ -212,3 +212,17 @@ span {
 button:hover {
   background-color: #4c336c;
 }
+
+.close{
+  opacity: 0.5;
+}
+
+.closed{
+  position: relative;
+  z-index: 999;
+  color: #f44336;
+  bottom:110px;
+  font-size: x-large;
+  left: 32%;
+ 
+}

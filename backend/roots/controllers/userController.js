@@ -8,6 +8,7 @@ secret = "secretkey";
 
 exports.registerUser = async (req, res, next) => {
   try {
+    let mySchemaInstance
     const { username, email, password, accountType } = req.body;
     console.log(req.body);
 
@@ -19,33 +20,36 @@ exports.registerUser = async (req, res, next) => {
         if (isCustomer) {
           return res.status(401).send({ message: "Customer already exists" });
         }
-        req.mySchemaInstance = await Customer.create({
+        mySchemaInstance = await Customer.create({
           name:username,
           email,
           password: hashedPassword,
         });
+        res.status(200).send({user:mySchemaInstance})
         break;
       case "restaurant":
         const isRestaurant = await Restaurant.findOne({ email: email });
         if (isRestaurant) {
           return res.status(401).send({ message: "Restaurant already exists" });
         }
-        req.mySchemaInstance = await Restaurant.create({
+        mySchemaInstance = await Restaurant.create({
           username,
           email,
           password: hashedPassword,
         });
+        res.status(200).send({user:mySchemaInstance})
         break;
       case "courier":
         const isRCourier = await Courier.findOne({ email: email });
         if (isRCourier) {
           return res.status(401).send({ message: "Courier already exists" });
         }
-        req.mySchemaInstance = await Courier.create({
+        mySchemaInstance = await Courier.create({
           username,
           email,
           password: hashedPassword,
         });
+        res.status(200).send({user:mySchemaInstance})
         break;
       default:
         return res.status(400).send({
@@ -81,6 +85,7 @@ exports.logInUser = async (req, res) => {
         sameSite: "strict",
       });
     }
+    res.status(200).send({[accountType]:user,accountType:accountType})
   } catch (error) {
     res.status(500).send({
       status: "internal server error",
@@ -175,7 +180,9 @@ exports.authenticateCourier = async (req, res, next) => {
 };
 
 const ReturnHashedPassword = async (password) => {
+  console.log("🚀 ~ ReturnHashedPassword ~ password:", password)
   const hashedPassword = await bcrypt.hash(password, saltRounds);
+  console.log("🚀 ~ ReturnHashedPassword ~ hashedPassword:", hashedPassword)
   return hashedPassword;
 };
 

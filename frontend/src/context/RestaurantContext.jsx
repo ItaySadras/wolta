@@ -22,9 +22,9 @@ const RestaurantProvider = ({ children }) => {
         }
     };
 
-    useEffect(() => {
-        getAllRestaurants()
-    }, [])
+    // useEffect(() => {
+    //     getAllRestaurants()
+    // }, [])
     const getRestaurantById = async (id) => {
         try {
             const response = await axios.get(

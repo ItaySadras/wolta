@@ -13,7 +13,6 @@ const CustomerSearch = ({ dispatch, page }) => {
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
 
-
   const {
     register,
     handleSubmit,
@@ -24,9 +23,8 @@ const CustomerSearch = ({ dispatch, page }) => {
     setError(null);
   };
 
-
-
   const onSubmit = async (data) => {
+    console.log("🚀 ~ onSubmit ~ data:", data);
     if (!isFormSubmitted) return; // Prevent submission if the flag is false
     if (typeof data.searchInput !== "string") {
       setMessage("invalid input type");
@@ -36,7 +34,7 @@ const CustomerSearch = ({ dispatch, page }) => {
     try {
       const response = await getRestaurantBySearch(page, 12, data);
 
-      if (response.status !== 200) {
+      if (response.status !== 200 || !response.data.restaurants) {
         setMessage("could not find matching results");
         setError(true);
       } else {
@@ -50,7 +48,6 @@ const CustomerSearch = ({ dispatch, page }) => {
           },
         });
       }
-
     } catch (error) {
       setMessage("couldn't coenact to server");
       setError(true);
@@ -81,28 +78,14 @@ const CustomerSearch = ({ dispatch, page }) => {
         />
         {errors.searchInput && toast.error("You must search something!")}
         <br />
-        <select className="intolerance-input">
+        <select {...register("filter")} className="intolerance-input">
           <option value="barbecue">Cuisine/Intolerance</option>
-          <option value="barbecue">Barbecue</option>
-          <option value="glutenfree">Gluten Free</option>
-          <option value="american">American</option>
-          <option value="steak">Steak</option>
-          <option value="sushi">Sushi</option>
-          <option value="seafood">Seafood</option>
-          <option value="french">French</option>
-          <option value="korean">Korean</option>
-          <option value="spanish">Spanish</option>
+
+          <option value="gluten-free">Gluten Free</option>
           <option value="vegan">Vegan</option>
           <option value="vegetarian">Vegetarian</option>
           <option value="kosher">Kosher</option>
-          <option value="chinese">Chinese</option>
-          <option value="hamburger">Hamburger</option>
-          <option value="greek">Greek</option>
-          <option value="italian">Italian</option>
-          <option value="mexican">Mexican</option>
-          <option value="japanese">Japanese</option>
-          <option value="thai">Thai</option>
-          <option value="mediterranean">Mediterranean</option>
+          <option value="dairy-free">dairy-free</option>
         </select>
         <input type="submit" className="submit-btn" />
       </form>

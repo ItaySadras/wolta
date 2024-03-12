@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,6 +8,7 @@ import LandingPageNavBar from "../../components/navbars/LandingPageNavBar";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 import "./login.css";
+import ErrorAlert from "../ErrorAlert";
 
 const Login = () => {
   const {
@@ -16,6 +17,11 @@ const Login = () => {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
+  const [message, setMessage] = useState(null);
+  const handleCloseError = () => {
+    setError(null);
+  };
 
   const onSubmit = async (data) => {
     try {
@@ -32,7 +38,21 @@ const Login = () => {
 
       if (response.status === 200) {
         toast.success("Logged in successfully");
-        navigate("/dashboard");
+        switch (response.data.accountType) {
+          case "customer":
+            navigate(`/customer/${response.data.customer._id}/dashboard`);
+            break;
+          case "restaurant":
+            navigate(`/restaurant/${response.data.restaurant._id}/menu`);
+            break;
+          case "courier":
+            navigate(`/courier/${response.data.courier._id}/delivery`);
+            break;
+
+          default:
+            break;
+        }
+       
       } else {
         toast.error(
           response.data.message ||
@@ -111,6 +131,7 @@ const Login = () => {
         </div>
       </div>
       <Footer />
+      <ErrorAlert message={message} open={!!error} onClose={handleCloseError} />
     </>
   );
 };

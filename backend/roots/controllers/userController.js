@@ -9,7 +9,7 @@ secret = "secretkey";
 exports.registerUser = async (req, res, next) => {
   try {
     let mySchemaInstance
-    const { username, email, password, accountType } = req.body;
+    const { username, email, password, accountType,phoneNumber } = req.body;
     console.log(req.body);
 
     const hashedPassword = await ReturnHashedPassword(password);
@@ -24,6 +24,7 @@ exports.registerUser = async (req, res, next) => {
           name:username,
           email,
           password: hashedPassword,
+          phoneNumber
         });
         res.status(200).send({user:mySchemaInstance})
         break;
@@ -36,6 +37,7 @@ exports.registerUser = async (req, res, next) => {
           username,
           email,
           password: hashedPassword,
+          phoneNumber
         });
         res.status(200).send({user:mySchemaInstance})
         break;
@@ -45,9 +47,10 @@ exports.registerUser = async (req, res, next) => {
           return res.status(401).send({ message: "Courier already exists" });
         }
         mySchemaInstance = await Courier.create({
-          username,
+          userName:username,
           email,
           password: hashedPassword,
+          phoneNumber
         });
         res.status(200).send({user:mySchemaInstance})
         break;

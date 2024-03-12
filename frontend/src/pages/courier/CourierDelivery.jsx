@@ -2,7 +2,8 @@ import React, { useEffect, useReducer } from "react";
 import axios from "axios";
 import LoaderComponent from "../../Loader/LoaderComponent";
 import GoogleMapComponent from "../../geoLocation/GoogleMapComponent";
-import "./CourierDelivery.css"
+import "./CourierDelivery.css";
+import { useParams } from "react-router-dom";
 
 // Define initial state
 const initialState = {
@@ -40,8 +41,8 @@ const reducer = (state, action) => {
 
 const CourierDelivery = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const courierId = "65ef24ffdd3a8542f70d1154";
-
+  // const courierId = "65ef24ffdd3a8542f70d1154";
+  const { courierId } = useParams();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -94,7 +95,9 @@ const CourierDelivery = () => {
           <strong>Customer PhoneNumber:</strong>{" "}
           {customer?.phoneNumber?.[0] || "N/A"}
           <br />
-          {/* <strong>Arriving Time:</strong> {order?.arrivingTime || "N/A"} */} <br /><br /> 
+          {/* <strong>Arriving Time:</strong> {order?.arrivingTime || "N/A"} */}{" "}
+          <br />
+          <br />
         </div>
       </div>
 
@@ -108,7 +111,7 @@ const CourierDelivery = () => {
             destinationB={`${restaurant.address.streetName} ${restaurant.address.streetNumber} ${restaurant.address.city}`}
           />
         )}
-<br />
+      <br />
       {!loading &&
         restaurant &&
         customer &&

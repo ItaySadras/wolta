@@ -9,19 +9,24 @@ exports.getCourierDetails = async (req, res) => {
     const courier = await Courier.findById(courierId).populate({
       path: "currentOrder",
       populate: [
-        { path: "customer",populate:{path:"addresses"} },
-        { path: "restaurant",populate:{path:"address"} },
+        { path: "customer", populate: { path: "addresses" } },
+        { path: "restaurant", populate: { path: "address" } },
         {
           path: "orderDishes.dish",
           model: "Dish",
         },
-        
       ],
     }).populate("address");
 
     if (!courier) {
       return res.status(404).json({ message: "Courier not found" });
     }
+
+    // Check if the courier has a current order
+    if (!courier.currentOrder) {
+      return res.status(404).json({ message: "No current order found for the courier" });
+    }
+
     res.status(200).json({ courier: courier });
   } catch (error) {
     console.error("Error fetching courier details:", error);
@@ -61,7 +66,9 @@ exports.createCourier = async (req, res) => {
 exports.setNotAvailable = async (req, res) => {
   try {
     const { id } = req.params;
-    let courier = await Courier.findById(id);
+    console.log("🚀 ~ exports.setNotAvailable= ~ req.params:", req.params)
+    console.log("🚀 ~ exports.setNotAvailable= ~ id:", id)
+    const courier = await Courier.findById(id);
 
     if (!courier) {
       return res.status(404).json({ message: "Courier not found" });
@@ -81,6 +88,8 @@ exports.setNotAvailable = async (req, res) => {
 exports.setAvailable = async (req, res) => {
   try {
     const { id } = req.params;
+    console.log("🚀 ~ exports.setAvailable= ~ id:", id)
+    
     let courier = await Courier.findById(id);
 
     if (!courier) {

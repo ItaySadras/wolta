@@ -46,6 +46,7 @@ const CourierDelivery = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log("🚀 ~ fetchData ~ courierId:", courierId)
         const Response = await axios.get(
           `http://localhost:8000/api/courier/${courierId}`
         );
@@ -76,29 +77,30 @@ const CourierDelivery = () => {
       <div className="delivery-header">
         {loading ? <LoaderComponent /> : ""}
         <h1>New Delivery</h1>
-        <div className="delivery-detail">
-          <strong>Restaurant:</strong> {restaurant?.restaurantName || "N/A"}{" "}
-          <br />
-          {restaurant?.address && (
-            <>
-              <strong>Restaurant Location:</strong>{" "}
-              {restaurant.address.streetName} {restaurant.address.streetNumber}{" "}
-              {restaurant.address.city}
-              <br />
-            </>
-          )}
-          <strong>Customer Location:</strong>{" "}
-          {customer?.addresses?.[0]?.streetName +
-            " " +
-            customer?.addresses?.[0]?.streetNumber || "N/A"}{" "}
-          <br />
-          <strong>Customer PhoneNumber:</strong>{" "}
-          {customer?.phoneNumber?.[0] || "N/A"}
-          <br />
-          {/* <strong>Arriving Time:</strong> {order?.arrivingTime || "N/A"} */}{" "}
-          <br />
-          <br />
-        </div>
+        {courier && courier.currentOrder ? ( // Check if courier has a current order
+          <div className="delivery-detail">
+            <strong>Restaurant:</strong> {restaurant?.restaurantName || "N/A"} <br />
+            {restaurant?.address && (
+              <>
+                <strong>Restaurant Location:</strong>{" "}
+                {restaurant.address.streetName} {restaurant.address.streetNumber}{" "}
+                {restaurant.address.city}
+                <br />
+              </>
+            )}
+            <strong>Customer Location:</strong>{" "}
+            {customer?.addresses?.[0]?.streetName +
+              " " +
+              customer?.addresses?.[0]?.streetNumber || "N/A"}{" "}
+            <br />
+            <strong>Customer PhoneNumber:</strong>{" "}
+            {customer?.phoneNumber?.[0] || "N/A"}
+            <br />
+            {/* <strong>Arriving Time:</strong> {order?.arrivingTime || "N/A"} */} <br /><br /> 
+          </div>
+        ) : (
+          <p>Delivery - No Current Deliveries For You</p>
+        )}
       </div>
 
       {!loading &&

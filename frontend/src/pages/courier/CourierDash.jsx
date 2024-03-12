@@ -1,4 +1,6 @@
 import React, { useContext, useState } from "react";
+import { useParams } from "react-router-dom";
+
 import axios from "axios";
 import { LocationContext } from "../../context/LocationContext";
 import LoaderComponent from "../../Loader/LoaderComponent";
@@ -9,7 +11,7 @@ const CourierDash = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const { getLocation } = useContext(LocationContext);
-  const courierId = "65ef24ffdd3a8542f70d1154";
+  const { courierId } = useParams();
 
   const handleAvailableButton = async () => {
     try {
@@ -52,19 +54,9 @@ const CourierDash = () => {
   };
 
   return (
-
-      <div>
-        <button onClick={handleAvailableButton} disabled={loading}>
-          {loading ? <LoaderComponent /> : "Available"}
-        </button>
-        <ErrorAlert message={error} open={!!error} onClose={handleCloseError} />
-        <button onClick={handleNotAvailableButton} disabled={loading}>
-          {loading ? <LoaderComponent /> : "Not Available"}
-        </button>
-        <ErrorAlert message={error} open={!!error} onClose={handleCloseError} />
-
+    <div>
       <div className="availabillities1">
-        <div class="centered">
+        <div className="centered">
           <button
             className="navbutton1"
             onClick={handleAvailableButton}

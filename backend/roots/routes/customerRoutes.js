@@ -8,7 +8,7 @@ const userController = require('../controllers/userController');
 const dishController = require('../controllers/dishController');
 
 
-router.use(userController.authenticateCustomer)
+// router.use(userController.authenticateCustomer)
 // get up to 30 relevant dishes and restaurant by search
 router.get("/:searched",filterController.createSearchCookie,filterController.TheGreatFilter)
 router.get("/getAllRestaurant", filterController.getsSearchPreferencesFromCookies,filterController.TheGreatFilter);

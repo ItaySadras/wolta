@@ -49,7 +49,7 @@ const CustomerSearch = ({ dispatch, page }) => {
         });
       }
     } catch (error) {
-      setMessage("couldn't coenact to server");
+      setMessage("couldn't connect to server");
       setError(true);
       console.log(error);
     }

@@ -5,6 +5,7 @@ import { getAllRestaurants, getRestaurantBySearch } from "../../api";
 import DishesCustomerDisplay from "./DishesCustomerDisplay";
 import LoaderComponent from "../../Loader/LoaderComponent";
 import SearchBox from "./SearchBox";
+import ErrorAlert from "../ErrorAlert";
 const InitialState = {
   dishes: [],
   restaurants: [],
@@ -13,6 +14,7 @@ const InitialState = {
   callBackFunction: getAllRestaurants,
   searchValue: "",
 };
+
 const reducer = (state, action) => {
   switch (action.type) {
     case "update":
@@ -40,7 +42,7 @@ const reducer = (state, action) => {
     case "loadingStop":
       return {
         ...state,
-        loading: true,
+        loading: false,
       };
 
     default:
@@ -49,32 +51,64 @@ const reducer = (state, action) => {
 };
 const CustomerDash = () => {
   const [state, dispatch] = useReducer(reducer, InitialState);
-  const fetchMoreDishes = async () => {
-    dispatch({
-      type: "loading",
-    });
-    const response = await state.callBackFunction(
-      state.page + 1,
-      12,
-      state.searchValue
-    );
-    console.log("🚀 ~ fetchMoreDishes ~ response:", response);
-    dispatch({
-      type: "add",
-      payload: { dishes: response.dishes },
-    });
-  };
+  const [error, setError] = useState(null);
+  const [message, setMessage] = useState(null);
 
+  const fetchMoreDishes = async () => {
+
+    try {
+      dispatch({
+        type: "loading",
+      });
+      const response = await state.callBackFunction(
+        state.page + 1,
+        12,
+        state.searchValue
+      );
+      if (response.data.dishes.length === 0) {
+        dispatch({
+          type: "loadingStop",
+        });
+        setMessage("there is no more results ");
+        setError(true);
+      } else {
+        dispatch({
+          type: "add",
+          payload: { dishes: response.data.dishes },
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: "loadingStop",
+      });
+      setMessage("something want wrong ");
+      setError(true);
+    }
+  };
+  const handleCloseError = () => {
+    setError(null);
+  };
   const fetch = async () => {
-    const response = await getAllRestaurants(state.page, 12);
-    dispatch({
-      type: "update",
-      payload: {
-        restaurants: response.restaurants,
-        dishes: response.dishes,
-        callBackFunction: getAllRestaurants,
-      },
-    });
+    try {
+      const response = await getAllRestaurants(state.page, 12);
+      if (response.status !== 200) {
+        setMessage("something want wrong ");
+        setError(true);
+      } else {
+        dispatch({
+          type: "update",
+          payload: {
+            restaurants: response.data.restaurants,
+            dishes: response.data.dishes,
+            callBackFunction: getAllRestaurants,
+          },
+        });
+      }
+    } catch (error) {
+      setMessage("something want wrong ");
+      setError(true);
+    }
+
   };
   useEffect(() => {
     fetch();
@@ -93,10 +127,13 @@ const CustomerDash = () => {
         </div>
       )}
       {state.loading && <LoaderComponent />}
+
       <button className="button2" onClick={() => fetchMoreDishes()}>
         load more
       </button>
       <br />
+           <ErrorAlert message={message} open={!!error} onClose={handleCloseError} />
+
     </div>
   );
 };

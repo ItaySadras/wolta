@@ -1,6 +1,8 @@
 import React from 'react'
 import { NavLink } from "react-router-dom";
 import "./CustomerDash.css";
+import { isThisRestaurantOpenFront } from '../../components/utils';
+
 
 const RestaurantBox = ({restaurant}) => {
   return (

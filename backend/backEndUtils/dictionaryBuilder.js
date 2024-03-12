@@ -1,5 +1,7 @@
 // const axios = require("axios");
-// const Dictionary = require("../roots/models/dictonaryModel");
+const Dictionary = require("../roots/models/dictionaryModel");
+const Dish = require("../roots/models/dishModel");
+const Restaurant = require("../roots/models/restaurantModel");
 
 // const dictionaryDishBuilder = async () => {
 //   const response = await axios.get(
@@ -19,11 +21,26 @@
 //   for (const restaurant of restaurants) {
 //     dictionaryRes.push({ name: restaurant.restaurantName, type: "restaurant", restaurantId:restaurant});
 //   }
-//   const dictionary = await Dictionary.create({
-//     dishes: createdDishes,
-//     restaurant: dictionaryRes,
-//   });
-// };
+const dictionaryDishBuilder = async () => {
+  const dishes = await Dish.find({});
+  const restaurants = await Restaurant.find({});
+  createdDishes = [];
+  for (const dish of dishes) {
+    createdDishes.push({ name: dish.dishName, type: "dish", dishId: dish._id });
+  }
+  const dictionaryRes = [];
+  for (const restaurant of restaurants) {
+    dictionaryRes.push({
+      name: restaurant.restaurantName,
+      type: "restaurant",
+      restaurantId: restaurant._id,
+    });
+  }
+  const dictionary = await Dictionary.create({
+    dishes: createdDishes,
+    restaurant: dictionaryRes,
+  });
+};
 
 // // const dictionaryRestaurantsBuilder = async () => {
 // //   const response = await axios.get(
@@ -62,4 +79,4 @@
 // //   }
 // //   await dictionary.save();
 // // };
-// module.exports = { dictionaryDishBuilder };
+module.exports = { dictionaryDishBuilder };

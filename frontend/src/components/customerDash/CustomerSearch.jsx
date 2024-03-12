@@ -79,8 +79,8 @@ const CustomerSearch = ({ dispatch, page }) => {
         {errors.searchInput && toast.error("You must search something!")}
         <br />
         <select {...register("filter")} className="intolerance-input">
-          <option value="barbecue">Cuisine/Intolerance</option>
 
+          <option value="">choose filter</option>
           <option value="gluten-free">Gluten Free</option>
           <option value="vegan">Vegan</option>
           <option value="vegetarian">Vegetarian</option>

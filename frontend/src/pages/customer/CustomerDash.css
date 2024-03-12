@@ -93,7 +93,6 @@ span {
   justify-content: center;
   gap: 20px;
   list-style: none;
-  white-space: nowrap;
 }
 
 .restaurant-name {
@@ -101,7 +100,8 @@ span {
   color: #333;
   margin: 0;
   margin-left: 10px;
-  height: 315px;
+  height: 290px;
+  max-width: 290px;
 }
 
 .restaurant-info {
@@ -213,16 +213,15 @@ button:hover {
   background-color: #4c336c;
 }
 
-.close{
+.close {
   opacity: 0.5;
 }
 
-.closed{
+.closed {
   position: relative;
   z-index: 999;
   color: #f44336;
-  bottom:110px;
+  bottom: 110px;
   font-size: x-large;
   left: 32%;
- 
 }

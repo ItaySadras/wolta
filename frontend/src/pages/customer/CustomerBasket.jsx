@@ -1,60 +1,65 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import CustomerPaymentModal from '../../components/customerBasket/CustomerPaymentModal';
 import './CustomerBasket.css';
+import { useParams } from 'react-router-dom';
 
 const CustomerBasket = () => {
   const [showModal, setShowModal] = useState(false);
-  
-  const [orderObjects, setOrderObjects] = useState([
-    {
-      _id: "65e81b8a8630ba788c71bb5e1",
-      dishName: "Lunch Salad, Chang's Chinese Chicken Salad",
-      price: 86,
-      quantity: 1
-    },
-    {
-      _id: "65e81b8a8630ba788c71bb5e2",
-      dishName: "Szechuan Beef",
-      price: 95,
-      quantity: 2
-    },
-    {
-      _id: "65e81b8a8630ba788c71bb5e3",
-      dishName: "Mongolian Pork",
-      price: 78,
-      quantity: 1
-    },
-  ]);
+  const [orderDishes, setOrderDishes] = useState([])
+  // console.log("🚀 ~ CustomerBasket ~ orderDishes:", orderDishes)
+
+  const { restaurantId } = useParams()
+
+  const currentOrders = JSON.parse(localStorage.getItem('orders'))
+
+  const currentOrder = currentOrders.filter((order) => {
+    if (Object.keys(order).toString() === restaurantId) {
+      // console.log("🚀 ~ currentOrder ~ Object.keys(order):", Object.keys(order).toString())
+      return order
+    }
+  })
+
+  const orderOBJ = currentOrder[0]
+  // console.log("🚀 ~ CustomerBasket ~ displayedOrder:", orderOBJ)
+
+  const orderARR = Object.values(orderOBJ)
+  // console.log("🚀 ~ CustomerBasket ~ orderARR:", orderARR)
+
+  const orderARR2 = orderARR[0]
+
+  const newOrderARR = orderARR2.filter((element, index) => index % 2 !== 0);
+  // console.log("🚀 ~ newOrderARR ~ newOrderARR:", newOrderARR)
+
+  useEffect(() => {
+    setOrderDishes(newOrderARR)
+  },[])
 
   const handleOpenModal = () => {
     setShowModal(true);
   };
-
   const handleCloseModal = () => {
     setShowModal(false);
   };
 
   const handleRemoveDish = (id) => {
-    const updatedOrderObjects = orderObjects.filter(order => order._id !== id);
-    setOrderObjects(updatedOrderObjects);
-  };
+    const updatedDishes = orderDishes.filter(dish => dish.dishId !== id);
+    // console.log("🚀 ~ handleRemoveDish ~ updatedDishes:", updatedDishes)
+    setOrderDishes(updatedDishes);
+ };
 
 
-  // localStorage.setItem('order', JSON.stringify(orderObjects));
-  console.log(JSON.parse(localStorage.getItem('order')));
 
   return (
     <div className="customer-basket">
       <div className="order-summary">
         <h2 className='basket-h2'>Your order:</h2>
         <ul className="order-list">
-          {orderObjects.map((order, index) => (
-            <li key={order._id + index} className="order-item">
+          {newOrderARR.map((order, index) => (
+            <li key={index} className="order-item">
               <p className="dish-name">{order.dishName}</p>
               <p className="price">Price: ${order.price}</p>
-              <p className="quantity">Quantity: {order.quantity}</p>
-              <button className="basket-remove-button" onClick={() => handleRemoveDish(order._id)}>remove</button>
+              <button className="basket-remove-button" onClick={() => handleRemoveDish(order.dishId)}>remove</button>
             </li>
           ))}
         </ul>

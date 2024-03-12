@@ -21,14 +21,14 @@ const RestaurantMenu = () => {
   const [loading, setLoading] = useState(true)
   const { restaurantId } = useParams();
   const fetchRestaurant = async () => {
-    await getRestaurantById(restaurantId)
+    await getRestaurantById("65e81bb48630ba788c71bb97")
     setLoading(false)
   }
   console.log("🚀 ~ RestaurantMenu ~ restaurant:", restaurant)
 
   useEffect(() => {
     fetchRestaurant()
-  }, [getRestaurantById])
+  }, [])
 
   useEffect(() => {
     if (restaurantInfo) {

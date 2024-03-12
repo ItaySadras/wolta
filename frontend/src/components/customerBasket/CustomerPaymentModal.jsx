@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import Cards from 'react-credit-cards-2';
 import './CustomerPaymentModal.css'; // Import CSS for modal styles
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
-const CustomerPaymentModal = ({ handleClose, show }) => {
+const CustomerPaymentModal = ({ handleClose, show, orderDishes }) => {
     const [state, setState] = useState({
         number: '',
         expiry: '',
@@ -26,6 +28,25 @@ const CustomerPaymentModal = ({ handleClose, show }) => {
 
     const handleInputFocus = (evt) => {
         setState((prev) => ({ ...prev, focus: evt.target.name }));
+    }
+
+    const { customerId, restaurantId } = useParams()
+
+    const handleOrderSend = async () => {
+        try {
+            const response=await axios.post('http://localhost:8000/api/customer/createOrder',
+            {restaurantId , customerId, orderDishes})
+            if(response.status===200){
+                console.log(response.data.order);
+            }
+
+            console.log("🚀 ~ handleOrderSend ~ orderDishes:", orderDishes)
+            console.log("🚀 ~ handleOrderSend ~ customerId:", customerId)
+            console.log("🚀 ~ handleOrderSend ~ restaurantId:", restaurantId)
+        } catch (error) {
+        console.log("🚀 ~ handleOrderSend ~ error:", error)
+
+        }
     }
 
     return (
@@ -77,6 +98,7 @@ const CustomerPaymentModal = ({ handleClose, show }) => {
                         maxLength={20}
                     />
                 </form>
+                <button onClick={() => handleOrderSend()}>send order</button>
             </section>
         </div>
     );

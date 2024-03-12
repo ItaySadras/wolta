@@ -22,6 +22,7 @@ const RestaurantPage = () => {
     return <div>Loading...</div>;
   }
 
+  const {customerId} = useParams()
   const formatAddress = (address) => {
     if (!address) return "";
     const unwantedKeys = ["_id", "__v"];
@@ -87,7 +88,7 @@ const RestaurantPage = () => {
           </div>
         </ul>
       </div>
-      <NavLink to={`/customer/:customerId/basket/${restaurantId}`}>
+      <NavLink to={`/customer/${customerId}/basket/${restaurantId}`}>
         <button className="navbutton-order">🛒 Complete Order</button>
       </NavLink>
       <div className="menu-container-restaurant">

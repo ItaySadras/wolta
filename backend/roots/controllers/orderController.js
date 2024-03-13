@@ -28,23 +28,28 @@ exports.createOrder = async (req, res) => {
 
     // Calculate distance between each courier and the restaurant
     const couriersWithDistance =await Promise.all( availableCouriers.map(async(courier) => {
+      // console.log("🚀 ~ couriersWithDistance ~ courier:", courier.toObject())
       return  {
         courier : courier.toObject(),
         distance:await distanceCalculate(courier.address, restaurant.address),
       };
     }));
-    console.log("🚀 ~ couriersWithDistance ~ courier.vehicleType:",couriersWithDistance)
-    
+    // console.log("🚀 ~ couriersWithDistance ~ couriersWithDistance:", Object.keys(couriersWithDistance[0]))
 
     // Sort couriers by distance from the restaurant
     couriersWithDistance.sort((a, b) => ignoreMin(a.distance) - ignoreMin(b.distance));
 
     // Get the closest courier to the restaurant
    const closestCourier = couriersWithDistance[0];
-    
-    // duration from restaurant to customer
-    const arrivingTime = await distanceCalculate(restaurant.address,customer.addresses[0]);
 
+
+    
+
+    // duration from restaurant to customer
+    const arrivingTime = await distanceCalculate(
+      restaurant.address,
+      customer.addresses[0]
+    );
 
     // Create the order and assign it to the closest courier
     const order = await Order.create({
@@ -78,8 +83,9 @@ exports.createOrder = async (req, res) => {
       .send({ message: "Order created successfully", order: populatedOrder });
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).send({ message: "Internal server error" });
-  }
+    res.status(500).send({ message: "Internal server error" });
+  }
+
 };
 
 exports.deleteOrder = async (req, res) => {

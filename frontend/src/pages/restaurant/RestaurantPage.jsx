@@ -3,6 +3,7 @@ import "./restaurant.css";
 import { NavLink, useParams } from "react-router-dom";
 import { RestaurantContext } from "../../context/RestaurantContext";
 import RestaurantPageMenu from "../../components/RestaurantPage/RestaurantPageMenu";
+import LoaderComponent from "../../Loader/LoaderComponent";
 
 const RestaurantPage = () => {
   const { getRestaurantById, restaurantInfo } = useContext(RestaurantContext);
@@ -18,8 +19,9 @@ const RestaurantPage = () => {
 
     fetchRestaurant();
   }, []);
+
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoaderComponent/>;
   }
 
   const {customerId} = useParams()

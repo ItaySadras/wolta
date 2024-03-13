@@ -13,7 +13,6 @@ const { cloudinary } = require("./cloudinarySetUp");
 const { getDay, getMinutes, getHours, isPast, isFuture, addDays, addHours } = require("date-fns");
 
 function ignoreMin(duration){
-    console.log(duration);
     const parts = duration.split(' ');
     const minutesString= parts[0];
     const minutes=parseInt(minutesString,10);
@@ -135,16 +134,17 @@ const getsADishesRestaurants = async (dishes) => {
   return restaurant;
 };
 
-async function distanceCalculate(origin, destination, mode) {
+async function distanceCalculate(origin, destination) {
+  console.log("🚀 ~ distanceCalculate ~ destination:", destination)
+  console.log("🚀 ~ distanceCalculate ~ origin:", origin)
   try {
-    console.log("🚀 ~ distanceCalculate ~ mode:", mode)
     const response = await axios.get(
       "https://maps.googleapis.com/maps/api/directions/json",
       {
         params: {
           origin: origin,
           destination: destination,
-          mode: mode,
+          mode: "DRIVING",
           key: apiKey,
         },
       }

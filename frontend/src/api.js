@@ -27,3 +27,28 @@ export const getRestaurantBySearch = async (
     console.error("Failed to fetch restaurant", error);
   }
 };
+
+export const getRestaurantById = async (id) => {
+  try {
+      const response = await axios.get(
+          `http://localhost:8000/api/customer/getRestaurantById/${id}`
+      );
+      return response
+
+  } catch (error) {
+      console.log(error);
+  }
+}
+
+export const getRestaurantByDishId = async (dishId) => {
+  console.log("🚀 ~ getRestaurantByDishId ~ dishId:", dishId)
+  try {
+      const response = await axios.get(
+          `http://localhost:8000/api/customer/getDishRestaurant/${dishId}`
+      );
+      return response
+
+  } catch (error) {
+      console.log(error);
+  }
+}

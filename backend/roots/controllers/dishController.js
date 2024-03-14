@@ -129,8 +129,8 @@ const addToArrays = (key, action, data, currentValue) => {
 
 exports.getDishRestaurant = async (req, res) => {
   try {
-    const restaurants = await getsADishRestaurant(req.params.dishId)
-    res.status(200).send({ restaurants: restaurants });
+    const restaurant = await getsADishRestaurant(req.params.dishId)
+    res.status(200).send({ restaurant: restaurant[0] });
 
   } catch (error) {
     console.log("🚀 ~ exports.getDishRestaurant= ~ error:", error);

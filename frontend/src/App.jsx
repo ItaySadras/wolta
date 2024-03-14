@@ -40,6 +40,8 @@ import LoaderComponent from "./Loader/LoaderComponent";
 
 import LandingPage from "./pages/authServices/LandingPage";
 import RestaurantPage from "./pages/restaurant/RestaurantPage";
+import {io} from "socket.io-client"
+const socket=io("http://localhost:8000")
 function App() {
 
   const initializeLocalStorage = () => {

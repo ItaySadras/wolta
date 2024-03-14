@@ -57,7 +57,16 @@ const CustomerProvider = ({ children }) => {
     }
   };
 
-
+  const getRestaurantById = async (id) => {
+    try {
+        const response = await axios.get(
+            `http://localhost:8000/api/customer/${id}`
+        );
+        setRestaurantInfo(response.data.restaurant);
+    } catch (error) {
+        console.log(error);
+    }
+}
 
   const contextValues = {
     customers,

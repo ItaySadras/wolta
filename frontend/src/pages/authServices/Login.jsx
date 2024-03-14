@@ -52,7 +52,6 @@ const Login = () => {
           default:
             break;
         }
-       
       } else {
         toast.error(
           response.data.message ||

@@ -14,7 +14,7 @@ const RestaurantProvider = ({ children }) => {
     const getAllRestaurants = async (page, limit) => {
         try {
             const response = await axios.get(
-                `http://localhost:8000/api/restaurant/getAllRestaurant?page=${page}&limit=${limit}`
+                `http://localhost:8000/api/customer/getAllRestaurant?page=${page}&limit=${limit}`
             );
             return response.data;
         } catch (error) {

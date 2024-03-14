@@ -6,7 +6,8 @@ const menuCategoryController = require("../controllers/menuCategoryController");
 const userController = require("../controllers/userController");
 const filterController = require("../controllers/filterController");
 
-// router.use(userController.authenticateRestaurant);
+router.use(userController.authenticateRestaurant);
+
 
 router.get("/:restaurantId", restaurantController.getRestaurantById);
 /**

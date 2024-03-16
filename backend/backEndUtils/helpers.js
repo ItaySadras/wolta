@@ -134,7 +134,7 @@ const getsADishesRestaurants = async (dishes) => {
   return restaurant;
 };
 
-async function distanceCalculate(origin, destination) {
+async function distanceCalculate(origin, destination, mode) {
   console.log("🚀 ~ distanceCalculate ~ destination:", destination)
   console.log("🚀 ~ distanceCalculate ~ origin:", origin)
   try {
@@ -144,7 +144,7 @@ async function distanceCalculate(origin, destination) {
         params: {
           origin: origin,
           destination: destination,
-          mode: "DRIVING",
+          mode: mode,
           key: apiKey,
         },
       }

@@ -46,7 +46,7 @@ const CourierDelivery = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("🚀 ~ fetchData ~ courierId:", courierId)
+        console.log("🚀 ~ fetchData ~ courierId:", courierId);
         const Response = await axios.get(
           `http://localhost:8000/api/courier/${courierId}`
         );
@@ -79,12 +79,13 @@ const CourierDelivery = () => {
         <h1>New Delivery</h1>
         {courier && courier.currentOrder ? ( // Check if courier has a current order
           <div className="delivery-detail">
-            <strong>Restaurant:</strong> {restaurant?.restaurantName || "N/A"} <br />
+            <strong>Restaurant:</strong> {restaurant?.restaurantName || "N/A"}{" "}
+            <br />
             {restaurant?.address && (
               <>
                 <strong>Restaurant Location:</strong>{" "}
-                {restaurant.address.streetName} {restaurant.address.streetNumber}{" "}
-                {restaurant.address.city}
+                {restaurant.address.streetName}{" "}
+                {restaurant.address.streetNumber} {restaurant.address.city}
                 <br />
               </>
             )}
@@ -96,7 +97,9 @@ const CourierDelivery = () => {
             <strong>Customer PhoneNumber:</strong>{" "}
             {customer?.phoneNumber?.[0] || "N/A"}
             <br />
-            {/* <strong>Arriving Time:</strong> {order?.arrivingTime || "N/A"} */} <br /><br /> 
+            {/* <strong>Arriving Time:</strong> {order?.arrivingTime || "N/A"} */}{" "}
+            <br />
+            <br />
           </div>
         ) : (
           <p>Delivery - No Current Deliveries For You</p>
@@ -111,6 +114,7 @@ const CourierDelivery = () => {
           <GoogleMapComponent
             originA={`${courier.address.streetName} ${courier.address.streetNumber} ${courier.address.city} `}
             destinationB={`${restaurant.address.streetName} ${restaurant.address.streetNumber} ${restaurant.address.city}`}
+            mode={courier.vehicleType}
           />
         )}
       <br />
@@ -122,6 +126,7 @@ const CourierDelivery = () => {
           <GoogleMapComponent
             originA={`${restaurant.address.streetName} ${restaurant.address.streetNumber} ${restaurant.address.city} `}
             destinationB={`${customer.addresses[0].streetName} ${customer.addresses[0].streetNumber} ${customer.addresses[0].city}`}
+            mode={courier.vehicleType}
           />
         )}
     </div>

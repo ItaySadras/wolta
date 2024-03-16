@@ -6,17 +6,19 @@ const Courier = require("../models/courierModel");
 exports.getCourierDetails = async (req, res) => {
   try {
     const courierId = req.params.id;
-    const courier = await Courier.findById(courierId).populate({
-      path: "currentOrder",
-      populate: [
-        { path: "customer", populate: { path: "addresses" } },
-        { path: "restaurant", populate: { path: "address" } },
-        {
-          path: "orderDishes.dish",
-          model: "Dish",
-        },
-      ],
-    }).populate("address");
+    const courier = await Courier.findById(courierId)
+      .populate({
+        path: "currentOrder",
+        populate: [
+          { path: "customer", populate: { path: "addresses" } },
+          { path: "restaurant", populate: { path: "address" } },
+          {
+            path: "orderDishes.dish",
+            model: "Dish",
+          },
+        ],
+      })
+      .populate("address");
 
     if (!courier) {
       return res.status(404).json({ message: "Courier not found" });
@@ -24,7 +26,9 @@ exports.getCourierDetails = async (req, res) => {
 
     // Check if the courier has a current order
     if (!courier.currentOrder) {
-      return res.status(404).json({ message: "No current order found for the courier" });
+      return res
+        .status(404)
+        .json({ message: "No current order found for the courier" });
     }
 
     res.status(200).json({ courier: courier });
@@ -44,7 +48,8 @@ exports.getCourierDetails = async (req, res) => {
 //   },
 exports.createCourier = async (req, res) => {
   try {
-    const { userName, phoneNumber, email, address, password,vehicleType } = req.body;
+    const { userName, phoneNumber, email, address, password, vehicleType } =
+      req.body;
     const newCourier = await Courier.create({
       userName,
       phoneNumber,
@@ -52,7 +57,7 @@ exports.createCourier = async (req, res) => {
       address,
       password,
       vehicleType,
-    })
+    });
     res
       .status(201)
       .json({ message: "Courier created successfully", courier: newCourier });
@@ -66,8 +71,8 @@ exports.createCourier = async (req, res) => {
 exports.setNotAvailable = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log("🚀 ~ exports.setNotAvailable= ~ req.params:", req.params)
-    console.log("🚀 ~ exports.setNotAvailable= ~ id:", id)
+    console.log("🚀 ~ exports.setNotAvailable= ~ req.params:", req.params);
+    console.log("🚀 ~ exports.setNotAvailable= ~ id:", id);
     const courier = await Courier.findById(id);
 
     if (!courier) {
@@ -85,11 +90,39 @@ exports.setNotAvailable = async (req, res) => {
   }
 };
 
+exports.setVehicleType = async (req, res) => {
+  const { id } = req.params;
+  const { mode } = req.body;
+
+  console.log("🚀 ~ exports.setVehicleType= ~ mode:", mode);
+  try {
+    const courier = await Courier.findByIdAndUpdate(
+      id,
+      { vehicleType: mode },
+      { new: true }
+    );
+    console.log("🚀 ~ exports.setVehicleType= ~ courier:", courier);
+
+    if (!courier) {
+      return res.status(404).json({ error: "Courier not found" });
+    }
+    return res
+      .status(200)
+      .json({
+        courier,
+        message: `Changed vehicle type to ${courier.vehicleType}`,
+      });
+  } catch (error) {
+    console.error("Error updating courier:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 exports.setAvailable = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log("🚀 ~ exports.setAvailable= ~ id:", id)
-    
+    console.log("🚀 ~ exports.setAvailable= ~ id:", id);
+
     let courier = await Courier.findById(id);
 
     if (!courier) {

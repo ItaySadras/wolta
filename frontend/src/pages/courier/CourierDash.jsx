@@ -7,7 +7,7 @@ import LoaderComponent from "../../Loader/LoaderComponent";
 import ErrorAlert from "../ErrorAlert";
 import "../../components/navbars/navbar.css";
 
-const CourierDash = () => {
+const CourierDash = ({setRender}) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const { getLocation } = useContext(LocationContext);
@@ -39,6 +39,7 @@ const CourierDash = () => {
           }
         );
         console.log(response.data.message);
+        setRender(true)
       } else {
         console.error("Location not available");
       }

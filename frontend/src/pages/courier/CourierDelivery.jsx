@@ -6,7 +6,7 @@ import "./CourierDelivery.css";
 import { useParams } from "react-router-dom";
 import { SocketContext } from "../../context/SocketContext";
 import OrderDisplay from "./OrderDisplay";
-
+import CourierDash from "./CourierDash";
 
 const CourierDelivery = () => {
   const socket = useContext(SocketContext);
@@ -18,8 +18,7 @@ const CourierDelivery = () => {
   if (socket) {
     socket.on("newOrder", () => {
       console.log("got to delivery gut");
-      setRender(true)
-  
+      setRender(true);
     });
   }
   const { courierId } = useParams();
@@ -31,14 +30,14 @@ const CourierDelivery = () => {
           `http://localhost:8000/api/courier/${courierId}`
         );
         if (Response.data) {
-          console.log("🚀 ~ fetchData ~ Response.data:", Response.data.courier)
-          setCourier(Response.data.courier)
-          setOrder(Response.data.courier.currentOrder)
+          console.log("🚀 ~ fetchData ~ Response.data:", Response.data.courier);
+          setCourier(Response.data.courier);
+          setOrder(Response.data.courier.currentOrder);
         }
       } catch (error) {
         // Dispatch action to handle error
       }
-      setLoading(false)
+      setLoading(false);
     };
 
     fetchData();
@@ -49,30 +48,33 @@ const CourierDelivery = () => {
   }
 
   return (
-    <div className="delivery-container">
-    {order ? (
-      <>
-        <OrderDisplay order={order} />
+    <div>
+      <CourierDash setRender={setRender}></CourierDash>
+      <div className="delivery-container">
+        {order ? (
+          <>
+            <OrderDisplay order={order} />
 
-        <GoogleMapComponent
-          originA={`${courier.address.streetName} ${courier.address.streetNumber} ${courier.address.city} `}
-          destinationB={`${order.restaurant.address.streetName} ${order.restaurant.address.streetNumber} ${order.restaurant.address.city}`}
-          mode={courier.vehicleType}
-        />
+            <GoogleMapComponent
+              originA={`${courier.address.streetName} ${courier.address.streetNumber} ${courier.address.city} `}
+              destinationB={`${order.restaurant.address.streetName} ${order.restaurant.address.streetNumber} ${order.restaurant.address.city}`}
+              mode={courier.vehicleType}
+            />
 
-        <br />
+            <br />
 
-        <GoogleMapComponent
-          originA={`${order.restaurant.address.streetName} ${order.restaurant.address.streetNumber} ${order.restaurant.address.city} `}
-          destinationB={`${order.customer.addresses[0].streetName} ${order.customer.addresses[0].streetNumber} ${order.customer.addresses[0].city}`}
-          mode={courier.vehicleType}
-        />
-      </>
-    ): <p>Delivery - No Current Deliveries For You</p>}
-  </div>
-);
-
+            <GoogleMapComponent
+              originA={`${order.restaurant.address.streetName} ${order.restaurant.address.streetNumber} ${order.restaurant.address.city} `}
+              destinationB={`${order.customer.addresses[0].streetName} ${order.customer.addresses[0].streetNumber} ${order.customer.addresses[0].city}`}
+              mode={courier.vehicleType}
+            />
+          </>
+        ) : (
+          <p>Delivery - No Current Deliveries For You</p>
+        )}
+      </div>
+    </div>
+  );
 };
-
 
 export default CourierDelivery;

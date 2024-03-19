@@ -10,7 +10,7 @@ import "./GoogleMapsComponent.css"
 import { getLatLngFromAddress } from "../components/utils";
 const libraries = ["places"]; 
 
-function GoogleMapComponent({ originA, destinationB }) {
+function GoogleMapComponent({ originA, destinationB, mode }) {
   const [userAddress, setUserAddress] = useState(originA);
   const [destinationAddress, setDestinationAddress] = useState(destinationB);
   const [center, setCenter] = useState(null);
@@ -57,7 +57,7 @@ function GoogleMapComponent({ originA, destinationB }) {
       const request = {
         origin: userAddress,
         destination: destinationAddress,
-        travelMode: google.maps.TravelMode.DRIVING,
+        travelMode: mode
       };
 
       directionService.route(request, (result, status) => {

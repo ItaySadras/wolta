@@ -1,4 +1,8 @@
-const { isThisRestaurantOpen, distanceCalculate,ignoreMin } = require("../../backEndUtils/helpers");
+const {
+  isThisRestaurantOpen,
+  distanceCalculate,
+  ignoreMin,
+} = require("../../backEndUtils/helpers");
 const { sendAReviewSurvey } = require("../../backEndUtils/twilio");
 const jwt = require("jsonwebtoken");
 const secret = "secretkey";
@@ -29,33 +33,45 @@ exports.createOrder = async (req, res) => {
       return res.status(404).send({ message: "There is no available courier" });
     }
 
-    const couriersWithDistance =await Promise.all( availableCouriers.map(async(courier) => {
-      return  {
-        courier : courier.toObject(),
-        distance:await distanceCalculate(courier.address, restaurant.address),
-      };
-    }));
 
-    
-    couriersWithDistance.sort((a, b) => ignoreMin(a.distance) - ignoreMin(b.distance));    // Get the closest courier to the restaurant
+    // Calculate distance between each courier and the restaurant
+    const couriersWithDistance = await Promise.all(
+      availableCouriers.map(async (courier) => {
+        // console.log("🚀 ~ couriersWithDistance ~ courier:", courier.toObject())
+        return {
+          courier: courier.toObject(),
+          distance: await distanceCalculate(
+            courier.address,
+            restaurant.address,
+            courier.vehicleType
+          ),
+        };
+      })
+    );
+    // console.log("🚀 ~ couriersWithDistance ~ couriersWithDistance:", Object.keys(couriersWithDistance[0]))
 
+    // Sort couriers by distance from the restaurant
+    couriersWithDistance.sort(
+      (a, b) => ignoreMin(a.distance) - ignoreMin(b.distance)
+    );
 
-   const closestCourier = couriersWithDistance[0];
+    // Get the closest courier to the restaurant
+    const closestCourier = couriersWithDistance[0];
 
-
-    
 
     // duration from restaurant to customer
     const arrivingTime = await distanceCalculate(
       restaurant.address,
-      customer.addresses[0]
+      customer.addresses[0],
+      closestCourier.vehicleType
     );
 
     // Create the order and assign it to the closest courier
     const order = await Order.create({
       orderDishes: orderDishes,
       courier: closestCourier._id, // Assign the courier to the order
-      arrivingTime: ignoreMin(arrivingTime) + ignoreMin(closestCourier.distance),
+      arrivingTime:
+        ignoreMin(arrivingTime) + ignoreMin(closestCourier.distance),
       restaurant: restaurant._id,
       customer: customer._id,
     });
@@ -65,14 +81,14 @@ exports.createOrder = async (req, res) => {
       { path: "restaurant" },
       {
         path: "orderDishes.dish",
-        model: "Dish"
+        model: "Dish",
       },
     ]);
-      
 
     await Restaurant.findByIdAndUpdate(restaurantId, {
       $push: { openOrders: populatedOrder._id },
     });
+
     const newClosestCourier  = await Courier.findByIdAndUpdate(closestCourier.courier._id,{currentOrder: order._id});
     !newClosestCourier && res.status(403).send({message:"Could not address order for courier",error});
 
@@ -90,11 +106,11 @@ exports.createOrder = async (req, res) => {
     res
       .status(200)
       .send({ message: "Order created successfully", order: populatedOrder,courierSocketId:cryptCourierSocketId,restaurantSocketId:cryptRestaurantSocketId });
+
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).send({ message: "Internal server error" });
-  }
-
+    res.status(500).send({ message: "Internal server error" });
+  }
 };
 
 exports.deleteOrder = async (req, res) => {

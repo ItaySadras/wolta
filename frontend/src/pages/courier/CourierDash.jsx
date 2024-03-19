@@ -13,6 +13,18 @@ const CourierDash = () => {
   const { getLocation } = useContext(LocationContext);
   const { courierId } = useParams();
 
+  const handleChange = async (event) => {
+    const selectedValue = event.target.value;
+    try {
+      const response = await axios.patch(
+        `http://localhost:8000/api/courier/setVehicleType/${courierId}`,
+        {mode: selectedValue }
+      );
+    } catch (error) {
+      console.error("Error making PATCH request:", error);
+    }
+  };
+
   const handleAvailableButton = async () => {
     try {
       setLoading(true);
@@ -81,6 +93,11 @@ const CourierDash = () => {
             open={!!error}
             onClose={handleCloseError}
           />
+          <select name="options" id="options" onChange={handleChange}>
+            <option value="DRIVING">Driving</option>
+            <option value="BICYCLING">Bicycle</option>
+            <option value="WALKING">Walking</option>
+          </select>
         </div>
       </div>
     </div>

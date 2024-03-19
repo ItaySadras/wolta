@@ -137,7 +137,9 @@ const getsADishesRestaurants = async (dishes) => {
   return restaurant;
 };
 
+
 async function distanceCalculate(origin, destination) {
+
 
   try {
     const response = await axios.get(
@@ -146,7 +148,7 @@ async function distanceCalculate(origin, destination) {
         params: {
           origin: origin,
           destination: destination,
-          mode: "DRIVING",
+          mode: mode,
           key: apiKey,
         },
       }

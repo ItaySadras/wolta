@@ -15,5 +15,5 @@ router.get('/:id',courierController.getCourierDetails);
 router.post('/',courierController.createCourier);
 // except an order Id and delete it from all the relevant places 
 router.delete('/deleteOrder/:orderId', orderController.deleteOrder);
-
+router.patch('/setVehicleType/:id',courierController.setVehicleType)
 module.exports = router

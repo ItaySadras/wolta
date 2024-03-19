@@ -1,61 +1,47 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import CustomerPaymentModal from '../../components/customerBasket/CustomerPaymentModal';
 import './CustomerBasket.css';
 import { useParams } from 'react-router-dom';
+import { SocketContext } from '../../context/SocketContext';
 
 const CustomerBasket = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [orderDishes, setOrderDishes] = useState([])
-  // console.log("🚀 ~ CustomerBasket ~ orderDishes:", orderDishes)
+ const [showModal, setShowModal] = useState(false);
+ const [orderDishes, setOrderDishes] = useState([]);
+ const { restaurantId } = useParams();
 
-  const { restaurantId } = useParams()
+ useEffect(() => {
+    const currentOrders = JSON.parse(localStorage.getItem('orders')) || [];
+    const currentOrder = currentOrders.find(order => Object.keys(order)[0] === restaurantId);
+    const orderDishes = currentOrder ? Object.values(currentOrder)[0] : [];
+    setOrderDishes(orderDishes);
+ }, [restaurantId]);
 
-  const currentOrders = JSON.parse(localStorage.getItem('orders'))
-
-  const currentOrder = currentOrders.filter((order) => {
-    if (Object.keys(order).toString() === restaurantId) {
-      // console.log("🚀 ~ currentOrder ~ Object.keys(order):", Object.keys(order).toString())
-      return order
-    }
-  })
-
-  const orderOBJ = currentOrder[0]
-  // console.log("🚀 ~ CustomerBasket ~ displayedOrder:", orderOBJ)
-
-  const orderARR = Object.values(orderOBJ)
-  // console.log("🚀 ~ CustomerBasket ~ orderARR:", orderARR)
-
-  const orderARR2 = orderARR[0]
-
-  const newOrderARR = orderARR2.filter((element, index) => index % 2 !== 0);
-  // console.log("🚀 ~ newOrderARR ~ newOrderARR:", newOrderARR)
-
-  useEffect(() => {
-    setOrderDishes(newOrderARR)
-  }, [])
-
-  const handleOpenModal = () => {
+ const handleOpenModal = () => {
     setShowModal(true);
-  };
-  const handleCloseModal = () => {
+ };
+
+ const handleCloseModal = () => {
     setShowModal(false);
-  };
+ };
 
-  const handleRemoveDish = (id) => {
+ const handleRemoveDish = (id) => {
     const updatedDishes = orderDishes.filter(dish => dish.dishId !== id);
-    // console.log("🚀 ~ handleRemoveDish ~ updatedDishes:", updatedDishes)
     setOrderDishes(updatedDishes);
-  };
+    const currentOrders = JSON.parse(localStorage.getItem('orders')) || [];
+    const index = currentOrders.findIndex(order => Object.keys(order)[0] === restaurantId);
+    if (index !== -1) {
+      currentOrders[index][restaurantId] = updatedDishes;
+      localStorage.setItem('orders', JSON.stringify(currentOrders));
+    }
+ };
 
-
-
-  return (
+ return (
     <div className="customer-basket">
       <div className="order-summary">
         <h2 className='basket-h2'>Your order:</h2>
         <ul className="order-list">
-          {newOrderARR.map((order, index) => (
+          {orderDishes.map((order, index) => (
             <li key={index} className="order-item">
               <p className="dish-name">{order.dishName}</p>
               <p className="price">Price: ${order.price}</p>
@@ -66,17 +52,17 @@ const CustomerBasket = () => {
       </div>
       <div className="payment-options">
         <button onClick={handleOpenModal} className="pay-button credit-card">Pay with credit card</button>
-        {orderDishes !== null &&
-        <CustomerPaymentModal
-          handleClose={handleCloseModal}
-          show={showModal}
-          orderDishes={orderDishes}
-          restaurantId={restaurantId}
-        />}
+        {orderDishes.length > 0 &&
+          <CustomerPaymentModal
+            handleClose={handleCloseModal}
+            show={showModal}
+            orderDishes={orderDishes}
+            restaurantId={restaurantId}
+          />}
         <button className="pay-button paypal">Pay with PayPal</button>
       </div>
     </div>
-  );
+ );
 };
 
 export default CustomerBasket;

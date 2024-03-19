@@ -19,6 +19,8 @@ const restaurantSchema = new mongoose.Schema({
   address: { type: mongoose.Schema.Types.ObjectId, ref: "Address" },
   openOrders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
   image: { type: String },
+  socketId: { type:String},
+
 });
 
 const Restaurant = mongoose.model("Restaurant", restaurantSchema);

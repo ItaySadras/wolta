@@ -1,47 +1,27 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useContext, useEffect, useReducer, useState } from "react";
 import axios from "axios";
 import LoaderComponent from "../../Loader/LoaderComponent";
 import GoogleMapComponent from "../../geoLocation/GoogleMapComponent";
 import "./CourierDelivery.css";
 import { useParams } from "react-router-dom";
+import { SocketContext } from "../../context/SocketContext";
+import OrderDisplay from "./OrderDisplay";
 
-// Define initial state
-const initialState = {
-  loading: true,
-  courier: null,
-  customer: null,
-  restaurant: null,
-  order: null,
-  error: null,
-};
-
-// Define reducer function
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "FETCH_SUCCESS":
-      return {
-        ...state,
-        loading: false,
-        courier: action.payload.courier,
-        customer: action.payload.customer,
-        restaurant: action.payload.restaurant,
-        order: action.payload.order,
-        error: null,
-      };
-    case "FETCH_FAILURE":
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
-    default:
-      return state;
-  }
-};
 
 const CourierDelivery = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  // const courierId = "65ef24ffdd3a8542f70d1154";
+  const socket = useContext(SocketContext);
+  const [render, setRender] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [order, setOrder] = useState(null);
+  const [courier, setCourier] = useState(null);
+
+  if (socket) {
+    socket.on("newOrder", () => {
+      console.log("got to delivery gut");
+      setRender(true)
+  
+    });
+  }
   const { courierId } = useParams();
   useEffect(() => {
     const fetchData = async () => {
@@ -51,86 +31,48 @@ const CourierDelivery = () => {
           `http://localhost:8000/api/courier/${courierId}`
         );
         if (Response.data) {
-          const courier = Response.data.courier;
-          const customer = courier.currentOrder.customer;
-          const order = courier.currentOrder;
-          const restaurant = courier.currentOrder.restaurant;
-          // Dispatch action to update state with fetched data
-          dispatch({
-            type: "FETCH_SUCCESS",
-            payload: { courier, customer, restaurant, order },
-          });
+          console.log("🚀 ~ fetchData ~ Response.data:", Response.data.courier)
+          setCourier(Response.data.courier)
+          setOrder(Response.data.courier.currentOrder)
         }
       } catch (error) {
         // Dispatch action to handle error
-        dispatch({ type: "FETCH_FAILURE", payload: error.message });
       }
+      setLoading(false)
     };
 
     fetchData();
-  }, []);
+  }, [render]);
 
-  const { loading, courier, customer, restaurant, order, error } = state;
+  if (loading) {
+    return <LoaderComponent />;
+  }
 
   return (
     <div className="delivery-container">
-      <div className="delivery-header">
-        {loading ? <LoaderComponent /> : ""}
-        <h1>New Delivery</h1>
-        {courier && courier.currentOrder ? ( // Check if courier has a current order
-          <div className="delivery-detail">
-            <strong>Restaurant:</strong> {restaurant?.restaurantName || "N/A"}{" "}
-            <br />
-            {restaurant?.address && (
-              <>
-                <strong>Restaurant Location:</strong>{" "}
-                {restaurant.address.streetName}{" "}
-                {restaurant.address.streetNumber} {restaurant.address.city}
-                <br />
-              </>
-            )}
-            <strong>Customer Location:</strong>{" "}
-            {customer?.addresses?.[0]?.streetName +
-              " " +
-              customer?.addresses?.[0]?.streetNumber || "N/A"}{" "}
-            <br />
-            <strong>Customer PhoneNumber:</strong>{" "}
-            {customer?.phoneNumber?.[0] || "N/A"}
-            <br />
-            {/* <strong>Arriving Time:</strong> {order?.arrivingTime || "N/A"} */}{" "}
-            <br />
-            <br />
-          </div>
-        ) : (
-          <p>Delivery - No Current Deliveries For You</p>
-        )}
-      </div>
+    {order ? (
+      <>
+        <OrderDisplay order={order} />
 
-      {!loading &&
-        courier &&
-        restaurant &&
-        courier.address &&
-        restaurant.address && (
-          <GoogleMapComponent
-            originA={`${courier.address.streetName} ${courier.address.streetNumber} ${courier.address.city} `}
-            destinationB={`${restaurant.address.streetName} ${restaurant.address.streetNumber} ${restaurant.address.city}`}
-            mode={courier.vehicleType}
-          />
-        )}
-      <br />
-      {!loading &&
-        restaurant &&
-        customer &&
-        restaurant.address &&
-        customer.addresses[0] && (
-          <GoogleMapComponent
-            originA={`${restaurant.address.streetName} ${restaurant.address.streetNumber} ${restaurant.address.city} `}
-            destinationB={`${customer.addresses[0].streetName} ${customer.addresses[0].streetNumber} ${customer.addresses[0].city}`}
-            mode={courier.vehicleType}
-          />
-        )}
-    </div>
-  );
+        <GoogleMapComponent
+          originA={`${courier.address.streetName} ${courier.address.streetNumber} ${courier.address.city} `}
+          destinationB={`${order.restaurant.address.streetName} ${order.restaurant.address.streetNumber} ${order.restaurant.address.city}`}
+          mode={courier.vehicleType}
+        />
+
+        <br />
+
+        <GoogleMapComponent
+          originA={`${order.restaurant.address.streetName} ${order.restaurant.address.streetNumber} ${order.restaurant.address.city} `}
+          destinationB={`${order.customer.addresses[0].streetName} ${order.customer.addresses[0].streetNumber} ${order.customer.addresses[0].city}`}
+          mode={courier.vehicleType}
+        />
+      </>
+    ): <p>Delivery - No Current Deliveries For You</p>}
+  </div>
+);
+
 };
+
 
 export default CourierDelivery;

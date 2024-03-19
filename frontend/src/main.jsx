@@ -6,17 +6,20 @@ import { BrowserRouter } from "react-router-dom";
 import { CustomerProvider } from "./context/CustomerContext.jsx";
 import { RestaurantProvider } from "./context/RestaurantContext.jsx";
 import { LocationProvider } from "./context/LocationContext.jsx";
+import { SocketProvider } from "./context/SocketContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
-    <LocationProvider>
-      <CustomerProvider>
-        <RestaurantProvider>
-          <React.StrictMode>
-            <App />
-          </React.StrictMode>
-        </RestaurantProvider>
-      </CustomerProvider>
-    </LocationProvider>
-  </BrowserRouter>
+  <React.StrictMode>
+    <BrowserRouter>
+      <SocketProvider>
+        <LocationProvider>
+          <CustomerProvider>
+            <RestaurantProvider>
+              <App />
+            </RestaurantProvider>
+          </CustomerProvider>
+        </LocationProvider>
+      </SocketProvider>
+    </BrowserRouter>
+  </React.StrictMode>
 );

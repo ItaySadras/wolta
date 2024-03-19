@@ -4,11 +4,13 @@ const {
   ignoreMin,
 } = require("../../backEndUtils/helpers");
 const { sendAReviewSurvey } = require("../../backEndUtils/twilio");
+const jwt = require("jsonwebtoken");
+const secret = "secretkey";
 const Courier = require("../models/courierModel");
 const Customer = require("../models/customerModel");
 const Order = require("../models/orderModel");
 const Restaurant = require("../models/restaurantModel");
-
+const UserSocketStorage = require("../models/userSocketStorageModel");
 exports.createOrder = async (req, res) => {
   try {
     const { restaurantId, customerId, orderDishes } = req.body;
@@ -24,11 +26,13 @@ exports.createOrder = async (req, res) => {
     const availableCouriers = await Courier.find({
       available: true,
       currentOrder: null,
+      address: { $ne: null } 
     }).populate("address");
 
     if (!availableCouriers || availableCouriers.length === 0) {
       return res.status(404).send({ message: "There is no available courier" });
     }
+
 
     // Calculate distance between each courier and the restaurant
     const couriersWithDistance = await Promise.all(
@@ -53,6 +57,7 @@ exports.createOrder = async (req, res) => {
 
     // Get the closest courier to the restaurant
     const closestCourier = couriersWithDistance[0];
+
 
     // duration from restaurant to customer
     const arrivingTime = await distanceCalculate(
@@ -80,27 +85,28 @@ exports.createOrder = async (req, res) => {
       },
     ]);
 
-    // Update the restaurant's open orders
     await Restaurant.findByIdAndUpdate(restaurantId, {
       $push: { openOrders: populatedOrder._id },
     });
-    //update courier order
-    const newClosestCourier = await Courier.findByIdAndUpdate(
-      closestCourier.courier._id,
-      { currentOrder: order._id }
-    );
-    !newClosestCourier &&
-      res
-        .status(403)
-        .send({ message: "Could not address order for courier", error });
-    // Respond with success
+
+    const newClosestCourier  = await Courier.findByIdAndUpdate(closestCourier.courier._id,{currentOrder: order._id});
+    !newClosestCourier && res.status(403).send({message:"Could not address order for courier",error});
+
+    const restaurantSocket=await UserSocketStorage.find({userId:restaurant._id})
+    const courierSocket=await UserSocketStorage.find({userId:newClosestCourier._id})
+    const courierSocketId=courierSocket[0].userSocketId
+    if (restaurantSocket.length) {
+      const restaurantSocketId=restaurantSocket[0].userSocketId
+      const cryptRestaurantSocketId=jwt.sign(restaurantSocketId,secret)
+      
+    }else{
+      cryptRestaurantSocketId=[]
+    }
+    const cryptCourierSocketId=jwt.sign(courierSocketId,secret)
     res
       .status(200)
-      .send({
-        message: "Order created successfully",
-        order: populatedOrder,
-        available: false,
-      });
+      .send({ message: "Order created successfully", order: populatedOrder,courierSocketId:cryptCourierSocketId,restaurantSocketId:cryptRestaurantSocketId });
+
   } catch (error) {
     console.error("Error:", error);
     res.status(500).send({ message: "Internal server error" });
@@ -147,3 +153,4 @@ exports.deleteOrder = async (req, res) => {
     res.status(500).send({ message: "internal server error" });
   }
 };
+

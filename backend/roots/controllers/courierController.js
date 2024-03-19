@@ -121,7 +121,6 @@ exports.setVehicleType = async (req, res) => {
 exports.setAvailable = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log("🚀 ~ exports.setAvailable= ~ id:", id);
 
     let courier = await Courier.findById(id);
 

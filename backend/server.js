@@ -1,21 +1,18 @@
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
 const http = require("http");
-const app = require("./app");
-const server = http.createServer(app);
-const io = require('socket.io')(server, {
-  cors: {
-     origin: "http://localhost:5173", // Adjust this to match your client's origin
-     methods: ["GET", "POST"],
-     allowedHeaders: ["my-custom-header"],
-     credentials: true
-  }
- });
- 
+const dotenv = require("dotenv");
+const mongoose = require("mongoose");
+const { Server } = require("socket.io");
+const handleSocketEvents = require("./roots/routes/socketsRoute");
+
 // Configure dotenv
 dotenv.config({ path: "./.env" });
 
-// Connection to the database
+// Create an Express app
+const app = require("./app");
+// Create an HTTP server with the Express app
+const server = http.createServer(app);
+
+app.listen(8000, () => console.log(`Dev Server is Running on port 8000`));
 mongoose
  .connect(process.env.MONGOURL, {
     connectTimeoutMS: 10000000,
@@ -25,19 +22,27 @@ mongoose
     console.log("DB connection successful");
  });
 
-const searchAlgorithm = require("./backEndUtils/searchBackend");
-const { createDB, addsDesertsAndAppetizers, generateRestaurantsImages, generateRestaurantsAddress, cryptAllPasswords } = require("./backEndUtils/dataBaseBuilder");
-const { dictionaryDishBuilder } = require("./backEndUtils/dictionaryBuilder");
+// Define the Socket.IO server port
+const socketPort = 3000;
 
-// Example of using socket.io
-io.on("connection", (socket) => {
- console.log(`A user connected ${socket.id}`);
-
- socket.on("disconnect", () => {
-    console.log("A user disconnected");
- });
-
- // You can add more socket events here
+// Initialize Socket.IO with a separate HTTP server
+const io = new Server(socketPort, {
+ cors: {
+    origin: "*", // Allow all origins
+    methods: ["GET", "POST"], // Allowed methods
+    credentials: true,
+ },
 });
 
-server.listen(8000, () => console.log(`Dev Server is Running on port 8000`));
+// Log when the Socket.IO server is running
+console.log(`Socket.IO Server is Running on port ${socketPort}`);
+
+const sockets = {};
+
+io.on("connection", (socket) => {
+ sockets[socket.id] = socket;
+ handleSocketEvents(socket, io, sockets);
+});
+
+// Export the io instance for use in other parts of the application
+module.exports = { io };

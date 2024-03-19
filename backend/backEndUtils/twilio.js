@@ -1,5 +1,5 @@
 // const dotenv = require("dotenv");
-// dotenv.config({ path: "../.env" });
+// dotenv.config({ path: ".env" });
 // const bcrypt = require("bcrypt");
 // const saltRounds = 10;
 // const { Body } = require("twilio/lib/twiml/MessagingResponse");

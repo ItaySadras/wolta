@@ -14,7 +14,7 @@ const CourierNavbar = () => {
       </div>
       <div className="nav-section">
         <div className="availabillities">
-        <CourierDash></CourierDash>
+        
         </div>
         <li>
           <NavLink to={"/courier/65ef24ffdd3a8542f70d1154/Delivery"}>

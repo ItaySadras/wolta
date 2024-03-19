@@ -1,26 +1,40 @@
 // utils.js
-import { getDay, getMinutes, getHours, isPast, isFuture, addDays, addHours } from "date-fns";
+import {
+  getDay,
+  getMinutes,
+  getHours,
+  isPast,
+  isFuture,
+  addDays,
+  addHours,
+} from "date-fns";
 
 import axios from "axios";
-const googleMapsApiKey= import.meta.env.VITE_MAPS_API_KEY
+const googleMapsApiKey = import.meta.env.VITE_MAPS_API_KEY;
 
 export const getLatLngFromAddress = async (address) => {
-  console.log("🚀 ~ getLatLngFromAddress ~ address:", address)
+  console.log("🚀 ~ getLatLngFromAddress ~ address:", address);
   try {
-    const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${googleMapsApiKey}`);
+    const response = await fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+        address
+      )}&key=${googleMapsApiKey}`
+    );
     const data = await response.json();
-    
+
     if (data.status === "OK" && data.results.length > 0) {
       const location = data.results[0].geometry.location;
       return { latitude: location.lat, longitude: location.lng };
     } else {
-      throw new Error("Unable to retrieve latitude and longitude for the address.");
+      throw new Error(
+        "Unable to retrieve latitude and longitude for the address."
+      );
     }
   } catch (error) {
     console.error("Error fetching latitude and longitude:", error);
     return null;
   }
-}
+};
 
 export const getUserLocation = async () => {
   return new Promise((resolve, reject) => {
@@ -29,7 +43,6 @@ export const getUserLocation = async () => {
         async (position) => {
           const { latitude, longitude } = position.coords;
           try {
-            
             const response = await axios.get(
               `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${googleMapsApiKey}&language=en`
             );
@@ -73,36 +86,37 @@ export const isThisRestaurantOpenFront = (restaurant) => {
   if (!restaurant.open) {
     return false;
   }
-  
-    const currentDate = new Date().toLocaleString("en-US", {
-      timeZone: "Israel",
-    });
-   const twoHoursAgo= new Date(currentDate);
-   const now= addHours(twoHoursAgo,2);
+
+  const currentDate = new Date().toLocaleString("en-US", {
+    timeZone: "Israel",
+  });
+  const twoHoursAgo = new Date(currentDate);
+  const now = addHours(twoHoursAgo, 2);
   const today = getDay(now);
-  const { openingHour, closingHour } = restaurant.defaultOpeningTime[today];
+  if (restaurant.defaultOpeningTime[today]) {
+    const { openingHour, closingHour } = restaurant.defaultOpeningTime[today];
 
-  const [hourOpen, minutesOpen] = openingHour.split(":").map(Number);
-  const [hourClose, minutesClose] = closingHour.split(":").map(Number);
+    const [hourOpen, minutesOpen] = openingHour.split(":").map(Number);
+    const [hourClose, minutesClose] = closingHour.split(":").map(Number);
 
-  const openingHourDate = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate(),
-    hourOpen,
-    minutesOpen
-  );
-  const closingHourDate = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate(),
-    hourClose,
-    minutesClose
-  );
+    const openingHourDate = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      hourOpen,
+      minutesOpen
+    );
+    const closingHourDate = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      hourClose,
+      minutesClose
+    );
 
-
-  if (now >= openingHourDate && now <= closingHourDate) {
-    return true;
+    if (now >= openingHourDate && now <= closingHourDate) {
+      return true;
+    }
   }
 
   return false;

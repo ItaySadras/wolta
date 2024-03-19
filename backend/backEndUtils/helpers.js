@@ -5,6 +5,8 @@ const Menu = require("../roots/models/menuModel");
 const Reviews = require("../roots/models/reviewModel");
 const Customer = require("../roots/models/customerModel");
 const axios = require("axios");
+const dotenv = require("dotenv");
+dotenv.config({ path: ".env" });
 const apiKey = process.env.MAPS_API_KEY;
 const mongoose = require("mongoose");
 
@@ -24,36 +26,37 @@ const isThisRestaurantOpen = (restaurant) => {
   if (!restaurant.open) {
     return false;
   }
-  
-    const currentDate = new Date().toLocaleString("en-US", {
-      timeZone: "Israel",
-    });
-   const twoHoursAgo= new Date(currentDate);
-   const now= addHours(twoHoursAgo,2);
+
+  const currentDate = new Date().toLocaleString("en-US", {
+    timeZone: "Israel",
+  });
+  const twoHoursAgo = new Date(currentDate);
+  const now = addHours(twoHoursAgo, 2);
   const today = getDay(now);
-  const { openingHour, closingHour } = restaurant.defaultOpeningTime[today];
+  if (restaurant.defaultOpeningTime[today]) {
+    const { openingHour, closingHour } = restaurant.defaultOpeningTime[today];
 
-  const [hourOpen, minutesOpen] = openingHour.split(":").map(Number);
-  const [hourClose, minutesClose] = closingHour.split(":").map(Number);
+    const [hourOpen, minutesOpen] = openingHour.split(":").map(Number);
+    const [hourClose, minutesClose] = closingHour.split(":").map(Number);
 
-  const openingHourDate = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate(),
-    hourOpen,
-    minutesOpen
-  );
-  const closingHourDate = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate(),
-    hourClose,
-    minutesClose
-  );
+    const openingHourDate = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      hourOpen,
+      minutesOpen
+    );
+    const closingHourDate = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      hourClose,
+      minutesClose
+    );
 
-
-  if (now >= openingHourDate && now <= closingHourDate) {
-    return true;
+    if (now >= openingHourDate && now <= closingHourDate) {
+      return true;
+    }
   }
 
   return false;
@@ -135,8 +138,7 @@ const getsADishesRestaurants = async (dishes) => {
 };
 
 async function distanceCalculate(origin, destination) {
-  console.log("🚀 ~ distanceCalculate ~ destination:", destination)
-  console.log("🚀 ~ distanceCalculate ~ origin:", origin)
+
   try {
     const response = await axios.get(
       "https://maps.googleapis.com/maps/api/directions/json",
@@ -148,7 +150,7 @@ async function distanceCalculate(origin, destination) {
           key: apiKey,
         },
       }
-    );
+      );
       
     if (response.data.status === "OK") {
       const duration = response.data.routes[0].legs[0].duration.text;

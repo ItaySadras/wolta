@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,6 +9,7 @@ import { NavLink } from "react-router-dom";
 import axios from "axios";
 import "./login.css";
 import ErrorAlert from "../ErrorAlert";
+import { SocketContext } from "../../context/SocketContext";
 
 const Login = () => {
   const {
@@ -19,6 +20,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
+  const socket = useContext(SocketContext);
   const handleCloseError = () => {
     setError(null);
   };
@@ -38,6 +40,15 @@ const Login = () => {
 
       if (response.status === 200) {
         toast.success("Logged in successfully");
+
+        if (socket) {
+          const userType = response.data.accountType;
+          const userId = response.data[userType]._id;
+          const socketStorageId = localStorage.getItem("socketId");
+
+          socket.emit("userLogged", { userType, userId, socketStorageId });
+        }
+
         switch (response.data.accountType) {
           case "customer":
             navigate(`/customer/${response.data.customer._id}/dashboard`);

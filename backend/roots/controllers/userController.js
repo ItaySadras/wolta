@@ -189,6 +189,28 @@ const ReturnHashedPassword = async (password) => {
   return hashedPassword;
 };
 
+const createSocketIdByType = async (type) => {
+  try {
+    switch (type) {
+      case "customer":
+        user = await Customer.findOne({ email });
+        break;
+      case "restaurant":
+        user = await Restaurant.findOne({ email });
+        break;
+      case "courier":
+        user = await Courier.findOne({ email });
+        break;
+      default:
+        user = null;
+    }
+
+    
+  } catch (error) {
+    
+  }
+
+}
 const validateUserByType = async (email, type) => {
   let user;
   switch (type) {

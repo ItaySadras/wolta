@@ -42,6 +42,7 @@ const courierSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId, ref: "Order" ,default: null,
   },
   address: { type: mongoose.Schema.Types.ObjectId, ref: "Address" },
+  socketId: { type:String},
 });
 
 const Courier = mongoose.model("Courier", courierSchema);

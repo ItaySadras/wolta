@@ -8,6 +8,8 @@ const CustomerSchema = new mongoose.Schema({
   password: { type: String, required: true },
   phoneNumber: [{type: String}],
   addresses: [{type: mongoose.Schema.Types.ObjectId,ref:"Address"}],
+  socketId: { type:String},
+
 });
 
 const Customer = mongoose.model("Customer", CustomerSchema);

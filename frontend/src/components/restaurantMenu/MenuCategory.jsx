@@ -22,13 +22,13 @@ import AddDishModal from './AddDishModal';
 
 const ACTIONS = {
     DELETE_DISH: "DELETE_DISH",
-    SORT_DISHES: "SORT_DISHES"
+    SORT_DISHES: "SORT_DISHES",
+    ADD_NEW_DISH: "ADD_NEW_DISH",
 }
 
 
 const reducer = (state, action) => {
     const currentDishes = state.dishes
-    console.log("🚀 ~ reducer ~ currentDishes:", currentDishes)
     const filteredDishes = currentDishes.filter(dish => dish._id !== action.payload)
     switch (action.type) {
         case ACTIONS.DELETE_DISH:
@@ -37,12 +37,15 @@ const reducer = (state, action) => {
             }
         case ACTIONS.SORT_DISHES:
             const { activeId, overId } = action.payload;
-            const activeIndex =currentDishes.findIndex(dish => dish._id === activeId);
+            const activeIndex = currentDishes.findIndex(dish => dish._id === activeId);
             const overIndex = currentDishes.findIndex(dish => dish._id === overId);
             const newDishes = arrayMove(currentDishes, activeIndex, overIndex);
-            console.log("🚀 ~ reducer ~ newDishes:", newDishes)
             return {
                 dishes: newDishes
+            };
+        case ACTIONS.ADD_NEW_DISH:
+            return {
+                dishes: [...currentDishes, action.payload]
             };
         default:
             return state;
@@ -57,7 +60,7 @@ const MenuCategory = ({ categoryId, categoryIndex, categoryName, sentDishes }) =
     const [state, dispatch] = useReducer(reducer, initialState)
 
 
-    const { updateDishOrder } = useContext(RestaurantContext)
+    const { updateDishOrder, deleteMenuCategory } = useContext(RestaurantContext)
 
 
     const sensors = useSensors(
@@ -67,24 +70,22 @@ const MenuCategory = ({ categoryId, categoryIndex, categoryName, sentDishes }) =
 
     const handleDragEnd = (event) => {
         const { active, over } = event;
-
         if (active.id === over.id) return;
-
         dispatch({
             type: ACTIONS.SORT_DISHES,
             payload: { activeId: active.id, overId: over.id }
         });
         const dishOrder = state.dishes.map((dish => dish._id.toString()))
-
-
         updateDishOrder(categoryId, dishOrder)
-        console.log("🚀 ~ handleDragEnd ~ categoryId:", categoryId)
-        console.log('biger was right')
-
-
     };
 
-    
+    const handleDeleteCategory = (e, categoryId) => {
+        e.preventDefault()
+        deleteMenuCategory(categoryId)
+
+    }
+
+
 
     return (
         <div className='category-container'>
@@ -92,10 +93,14 @@ const MenuCategory = ({ categoryId, categoryIndex, categoryName, sentDishes }) =
                 <h2 className='category-title'>{categoryName}</h2>
             </div>
             <div>
+                <button onClick={(e) => handleDeleteCategory(e, categoryId)}>Delete category</button>
+            </div>
+            <div>
                 <div>
                     <AddDishModal
-                        
                         categoryId={categoryId}
+                        dispatch={dispatch}
+                        ACTIONS={ACTIONS}
                     />
                 </div>
             </div>

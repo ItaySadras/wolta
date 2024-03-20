@@ -44,13 +44,13 @@ router.patch("/updateDish/:dishId", dishController.dishUpdater);
  * !menu category operations
  */
 // delete a menu category by a requested Id
-// req example http://localhost:8000/api/restaurant/:deleteMenuCategory/65e81b848630ba788c71bb5a
+// req example http://localhost:8000/api/restaurant/deleteMenuCategory/65e81b848630ba788c71bb5a
 router.delete(
   "/deleteMenuCategory/:menuCategoryId",
   menuCategoryController.deleteMenuCategory
 );
 
-// create anew menu category access the relevant menu throw the params and get the name of the new category from the body
+// create anew menu category access the relevant menu through the params and get the name of the new category from the body
 // req example http://localhost:8000/api/restaurant/createMenuCategory/65e81b848630ba788c71bb5a
 router.post(
   "/createMenuCategory/:menuId",

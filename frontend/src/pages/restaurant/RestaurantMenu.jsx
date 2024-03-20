@@ -1,54 +1,77 @@
-//react
-import React, { useContext, useEffect, useState } from 'react'
-import { RestaurantContext } from '../../context/RestaurantContext'
+import React, { useContext, useEffect, useReducer, useState } from 'react';
+import { RestaurantContext } from '../../context/RestaurantContext';
+import './RestaurantMenu.css';
+import MenuCategory from '../../components/restaurantMenu/MenuCategory';
+import { useParams } from 'react-router-dom';
 
-//style
-import './RestaurantMenu.css'
-
-//components
-import MenuCategory from '../../components/restaurantMenu/MenuCategory'
-import { useParams } from 'react-router-dom'
-
+const ACTIONS = {
+  DELETE_CATEGORY: "DELETE_CATEGORY"
+};
 
 const reducer = (state, action) => {
-
-}
-
+  const currentCategories = state.categories;
+  const filteredCategories = currentCategories.filter(category => category.name === action.payload);
+  switch (action.type) {
+    case ACTIONS.DELETE_CATEGORY:
+      return {
+        categories: filteredCategories
+      };
+    default:
+      return state;
+  }
+};
 
 const RestaurantMenu = () => {
-  const { getRestaurantById, restaurantInfo, } = useContext(RestaurantContext)
-  const [restaurant, setRestaurant] = useState()
-  const [loading, setLoading] = useState(true)
+  const { getRestaurantById, restaurantInfo, createMenuCategory } = useContext(RestaurantContext);
+  const [loading, setLoading] = useState(true);
+  const [initialState, setInitialState] = useState({ categories: [] });
   const { restaurantId } = useParams();
+
   const fetchRestaurant = async () => {
-    await getRestaurantById("65e81bb48630ba788c71bb97")
-    setLoading(false)
-  }
-  console.log("🚀 ~ RestaurantMenu ~ restaurant:", restaurant)
-
-  useEffect(() => {
-    fetchRestaurant()
-  }, [])
-
-  useEffect(() => {
-    if (restaurantInfo) {
-      setRestaurant(restaurantInfo)
+    await getRestaurantById(restaurantId);
+    if (restaurantInfo && restaurantInfo.menu && restaurantInfo.menu.menuCategories) {
+      setInitialState({ categories: restaurantInfo.menu.menuCategories });
     }
-  }, [])
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchRestaurant();
+  }, [restaurantInfo]);
+
+  const [state, dispatch2] = useReducer(reducer, initialState);
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
+
+  const handleSubmitAddCategory = (event, menuId) => {
+    event.preventDefault();
+    const categoryName = event.target.elements.categoryName.value;
+    createMenuCategory(menuId, categoryName);
+  };
 
   return (
     <div className='menu-container'>
       <div className='menu-title-container'>
         <h2>Your menu</h2>
       </div>
+      <div>
+        <form onSubmit={(event) => handleSubmitAddCategory(event, restaurantInfo.menu._id)}>
+          <input
+            type="text"
+            placeholder="New category name"
+            name='categoryName'
+          />
+          <button type='submit'>
+            Add new category
+          </button>
+        </form>
+      </div>
 
       <div className='menu-category-container'>
-        {restaurant &&
-          Object.values(restaurant.menu.menuCategories).map((category) => (
+        {restaurantInfo && restaurantInfo.menu && restaurantInfo.menu.menuCategories &&
+          Object.values(restaurantInfo.menu.menuCategories).map((category) => (
             <MenuCategory
               categoryId={category._id}
               categoryName={category.menuCategoryName}
@@ -57,7 +80,7 @@ const RestaurantMenu = () => {
           ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default RestaurantMenu
+export default RestaurantMenu;

@@ -6,8 +6,7 @@ import Register from "./pages/authServices/Register";
 import AboutUs from "./components/footer/AboutUs";
 import CustomerLayout from "./layouts/CustomerLayout";
 import CustomerDash from "./pages/customer/CustomerDash";
-
-import Footer from "./components/footer/Footer";
+import ErrorPage from "./pages/authServices/ErrorPage";
 import SearchResults from "./pages/customer/SearchResults";
 
 import CustomerBasket from "./pages/customer/CustomerBasket";
@@ -22,7 +21,7 @@ import RestaurantReviews from "./pages/restaurant/RestaurantReviews";
 import CourierLayout from "./layouts/CourierLayout";
 import CourierDash from "./pages/courier/CourierDash";
 import CourierProfile from "./pages/courier/CourierProfile";
-import CourierDelivery from "./pages/courier/CourierDelivery"
+import CourierDelivery from "./pages/courier/CourierDelivery";
 
 import AdminLayout from "./layouts/AdminLayout";
 
@@ -42,13 +41,12 @@ import LandingPage from "./pages/authServices/LandingPage";
 import RestaurantPage from "./pages/restaurant/RestaurantPage";
 
 function App() {
-
   const initializeLocalStorage = () => {
     localStorage.setItem("orders", JSON.stringify([]));
-  }
+  };
 
-  if ( !localStorage.getItem("orders")) {
-     initializeLocalStorage();
+  if (!localStorage.getItem("orders")) {
+    initializeLocalStorage();
   }
 
   return (
@@ -60,21 +58,27 @@ function App() {
         <Route path="/" element={<LandingPage />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
+        <Route path="/error" element={<ErrorPage />}></Route>
 
         {/* customer routes */}
 
         <Route path="/customer/:customerId" element={<CustomerLayout />}>
           <Route path="dashboard" element={<CustomerDash />}></Route>
           <Route path="searchResults" element={<SearchResults />}></Route>
-          <Route path="basket/:restaurantId" element={<CustomerBasket />}></Route>
+          <Route
+            path="basket/:restaurantId"
+            element={<CustomerBasket />}
+          ></Route>
           <Route path="profile" element={<CustomerProfile />}></Route>
-          <Route path=":restaurantId/restaurantPage" element={<RestaurantPage/>}></Route>
+          <Route
+            path=":restaurantId/restaurantPage"
+            element={<RestaurantPage />}
+          ></Route>
         </Route>
 
         {/* restaurant routes */}
 
         <Route path="/restaurant/:restaurantId" element={<RestaurantLayout />}>
-
           <Route path="menu" element={<RestaurantMenu />}>
             <Route path=":dishId" element={<DishPage />}></Route>
           </Route>
@@ -99,7 +103,7 @@ function App() {
           <Route path="manageCouriers" element={<ManageCouriers />}></Route>
         </Route>
         <Route path="/about" element={<AboutUs />}></Route>
-        <Route path="/Survey" element={<Survey />}></Route>
+        <Route path="/survey" element={<Survey />}></Route>
       </Routes>
     </>
   );

@@ -1,0 +1,15 @@
+.error {
+  color: black;
+  font-size: 300px;
+  justify-content: center;
+  display: flex;
+}
+
+.text {
+  color: gray;
+  font-size: 100px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  height: 183px;
+}

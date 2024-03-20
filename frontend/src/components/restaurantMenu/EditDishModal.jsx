@@ -31,8 +31,8 @@ const EditDishModal = ({ handleClose, show, dish }) => {
         name: dish.name,
         image: dish.image,
         price: dish.price,
-        ingredients: dish.ingredients.join(','),
-        intolerances: dish.intolerances.join(',')
+        ingredients: dish.ingredients && dish.ingredients.length > 0 ? dish.ingredients.join(',') : '',
+        intolerances: dish.intolerances && dish.intolerances.length > 0 ? dish.intolerances.join(',') : ''
     });
 
     const handleChange = (e) => {
@@ -47,8 +47,8 @@ const EditDishModal = ({ handleClose, show, dish }) => {
         e.preventDefault();
 
         const { name, image, price, ingredients, intolerances } = state;
-        const ingredientsArray = ingredients.split(',');
-        const intolerancesArray = intolerances.split(',');
+        const ingredientsArray = ingredients ? ingredients.split(',') : [];
+        const intolerancesArray = intolerances ? intolerances.split(',') : [];
 
         const dishData = {
             name,
@@ -57,7 +57,6 @@ const EditDishModal = ({ handleClose, show, dish }) => {
             ingredients: ingredientsArray,
             intolerances: intolerancesArray
         };
-        console.log("🚀 ~ handleSubmit ~ dishData:", dishData);
 
         editDish(dish.id, dishData);
         handleClose();

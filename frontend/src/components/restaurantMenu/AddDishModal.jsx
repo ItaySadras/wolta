@@ -3,7 +3,7 @@ import { RestaurantContext } from '../../context/RestaurantContext';
 
 import './AddDishModal.css';
 
-const AddDishModal = ({ categoryId }) => {
+const AddDishModal = ({ categoryId, dispatch, ACTIONS }) => {
     const { addNewDish } = useContext(RestaurantContext);
 
     const [newDish, setNewDish] = useState({
@@ -23,8 +23,11 @@ const AddDishModal = ({ categoryId }) => {
     };
 
     const handleSubmit = (event) => {
-        event.preventDefault(); 
-        console.log(newDish);
+        event.preventDefault();
+        dispatch({
+            type: ACTIONS.ADD_NEW_DISH,
+            payload: newDish
+        });
         addNewDish(categoryId, newDish);
     };
 
@@ -54,7 +57,7 @@ const AddDishModal = ({ categoryId }) => {
                     </label> */}
                 </div>
                 <div className='add-dish-modal-buttons'>
-                    <button type="submit">Add</button>
+                    <button type="submit">Add dish!</button>
                 </div>
             </form>
         </div>

@@ -22,9 +22,6 @@ const RestaurantProvider = ({ children }) => {
         }
     };
 
-    // useEffect(() => {
-    //     getAllRestaurants()
-    // }, [])
     const getRestaurantById = async (id) => {
         try {
             const response = await axios.get(
@@ -65,7 +62,7 @@ const RestaurantProvider = ({ children }) => {
                 `http://localhost:8000/api/restaurant/changeMenuCategoryOrder/${categoryId}`,
                 dishOrder,
             )
-            console.log("🚀 ~ updateDishOrder ~ dishOrder:", dishOrder)
+            // console.log("🚀 ~ updateDishOrder ~ dishOrder:", dishOrder)
             return response
         } catch (error) {
             console.log(error);
@@ -96,6 +93,42 @@ const RestaurantProvider = ({ children }) => {
         }
     }
 
+    const createMenuCategory = async (menuId, newCategoryName) => {
+        try {
+            const response = await axios.post(
+                `http://localhost:8000/api/restaurant/createMenuCategory/${menuId}`,
+                { menuCategoryName: newCategoryName }
+            );
+            console.log(`created new category in menu ${menuId} with the name ${newCategoryName}`);
+            return response
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const deleteMenuCategory = async (categoryId) => {
+        try {
+            const response = await axios.delete(
+                `http://localhost:8000/api/restaurant/deleteMenuCategory/${categoryId}`
+            )
+            return response
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const changeCategoryName = async (categoryId) => {
+        try {
+            const response = await axios.patch(
+                `http://localhost:8000/api/restaurant/changeMenuCategoryName/${categoryId}`,
+                { categoryName: categoryName }
+            )
+            return response
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
 
 
 
@@ -115,6 +148,9 @@ const RestaurantProvider = ({ children }) => {
         updateDishOrder,
         editDish,
         addNewDish,
+        createMenuCategory,
+        deleteMenuCategory,
+        changeCategoryName,
 
     };
 

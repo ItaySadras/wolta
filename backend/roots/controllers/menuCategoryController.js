@@ -42,7 +42,11 @@ exports.createMenuCategory = async (req, res) => {
       menuCategoryName: req.body.menuCategoryName,
       menu: req.params.menuId,
     });
-    res.status(201).send({ message: "created successfully", newMenuCategory });
+    const menu = await Menu.findByIdAndUpdate(req.params.menuId,
+      { $push: { menuCategories: newMenuCategory._id } },
+      // { new: true }
+    );
+    res.status(201).send({ message: "created successfully", menu });
   } catch (error) {
     res.status(404).send({
       status: " failed to create menu category bad request",
@@ -73,7 +77,7 @@ exports.changeOrder = async (req, res) => {
 
     !menuCategory &&
       res.status(404).send({ message: "cant find menu catgory" });
-      console.log(req.body, "body")
+    console.log(req.body, "body")
 
     // const oldOrder = req.body.slice();
     // const newOrder = menuCategory.dishes.slice().map((id) => id.toString());

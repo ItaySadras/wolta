@@ -4,7 +4,7 @@ secret = "secretkey";
 
 const concatSocket = async (socketId) => {
   const socket = await UserSocketStorage.create({ userSocketId: socketId });
-  const userSocketId = socket._id.toString();
+  const userSocketId = socket.userSocketId.toString();
   const crypt = jwt.sign(userSocketId, secret);
   return crypt
 };

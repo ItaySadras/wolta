@@ -138,9 +138,7 @@ const getsADishesRestaurants = async (dishes) => {
 };
 
 
-async function distanceCalculate(origin, destination) {
-
-
+async function distanceCalculate(origin, destination,mode) {
   try {
     const response = await axios.get(
       "https://maps.googleapis.com/maps/api/directions/json",

@@ -12,6 +12,7 @@ const Order = require("../models/orderModel");
 const Restaurant = require("../models/restaurantModel");
 const UserSocketStorage = require("../models/userSocketStorageModel");
 exports.createOrder = async (req, res) => {
+  let cryptRestaurantSocketId
   try {
     const { restaurantId, customerId, orderDishes } = req.body;
     const restaurant = await Restaurant.findById(restaurantId).populate(
@@ -19,9 +20,9 @@ exports.createOrder = async (req, res) => {
     );
     const customer = await Customer.findById(customerId).populate("addresses");
 
-    if (!isThisRestaurantOpen(restaurant)) {
-      return res.status(403).send({ message: "This restaurant is closed now" });
-    }
+    // if (!isThisRestaurantOpen(restaurant)) {
+    //   return res.status(403).send({ message: "This restaurant is closed now" });
+    // }
 
     const availableCouriers = await Courier.find({
       available: true,
@@ -58,18 +59,23 @@ exports.createOrder = async (req, res) => {
     // Get the closest courier to the restaurant
     const closestCourier = couriersWithDistance[0];
 
+    console.log("🚀 ~ exports.createOrder= ~ restaurant.address:", restaurant.address)
+    console.log("🚀 ~ exports.createOrder= ~ restaurant.address:", customer.addresses[0])
+    console.log(closestCourier.courier.vehicleType);
 
     // duration from restaurant to customer
     const arrivingTime = await distanceCalculate(
       restaurant.address,
       customer.addresses[0],
-      closestCourier.vehicleType
+      closestCourier.courier.vehicleType
     );
 
     // Create the order and assign it to the closest courier
+
+    console.log("🚀 ~ exports.createOrder= ~ arrivingTime:", arrivingTime)
     const order = await Order.create({
       orderDishes: orderDishes,
-      courier: closestCourier._id, // Assign the courier to the order
+      courier: closestCourier.courier._id, // Assign the courier to the order
       arrivingTime:
         ignoreMin(arrivingTime) + ignoreMin(closestCourier.distance),
       restaurant: restaurant._id,
@@ -97,10 +103,10 @@ exports.createOrder = async (req, res) => {
     const courierSocketId=courierSocket[0].userSocketId
     if (restaurantSocket.length) {
       const restaurantSocketId=restaurantSocket[0].userSocketId
-      const cryptRestaurantSocketId=jwt.sign(restaurantSocketId,secret)
+       cryptRestaurantSocketId=jwt.sign(restaurantSocketId,secret)
       
     }else{
-      cryptRestaurantSocketId=[]
+       cryptRestaurantSocketId=[]
     }
     const cryptCourierSocketId=jwt.sign(courierSocketId,secret)
     res

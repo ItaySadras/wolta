@@ -41,11 +41,13 @@ const Login = () => {
       if (response.status === 200) {
         toast.success("Logged in successfully");
 
+        console.log("🚀 ~ onSubmit ~ socket:", socket)
         if (socket) {
           const userType = response.data.accountType;
           const userId = response.data[userType]._id;
           const socketStorageId = localStorage.getItem("socketId");
 
+          console.log("🚀 ~ onSubmit ~ socket:", socket)
           socket.emit("userLogged", { userType, userId, socketStorageId });
         }
 

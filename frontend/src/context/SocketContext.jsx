@@ -6,23 +6,37 @@ const SocketContext = React.createContext(null);
 const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
 
-  const cleanUpSocket = (newSocket) => {
-    const socketId = localStorage.getItem("socketId");
-     newSocket.emit("userLoggedOut", { socketId });
-  };
+  // const cleanUpSocket = (newSocket) => {
+  //    newSocket.emit("userLoggedOut", { socketId });
+  // };
   useEffect(() => {
-    const newSocket = io("http://localhost:3000");
-    newSocket.on("SocketId", (data) => {
-      localStorage.setItem("socketId", data);
+    const socketId = localStorage.getItem("socketId");
+    const newSocket = io("http://localhost:3000", {
+      query: {
+        socketId: socketId,
+      },
     });
-    newSocket.on("connect", () => {
-      console.log("Socket connected");
+    newSocket.on("SocketId", (data) => {
+      console.log("🚀 ~ newSocket.on ~ data:", data);
+      // switch (key) {
+      //   case value:
+
+      //     break;
+
+      //   default:
+      //     break;
+      // }
+      newSocket.id = data.encryptedSocket;
+      console.log("🚀 ~ newSocket.on ~ data.encryptedSocket:", data.encryptedSocket)
+      console.log("🚀 ~ newSocket.on ~ newSocke:", newSocket)
+
+      localStorage.setItem("socketId", data.cryptedSocket);
     });
     setSocket(newSocket);
 
-    return  () => {
-       cleanUpSocket(newSocket);
-      newSocket.close();
+    return () => {
+      //  cleanUpSocket(newSocket);
+      // newSocket.close();
     };
   }, []);
 

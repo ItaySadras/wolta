@@ -98,10 +98,12 @@ exports.createOrder = async (req, res) => {
     const newClosestCourier  = await Courier.findByIdAndUpdate(closestCourier.courier._id,{currentOrder: order._id});
     !newClosestCourier && res.status(403).send({message:"Could not address order for courier",error});
 
-    const restaurantSocket=await UserSocketStorage.find({userId:restaurant._id})
-    const courierSocket=await UserSocketStorage.find({userId:newClosestCourier._id})
-    const courierSocketId=courierSocket[0].userSocketId
-    if (restaurantSocket.length) {
+    const restaurantSocket=await UserSocketStorage.findOne({userId:restaurant._id.toString()})
+    console.log("🚀 ~ exports.createOrder= ~ newClosestCourier._id}:", newClosestCourier._id)
+    const courierSocket=await UserSocketStorage.findOne({userId:newClosestCourier._id.toString()})
+    console.log("🚀 ~ exports.createOrder= ~ courierSocket:", courierSocket)
+    const courierSocketId=courierSocket.userSocketId
+    if (restaurantSocket) {
       const restaurantSocketId=restaurantSocket[0].userSocketId
        cryptRestaurantSocketId=jwt.sign(restaurantSocketId,secret)
       

@@ -7,7 +7,7 @@ import LoaderComponent from "../../Loader/LoaderComponent";
 import ErrorAlert from "../ErrorAlert";
 import "../../components/navbars/navbar.css";
 
-const CourierDash = ({setRender}) => {
+const CourierDash = ({ setRender }) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const { getLocation } = useContext(LocationContext);
@@ -18,7 +18,7 @@ const CourierDash = ({setRender}) => {
     try {
       const response = await axios.patch(
         `http://localhost:8000/api/courier/setVehicleType/${courierId}`,
-        {mode: selectedValue }
+        { mode: selectedValue }
       );
     } catch (error) {
       console.error("Error making PATCH request:", error);
@@ -39,7 +39,7 @@ const CourierDash = ({setRender}) => {
           }
         );
         console.log(response.data.message);
-        setRender(true)
+        setRender(true);
       } else {
         console.error("Location not available");
       }
@@ -94,11 +94,18 @@ const CourierDash = ({setRender}) => {
             open={!!error}
             onClose={handleCloseError}
           />
-          <select name="options" id="options" onChange={handleChange}>
-            <option value="DRIVING">Driving</option>
-            <option value="BICYCLING">Bicycle</option>
-            <option value="WALKING">Walking</option>
-          </select>
+          <div class="custom-select">
+            <select
+              name="options"
+              id="options"
+              class="select-style"
+              onChange={handleChange}
+            >
+              <option value="DRIVING">Driving</option>
+              <option value="BICYCLING">Bicycle</option>
+              <option value="WALKING">Walking</option>
+            </select>
+          </div>
         </div>
       </div>
     </div>

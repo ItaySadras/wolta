@@ -27,8 +27,6 @@ const SocketProvider = ({ children }) => {
       //     break;
       // }
       newSocket.id = data.encryptedSocket;
-      console.log("🚀 ~ newSocket.on ~ data.encryptedSocket:", data.encryptedSocket)
-      console.log("🚀 ~ newSocket.on ~ newSocke:", newSocket)
 
       localStorage.setItem("socketId", data.cryptedSocket);
     });

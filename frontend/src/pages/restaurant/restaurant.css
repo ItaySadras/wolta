@@ -98,13 +98,14 @@
   font-size: 20px;
   width: 250px;
   bottom: 1vh;
+  right: 25vw;
   z-index: 1000;
-  padding: 10px 20px;
+  padding:0;
   background-color: #f3cfff;
   color: rgb(0, 0, 0);
   border-radius: 5px;
   cursor: pointer;
-  margin-left: 600px;
+  margin-left:800px;
 }
 
 .restaurant-details-for-page {

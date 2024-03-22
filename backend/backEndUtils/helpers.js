@@ -161,8 +161,8 @@ async function distanceCalculate(origin, destination,mode) {
     }
   } catch (error) {
     console.error("Error: in try distanceCalculate");
-    return null;
-  }
+    return null;
+  }
 }
 
 async function reverseGeocode(latitude, longitude) {

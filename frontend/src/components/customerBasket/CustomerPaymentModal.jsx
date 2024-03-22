@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
 import Cards from "react-credit-cards-2";
 import "./CustomerPaymentModal.css"; // Import CSS for modal styles
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { SocketContext } from "../../context/SocketContext";
+import OrderCompleted from "./OrderCompleted";
 
 const CustomerPaymentModal = ({ handleClose, show, orderDishes }) => {
   const socket = useContext(SocketContext);
@@ -14,7 +15,7 @@ const CustomerPaymentModal = ({ handleClose, show, orderDishes }) => {
     name: "",
     focus: "",
   });
-
+const navigate = useNavigate();
   const handleInputChange = (evt) => {
     const { name, value } = evt.target;
 
@@ -47,7 +48,8 @@ const CustomerPaymentModal = ({ handleClose, show, orderDishes }) => {
             courierId: response.data.courierSocketId,
             restaurantId: response.data.restaurantSocketId,
           });
-        }
+        }    
+        navigate(`/customer/${customerId}/orderCompleted`);
       }
     } catch (error) {
       console.log("🚀 ~ handleOrderSend ~ error:", error);
@@ -104,6 +106,7 @@ const CustomerPaymentModal = ({ handleClose, show, orderDishes }) => {
           />
         </form>
         <button onClick={() => handleOrderSend()}>send order</button>
+        
       </section>
     </div>
   );

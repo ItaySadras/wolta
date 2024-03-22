@@ -39,6 +39,7 @@ import LoaderComponent from "./Loader/LoaderComponent";
 
 import LandingPage from "./pages/authServices/LandingPage";
 import RestaurantPage from "./pages/restaurant/RestaurantPage";
+import OrderCompleted from "./components/customerBasket/OrderCompleted";
 
 function App() {
   const initializeLocalStorage = () => {
@@ -74,6 +75,7 @@ function App() {
             path=":restaurantId/restaurantPage"
             element={<RestaurantPage />}
           ></Route>
+          <Route path="/customer/:customerId/orderCompleted" element={<OrderCompleted/>}></Route>
         </Route>
 
         {/* restaurant routes */}

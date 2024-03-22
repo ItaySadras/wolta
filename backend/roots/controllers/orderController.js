@@ -156,7 +156,6 @@ exports.deleteOrder = async (req, res) => {
     sendAReviewSurvey(customer.userName, customer.phoneNumber);
   } catch (error) {
     console.log("🚀 ~ exports.deleteOrder ~ error:", error);
-    res.status(500).send({ message: "internal server error" });
-  }
+    res.status(500).send({ message: "internal server error" });
+  }
 };
-

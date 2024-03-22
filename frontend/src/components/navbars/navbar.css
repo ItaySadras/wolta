@@ -105,6 +105,7 @@
 }
 
 .centered {
+  top: 20px;
   position: absolute; /* Position the element absolutely */
   left: 50%; /* Move the element to the horizontal center of the parent container */
   transform: translateX(-50%); /* Adjust the position to center exactly */

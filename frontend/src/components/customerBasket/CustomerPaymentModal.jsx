@@ -43,6 +43,7 @@ const CustomerPaymentModal = ({ handleClose, show, orderDishes }) => {
       if (response.status === 200) {
         console.log(response.data);
         if (socket) {
+          console.log("🚀 ~ handleOrderSend ~ socket:", socket)
           socket.emit("orderCreated", {
             courierId: response.data.courierSocketId,
             restaurantId: response.data.restaurantSocketId,

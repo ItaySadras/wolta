@@ -19,7 +19,6 @@ async function handleSocketEvents(socket, io, sockets) {
   // });
 
   socket.on("userLogged", async (data) => {
-    console.log("🚀 ~ userSocket.on ~ data:", "thats super cool");
     await userLoggedSocket(data);
   });
   // userSocket.on("userLoggedOut", async (data) => {
@@ -28,8 +27,10 @@ async function handleSocketEvents(socket, io, sockets) {
   socket.on("orderCreated", async ({ courierId, restaurantId }) => {
     console.log("🚀 ~ socket.on ~ courierId, restaurantId :", courierId, restaurantId )
     const courierSocketId = await newOrder(courierId);
+    console.log("🚀 ~ socket.on ~ courierSocketId:", courierSocketId)
     const restaurantSocketId = await newOrder(restaurantId);
     const wantedCourierSocket = sockets[courierSocketId];
+    console.log("🚀 ~ socket.on ~ wantedCourierSocket:", wantedCourierSocket)
     const wantedRestaurantSocket = sockets[restaurantSocketId];
     if (wantedCourierSocket) {
       wantedCourierSocket.emit("newOrder");

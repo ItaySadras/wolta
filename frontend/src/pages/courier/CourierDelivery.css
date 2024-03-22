@@ -47,4 +47,38 @@
     text-decoration: none;
   }
 
+  .select-style {
+    border: 1px solid #ccc;
+    width: 200px; /* Adjust width as needed */
+    padding: 8px;
+    border-radius: 4px;
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: white;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+  }
+  
+  /* Style for the options within the select element */
+  .select-style option {
+    background-color: white;
+    color: black;
+  }
+  
+  /* Custom styling for the select element */
+  .custom-select {
+    display: inline-block;
+    position: relative;
+  }
+  
+  /* Styling for the select arrow */
+  .custom-select::after {
+    content: '\25BC'; /* Unicode character for down arrow */
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+  }
+
   

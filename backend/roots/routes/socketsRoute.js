@@ -6,9 +6,7 @@ const jwt = require("jsonwebtoken");
 const secret = "secretkey";
 async function handleSocketEvents(socket, io, sockets) {
   const userSocket = await returnsRelevantSocket(socket, sockets);
-  // console.log("🚀 ~ handleSocketEvents ~ userSocket:", userSocket)
   sockets[userSocket.id] = userSocket;
-  // console.log("🚀 ~ handleSocketEvents ~ userSocket.id:", userSocket.id);
   const cryptedSocket = jwt.sign(userSocket.id, secret);
   socket.emit("SocketId", {
     cryptedSocket: cryptedSocket,

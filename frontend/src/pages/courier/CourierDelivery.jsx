@@ -25,12 +25,10 @@ const CourierDelivery = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("🚀 ~ fetchData ~ courierId:", courierId);
         const Response = await axios.get(
           `http://localhost:8000/api/courier/${courierId}`
         );
         if (Response.data) {
-          console.log("🚀 ~ fetchData ~ Response.data:", Response.data.courier);
           setCourier(Response.data.courier);
           setOrder(Response.data.courier.currentOrder);
         }
